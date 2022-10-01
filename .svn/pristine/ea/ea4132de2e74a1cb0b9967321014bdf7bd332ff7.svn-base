@@ -1,0 +1,44 @@
+package ch.post.pf.nf.ta.execution;
+
+import java.util.Map;
+
+import org.testng.SkipException;
+import org.testng.annotations.Ignore;
+import org.testng.annotations.Test;
+
+import ch.post.pf.nf.ta.baseutils.CommonUtils;
+import ch.post.pf.nf.ta.baseutils.ReadData;
+import ch.post.pf.nf.ta.baseutils.Setup;
+import ch.post.pf.nf.ta.scenarios.CreateNFScenarios;
+import ch.post.pf.nf.ta.scenarios.ProductTabValidationScenarios;
+
+public class ProductTabValidationTestCase extends Setup {
+
+	protected ProductTabValidationScenarios scenario = new ProductTabValidationScenarios();
+	protected CreateNFScenarios cfscenario = new CreateNFScenarios();
+	protected CommonUtils common = new CommonUtils();
+
+	@Test(priority = 1, dataProvider = "getDataReader", dataProviderClass = ReadData.class)
+	public void productTabValidation(Map<String, String> testdata) throws Exception {
+		if (testdata.get("CanExecute").equalsIgnoreCase("yes")) {
+			CommonUtils.waitTime(2000);
+			log.info("***************** START TEST *****************");
+			// this.browserLaunch(System.getProperty("browserName"));
+			this.browserLaunch("Chrome");
+			common.loadURL();
+			logger = parent.createNode(methodName + " for PA and TA :" + testdata.get("Process Name")
+					+ testdata.get("TA") + "DC:" + testdata.get("Mode"));
+			if (testdata.get("Mode").equalsIgnoreCase("Online")) {
+				cfscenario.profileMenuSelect(testdata.get("Language"));
+				cfscenario.createNFWithPaTa(testdata);
+				scenario.ProductTabFieldValidation(testdata);
+			}
+		} else {
+			logger = parent.createNode(methodName + testdata.get("Menu 1"));
+			throw new SkipException(methodName);
+		}
+	}
+	
+	
+
+}

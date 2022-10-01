@@ -1,0 +1,47 @@
+package ch.post.pf.nf.ta.scenarios;
+import java.util.Map;
+import org.slf4j.Logger;
+import com.aventstack.extentreports.Status;
+import ch.post.pf.nf.ta.baseutils.CommonUtils;
+import ch.post.pf.nf.ta.baseutils.Log4jUtil;
+import ch.post.pf.nf.ta.baseutils.Setup;
+import ch.post.pf.nf.ta.dao.DAOTest;
+
+public class NotesTabScenarios extends Setup {
+
+	Logger log = Log4jUtil.loadLogger(NotesTabScenarios.class);
+	CommonUtils commonUtils = new CommonUtils();
+
+	/*
+	 *This Scenario help on Validating the notes tab menu by adding a notes
+	 * 
+	 */
+
+	public void notesTabAdd(Map<String, String> testdata) throws Exception {
+		DAOTest daoTest = new DAOTest();
+		try {
+		commonUtils.waitTime(4000);
+		daoTest.editorMenuSelect(testdata.get(MENU_TAB));
+		daoTest.notesAdd();
+		}catch(Exception e) {
+			e.printStackTrace();
+			logger.log(Status.ERROR,"Add Notes is disable by open nf id");
+		}
+	}
+	
+	/* This Scenario help on Validating the notes tab menu by editing the notes */
+	
+	public void notesTabEdit(Map<String, String> testdata) throws Exception {
+		DAOTest daoTest = new DAOTest();
+		commonUtils.waitTime(4000);
+		daoTest.notesEditFunction(testdata.get(EDIT_CONTENT));
+	}
+	
+	/* This Scenario help on Validating the notes tab menu by deleting the notes */
+	
+	public void notesTabDelete(Map<String, String> testdata) throws Exception {
+		DAOTest daoTest = new DAOTest();
+		commonUtils.waitTime(4000);
+		daoTest.DeleteNotesFunction();
+	}
+}

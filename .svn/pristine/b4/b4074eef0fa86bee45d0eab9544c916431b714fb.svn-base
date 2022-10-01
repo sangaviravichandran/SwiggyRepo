@@ -1,0 +1,41 @@
+package ch.post.pf.nf.ta.execution;
+
+import java.util.Map;
+
+import org.testng.annotations.Test;
+
+import ch.post.pf.nf.ta.baseutils.ReadData;
+import ch.post.pf.nf.ta.baseutils.Setup;
+import ch.post.pf.nf.ta.scenarios.ActivitiesScenario;
+import ch.post.pf.nf.ta.scenarios.AttachmentScenario;
+import ch.post.pf.nf.ta.scenarios.CreateNFScenarios;
+import ch.post.pf.nf.ta.scenarios.PartnerAddressScenario;
+
+
+public class AttachMentTestCase extends Setup {
+
+	protected AttachmentScenario scenario = new AttachmentScenario();
+	protected CreateNFScenarios Scenarios= new CreateNFScenarios();
+	
+	@Test(priority = 1, dataProvider = "getAttachment", dataProviderClass = ReadData.class)
+	public void Attachmentvalidation(Map<String, String> testdata) throws Exception {
+		logger = parent.createNode(methodName);	
+		Scenarios.profileMenuSelect(testdata.get("Language"));
+			scenario.AttachmenttabValidation(testdata);
+		}
+	
+	@Test(priority = 2, dataProvider = "getAttachment", dataProviderClass = ReadData.class)
+	public void AttachmentSIDetailvalidation(Map<String, String> testdata) throws Exception {
+		logger = parent.createNode(methodName);	
+		Scenarios.profileMenuSelect(testdata.get("Language"));
+			scenario.AttachmentSIDetailsValidation(testdata);
+		}
+	
+	@Test(priority = 3, dataProvider = "getAttachment", dataProviderClass = ReadData.class)
+	public void AttachmentDropAreavalidation(Map<String, String> testdata) throws Exception {
+		logger = parent.createNode(methodName);	
+		Scenarios.profileMenuSelect(testdata.get("Language"));
+			scenario.AttachmentDropAreaValidation(testdata);
+		}
+	
+}

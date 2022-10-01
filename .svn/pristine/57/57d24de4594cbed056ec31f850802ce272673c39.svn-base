@@ -1,0 +1,372 @@
+package ch.post.pf.nf.ta.baseutils;
+
+import static org.testng.Assert.assertTrue;
+import java.awt.AWTException;
+import java.awt.Robot;
+import java.awt.event.KeyEvent;
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Set;
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.slf4j.Logger;
+
+import com.aventstack.extentreports.Status;
+
+public class CommonUtils extends Setup implements InterfaceConstants {
+
+	static Logger log = Log4jUtil.loadLogger(CommonUtils.class);
+
+	@SuppressWarnings("deprecation")
+	public static WebDriverWait driverWait() {
+		WebDriverWait explicitWait = new WebDriverWait(driver, 10);
+		return explicitWait;
+	}
+
+	public boolean isElementPresent(WebElement ele) {
+		try {
+			driverWait().until(ExpectedConditions.visibilityOf(ele));
+		} catch (Exception e) {
+			return false;
+		}
+		return true;
+	}
+
+	public WebElement jsElementFinder(String query) {
+		WebElement element = null;
+		try {
+			log.info("finding the element via JavaScript query :" + query);
+			JavascriptExecutor js = (JavascriptExecutor) driver;
+			element = (WebElement) js.executeScript(query);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			assertTrue(false);
+		}
+		return element;
+	}
+
+	public String switchToWindow(int windowid) {
+		try {
+			Set<String> windowHandles = driver.getWindowHandles();
+			log.info("current window id : " + driver.getWindowHandle());
+			List<String> li = new ArrayList<String>();
+			li.addAll(windowHandles);
+			driver.switchTo().window(li.get(windowid));
+			log.info("switched window id : " + driver.getWindowHandle());
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			assertTrue(false);
+		}
+
+		return driver.getWindowHandle();
+
+	}
+
+	public boolean click(WebElement locator) throws Exception {
+		boolean blnVal = false;
+		try {
+			driverWait().until(ExpectedConditions.elementToBeClickable(locator));
+			if (locator.isDisplayed()) {
+				locator.click();
+				log.info("Clicked on element: " + locator);
+				blnVal = true;
+			}
+
+		} catch (Exception e) {
+			log.error("Unable to click on element: " + locator);
+			logger.log(Status.ERROR, "Unable to click on element: " + locator);
+			e.printStackTrace();
+			assertTrue(blnVal);
+			throw (e);
+		}
+		return blnVal;
+	}
+
+	public boolean type(WebElement locator, String message, String strData) throws Exception {
+		boolean blnVal = false;
+		try {
+			driverWait().until(ExpectedConditions.elementToBeClickable(locator));
+			if (locator.isDisplayed()) {
+				try {
+					if (locator.getText() != null || !locator.getText().equalsIgnoreCase("")) {
+						locator.clear();
+					}
+					locator.clear();
+				} catch (Exception e) {
+					// TODO: handle exception
+					log.info("No need to clean the existing data");
+				}
+				Actions acc = new Actions(driver);
+				acc.sendKeys(locator, strData).build().perform();
+				log.info("Text entered in the textbox is: " + strData);
+				logger.log(Status.INFO, message + strData);
+				blnVal = true;
+
+			}
+		} catch (RuntimeException localRuntimeException) {
+			log.error("Unable to Enter the value in the Textbox :" + locator);
+			logger.log(Status.ERROR, "Unable to Enter the value in the Textbox :" + locator);
+			assertTrue(false);
+			logger.log(Status.ERROR, localRuntimeException);
+		}
+		return blnVal;
+
+	}
+
+	public boolean jsClick(WebElement locator) throws Exception {
+		boolean flag = false;
+		try {
+			driverWait().until(ExpectedConditions.elementToBeClickable(locator));
+			if (locator.isDisplayed()) {
+				JavascriptExecutor executor = (JavascriptExecutor) driver;
+				executor.executeScript("arguments[0].click();", locator);
+				log.info("Clicked on the element using Javascript: " + locator);
+				flag = true;
+			}
+		} catch (Exception e) {
+			log.error("Error in clicking on the element using Javascript: " + locator);
+			getScreenhot(driver, "locator not found");
+			logger.log(Status.ERROR, "Error in clicking on the element using Javascript: " + locator);
+			e.printStackTrace();
+			logger.log(Status.ERROR, e);
+
+		}
+		return flag;
+
+	}
+
+	public void scrollintoView() {
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		js.executeScript("window.scrollBy(0,200)");
+	}
+
+	public void scrollintoViewinpopup(String query) {
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		js.executeScript(query + ".scrollBy(0,250)");
+	}
+
+	public void scrollintoViewinpopupUserProfile(String query) {
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		js.executeScript(query + ".scrollBy(0,-210)");
+	}
+
+	public void scrollBy(String tagname, int index) {
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		js.executeScript("document.querySelector('" + tagname + "').scrollToIndex(" + index + ")");
+	}
+
+	public void scrollByright(String tagname) {
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		js.executeScript("document.querySelector('" + tagname + "').scrollBy(120,0)");
+	}
+
+	public void Actionlift() {
+		Actions ac = new Actions(driver);
+		ac.sendKeys(Keys.ARROW_LEFT).build().perform();
+		ac.sendKeys(Keys.ARROW_LEFT).build().perform();
+		ac.sendKeys(Keys.ARROW_LEFT).build().perform();
+		ac.sendKeys(Keys.ARROW_LEFT).build().perform();
+		ac.sendKeys(Keys.ARROW_LEFT).build().perform();
+	}
+
+	public void ActionRight() {
+		Actions ac = new Actions(driver);
+		ac.sendKeys(Keys.ARROW_RIGHT).build().perform();
+		ac.sendKeys(Keys.ARROW_RIGHT).build().perform();
+		ac.sendKeys(Keys.ARROW_RIGHT).build().perform();
+		ac.sendKeys(Keys.ARROW_RIGHT).build().perform();
+		ac.sendKeys(Keys.ARROW_RIGHT).build().perform();
+	}
+
+	public void scrollByrightViewButton(WebElement element) {
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		js.executeScript("arguments[0].scrollintoview", element);
+	}
+
+	public void scrollByleft(String tagname) {
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		js.executeScript("document.querySelector('" + tagname + "').scroll(-120,0)");
+	}
+
+	public void scrollintoView(WebElement element) {
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		js.executeScript("arguments[0].scrollintoview(true);", element);
+	}
+
+	public void scrolloutView() {
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		js.executeScript("window.scroll(0,-600)");
+	}
+
+	public WebElement expandRootElement(WebElement element) {
+		WebElement ele = null;
+		try {
+			ele = (WebElement) ((JavascriptExecutor) driver).executeScript("return arguments[0].shadowRoot", element);
+			log.info("Ready to navigate to ShadowRoot element:" + element);
+		} catch (Exception e) {
+			log.error("Unable to navigate the shadow root element : " + element);
+			logger.log(Status.ERROR, "Unable to navigate the shadow root element : " + element);
+			e.printStackTrace();
+			logger.log(Status.ERROR, e);
+		}
+		return ele;
+	}
+
+	public WebElement expandRootElement(String element) {
+		WebElement ele = null;
+		try {
+			ele = (WebElement) ((JavascriptExecutor) driver).executeScript(element);
+			log.info("Ready to navigate to ShadowRoot element:" + element);
+		} catch (Exception e) {
+			log.error("Unable to navigate the shadow root element : " + element);
+			logger.log(Status.ERROR, "Unable to navigate the shadow root element : " + element);
+			e.printStackTrace();
+			logger.log(Status.ERROR, e);
+		}
+		return ele;
+	}
+
+	public List<WebElement> expandRootsElement(String element) {
+		List<WebElement> ele = null;
+		try {
+			ele = (List<WebElement>) ((JavascriptExecutor) driver).executeScript(element);
+			log.info("Ready to navigate to ShadowRoot element:" + element);
+		} catch (Exception e) {
+			log.error("Unable to navigate the shadow root element : " + element);
+			logger.log(Status.ERROR, "Unable to navigate the shadow root element : " + element);
+			e.printStackTrace();
+			logger.log(Status.ERROR, e);
+		}
+		return ele;
+	}
+
+	public static String getScreenhot(WebDriver driver, String screenshotName) throws Exception {
+		String dateName = new SimpleDateFormat("yyyyMMddhhmmss").format(new Date());
+		TakesScreenshot ts = (TakesScreenshot) driver;
+		File source = ts.getScreenshotAs(OutputType.FILE);
+		// after execution, you could see a folder "FailedTestsScreenshots" under target
+		String destination = System.getProperty("user.dir") + "/target/FailedTestsScreenshots/" + screenshotName
+				+ dateName + ".png";
+		File finalDestination = new File(destination);
+		FileUtils.copyFile(source, finalDestination);
+		return destination;
+	}
+
+	public void tab() throws AWTException {
+		Robot r = new Robot();
+		r.keyPress(KeyEvent.VK_TAB);
+		r.keyRelease(KeyEvent.VK_TAB);
+	}
+
+	public void downenter(WebElement element) throws AWTException {
+		Actions acc = new Actions(driver);
+		acc.sendKeys(element, Keys.ENTER).build().perform();
+	}
+
+	public void downenterkey(WebElement element) throws AWTException {
+		Actions acc = new Actions(driver);
+		acc.sendKeys(Keys.ARROW_DOWN).build().perform();
+		acc.sendKeys(element, Keys.ENTER).build().perform();
+	}
+
+	public void loadURL() throws Exception {
+		log.info("Loding the NAPF url in :");
+		driver.get(ReadData.getProperty("url"));
+	}
+
+	public static void waitTime(int time) throws Exception {
+		Thread.sleep(time);
+	}
+
+	public void selectAllClean(WebElement element) {
+		Actions acc = new Actions(driver);
+		acc.keyDown(element, Keys.CONTROL).sendKeys("a").keyUp(element, Keys.CONTROL).build().perform();
+		;
+		acc.sendKeys(Keys.BACK_SPACE).build().perform();
+	}
+
+	public boolean isClickable(WebElement element) {
+		boolean flag = false;
+		try {
+			WebElement until = driverWait().until(ExpectedConditions.elementToBeClickable(element));
+			flag = true;
+			log.info("Element is clickable");
+			logger.log(Status.INFO, "Element is clickable");
+		} catch (Exception e) {
+			log.info("Element is not clickable");
+			logger.log(Status.INFO, "Element is not clickable");
+		}
+
+		return flag;
+	}
+
+	public void scrolltoPageHeight() {
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		js.executeScript("window.scrollTo(0,document.body.scrollHeight)");
+	}
+
+	public boolean isHiddenjs(String locator) {
+
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		Boolean flag = (Boolean) js.executeScript(locator + ".hidden");
+		if (flag) {
+			log.info("checking the element is hidden");
+		} else {
+			log.info("checking the element is Not hidden");
+		}
+		return flag;
+	}
+
+	public boolean isdisabledjs(String locator) {
+
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		Boolean flag = (Boolean) js.executeScript(locator + ".disabled");
+		if (flag) {
+			log.info("checking the element is disabled");
+		} else {
+			log.info("checking the element is enabled");
+		}
+		return flag;
+	}
+
+	public boolean isinvalid(String locator) {
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		Boolean flag = (Boolean) js.executeScript(locator + ".getAttribute('aria-hidden')");
+		if (!flag) {
+			log.info("The enterdata is invalid for the field");
+		} else {
+			log.info("The enterdata is valid for the field");
+		}
+		return flag;
+	}
+
+	public String splitString(String data) {
+		log.info("reading only the number data");
+		return data.replace(".0", "");
+	}
+
+	public void NAPFBrowserLaunch() throws Exception {
+		log.info("Launching the browser :" );
+		this.browserLaunch("Chrome");
+		loadURL();
+	}
+
+	public void mouseHover(WebElement element) {
+		log.info("Hover on an element");
+		Actions acc = new Actions(driver);
+		acc.moveToElement(element).build().perform();
+	}
+}

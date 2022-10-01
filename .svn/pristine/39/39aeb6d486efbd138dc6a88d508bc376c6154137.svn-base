@@ -1,0 +1,121 @@
+package ch.post.pf.nf.ta.execution;
+
+import java.util.Map;
+
+import org.testng.SkipException;
+import org.testng.annotations.Test;
+
+import ch.post.pf.nf.ta.baseutils.CommonUtils;
+import ch.post.pf.nf.ta.baseutils.ReadData;
+import ch.post.pf.nf.ta.baseutils.Setup;
+import ch.post.pf.nf.ta.scenarios.CreateNFScenarios;
+
+public class CreateNFTestCase extends Setup {
+
+	protected CreateNFScenarios scenario = new CreateNFScenarios();
+	protected CommonUtils common = new CommonUtils();
+
+	@Test(priority = 1, dataProvider = "getDataReader", dataProviderClass = ReadData.class)
+	public void createNFWithPaTa(Map<String, String> testdata) throws Exception {
+		if (testdata.get("CanExecute").equalsIgnoreCase("yes")) {
+			CommonUtils.waitTime(2000);
+			log.info("***************** START TEST *****************");
+			// this.browserLaunch(System.getProperty("browserName"));
+			this.browserLaunch("Chrome");
+			common.loadURL();
+			logger = parent.createNode(methodName + " for PA and TA :" + testdata.get("Process Name")
+					+ testdata.get("TA") + "DC:" + testdata.get("Mode"));
+			log.info(testdata.toString());
+			if (testdata.get("Mode").equalsIgnoreCase("Online")) {
+				scenario.profileMenuSelect(testdata.get("Language"));
+				scenario.createNFWithPaTa(testdata);
+			} else {
+				scenario.profileMenuSelect(testdata.get("Language"));
+				scenario.openNFInvestigation(testdata);
+			}
+		} else {
+			logger = parent.createNode(methodName + testdata.get("Menu 1"));
+			throw new SkipException(methodName);
+		}
+	}
+
+	@Test(priority = 1, dataProvider = "getDataReader", dataProviderClass = ReadData.class)
+	public void CreateNFDcGenralTabFieldValidation(Map<String, String> testdata) throws Exception {
+		if (testdata.get("CanExecute").equalsIgnoreCase("yes")) {
+			CommonUtils.waitTime(2000);
+			log.info("***************** START TEST *****************");
+			// this.browserLaunch(System.getProperty("browserName"));
+			this.browserLaunch("Chrome");
+			common.loadURL();
+			logger = parent.createNode(methodName + " for PA and TA :" + testdata.get("Process Name")
+					+ testdata.get("TA") + "DC:" + testdata.get("Mode"));
+			log.info(testdata.toString());
+			if (testdata.get("Mode").equalsIgnoreCase("Online")) {
+				scenario.profileMenuSelect(testdata.get("Language"));
+				scenario.createNFWithPaTa(testdata);
+				scenario.DcGenralTabFieldValidation(testdata);
+			} else {
+				scenario.profileMenuSelect(testdata.get("Language"));
+				scenario.openNFInvestigation(testdata);
+				scenario.DcGenralTabFieldValidation(testdata);
+			}
+		} else {
+			logger = parent.createNode(methodName + testdata.get("Menu 1"));
+			throw new SkipException(methodName);
+		}
+	}
+
+	@Test(priority = 1, dataProvider = "getDataReader", dataProviderClass = ReadData.class)
+	public void CreateNFDcClosureFieldDataValidation(Map<String, String> testdata) throws Exception {
+		if (testdata.get("CanExecute").equalsIgnoreCase("yes")) {
+			CommonUtils.waitTime(2000);
+			log.info("***************** START TEST *****************");
+			// this.browserLaunch(System.getProperty("browserName"));
+			this.browserLaunch("Chrome");
+			common.loadURL();
+			logger = parent.createNode(methodName + " for PA and TA :" + testdata.get("Process Name")
+					+ testdata.get("TA") + "DC:" + testdata.get("Mode"));
+			log.info(testdata.toString());
+			if (testdata.get("Mode").equalsIgnoreCase("Online")) {
+				scenario.profileMenuSelect(testdata.get("Language"));
+				scenario.createNFWithPaTa(testdata);
+				scenario.DcClosureFieldDataValidation(testdata);
+			} else {
+				scenario.profileMenuSelect(testdata.get("Language"));
+				scenario.openNFInvestigation(testdata);
+				scenario.DcClosureFieldDataValidation(testdata);
+			}
+		} else {
+			logger = parent.createNode(methodName + testdata.get("Menu 1"));
+			throw new SkipException(methodName);
+		}
+	}
+
+	@Test(priority = 1, dataProvider = "getDataReader", dataProviderClass = ReadData.class)
+	public void CreateNFDcProductCodeDataValidation(Map<String, String> testdata) throws Exception {
+		if (testdata.get("CanExecute").equalsIgnoreCase("yes")) {
+			CommonUtils.waitTime(2000);
+			log.info("***************** START TEST *****************");
+			// this.browserLaunch(System.getProperty("browserName"));
+			this.browserLaunch("Chrome");
+			common.loadURL();
+			logger = parent.createNode(methodName + " for PA and TA :" + testdata.get("Process Name")
+					+ testdata.get("TA") + "DC:" + testdata.get("Mode"));
+			log.info(testdata.toString());
+			if (testdata.get("Mode").equalsIgnoreCase("Online")) {
+				scenario.profileMenuSelect(testdata.get("Language"));
+				scenario.createNFWithPaTa(testdata);
+				scenario.DcProductCodeDataValidation(testdata);
+			} else {
+				scenario.profileMenuSelect(testdata.get("Language"));
+				scenario.openNFInvestigation(testdata);
+				scenario.DcProductCodeDataValidation(testdata);
+			}
+		} else {
+			logger = parent.createNode(methodName + testdata.get("Menu 1"));
+			throw new SkipException(methodName);
+		}
+
+	}
+
+}

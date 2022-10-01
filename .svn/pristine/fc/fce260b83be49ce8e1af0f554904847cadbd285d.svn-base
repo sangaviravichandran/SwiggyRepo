@@ -1,0 +1,48 @@
+package ch.post.pf.nf.ta.execution;
+
+import java.util.Map;
+
+import org.testng.annotations.Test;
+
+import ch.post.pf.nf.ta.baseutils.ReadData;
+import ch.post.pf.nf.ta.baseutils.Setup;
+import ch.post.pf.nf.ta.scenarios.CreateNFScenarios;
+import ch.post.pf.nf.ta.scenarios.NotesTabScenarios;
+
+
+public class NotesTabTestCase extends Setup {
+
+	protected NotesTabScenarios scenario = new NotesTabScenarios();
+	protected CreateNFScenarios cfScenario = new CreateNFScenarios();
+	
+	
+	@Test(priority = 3, dataProvider = "getNotesDataReader", dataProviderClass = ReadData.class)
+	public void notesTabAdd(Map<String, String> testdata) throws Exception {
+		logger = parent.createNode(methodName + " for PA and TA :" + testdata.get("Process Name")
+				+ testdata.get("TA") + "DC:" + testdata.get("Mode"));
+		cfScenario.profileMenuSelect(testdata.get("Language"));
+		cfScenario.createNFWithPaTa(testdata);
+		scenario.notesTabAdd(testdata);
+	}
+	
+	@Test(priority = 3, dataProvider = "getNotesDataReader", dataProviderClass = ReadData.class)
+	public void notesTabEdit(Map<String, String> testdata) throws Exception {
+		logger = parent.createNode(methodName + " for PA and TA :" + testdata.get("Process Name")
+				+ testdata.get("TA") + "DC:" + testdata.get("Mode"));
+		cfScenario.profileMenuSelect(testdata.get("Language"));
+		cfScenario.createNFWithPaTa(testdata);
+		scenario.notesTabAdd(testdata);
+		scenario.notesTabEdit(testdata);
+	}
+	
+	@Test(priority = 3, dataProvider = "getNotesDataReader", dataProviderClass = ReadData.class)
+	public void notesTabDelete(Map<String, String> testdata) throws Exception {
+		logger = parent.createNode(methodName + " for PA and TA :" + testdata.get("Process Name")
+				+ testdata.get("TA") + "DC:" + testdata.get("Mode"));
+		cfScenario.profileMenuSelect(testdata.get("Language"));
+		cfScenario.createNFWithPaTa(testdata);
+		scenario.notesTabAdd(testdata);
+		scenario.notesTabDelete(testdata);
+	}
+	
+}

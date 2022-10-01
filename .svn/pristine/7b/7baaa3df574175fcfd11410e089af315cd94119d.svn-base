@@ -1,0 +1,202 @@
+package ch.post.pf.nf.ta.scenarios;
+
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
+import java.awt.Robot;
+import java.awt.event.KeyEvent;
+import java.io.IOException;
+import java.util.Collections;
+import java.util.Currency;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import org.apache.poi.hslf.record.OEPlaceholderAtom;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.devtools.v85.page.Page.SetWebLifecycleStateState;
+import org.slf4j.Logger;
+import org.testng.Assert;
+
+import com.aventstack.extentreports.Status;
+import com.aventstack.extentreports.model.Log;
+
+import ch.post.pf.nf.ta.baseutils.CommonUtils;
+import ch.post.pf.nf.ta.baseutils.Log4jUtil;
+import ch.post.pf.nf.ta.baseutils.ReadData;
+import ch.post.pf.nf.ta.baseutils.Setup;
+import ch.post.pf.nf.ta.dao.DAOTest;
+import ch.post.pf.nf.ta.pagefactory.NAPFLocators;
+
+public class CreateNFScenarios extends Setup {
+
+	Logger log = Log4jUtil.loadLogger(CreateNFScenarios.class);
+	CommonUtils commonUtils = new CommonUtils();
+
+	/*
+	 * This Scenario help on Selecting the appropriate langue from profile menu
+	 * 
+	 */
+	public void profileMenuSelect(String Language) throws Exception {
+		log.info("select the Appropriate languge for execution: " + Language);
+		DAOTest daoTest = new DAOTest();
+		NAPFLocators ls = new NAPFLocators();
+		commonUtils.waitTime(4000);
+		try {
+			commonUtils.jsElementFinder(ls.headerProfileMenu).click();
+			assertTrue(true);
+		} catch (Exception e) {
+			log.info("unable to select the profile menu hence reloading the url");
+			commonUtils.loadURL();
+			commonUtils.waitTime(2000);
+			boolean appLanguage = daoTest.appLanguage();
+			if (!appLanguage) {
+				assertTrue(false, "after reloading url the profilemenu is unable to click");
+			}
+
+		}
+
+		boolean langugeselect = daoTest.langugeselect(Language);
+		Assert.assertTrue(langugeselect, "Langugae given is not present in the profile menu");
+	}
+
+	/*
+	 * This Scenario help on Creating a online NF investigation from WEB using the PA and TA and reading
+	 * the NF number created...
+	 */
+
+	public void createNFWithPaTa(Map<String, String> testdata) throws Exception {
+		log.info("create Investigation And check The Field Based on PA :" + testdata.get(PROCESS_NAME) +  TA 
+				+ testdata.get(TA));
+		DAOTest daoTest = new DAOTest();
+		commonUtils.waitTime(2000);
+		boolean createInvestigation = daoTest.CreateInvestigation();
+		assertTrue(createInvestigation, "unable to create investigation");
+		boolean selectPATADD = daoTest.selectPATADD(testdata.get(PROCESS_NAME), testdata.get(TA));
+		assertTrue(selectPATADD, "both Pa and Ta were not selected");
+		boolean saveButton = daoTest.saveButton();
+		commonUtils.waitTime(10000);
+		assertTrue(saveButton, "The investigation save is not done");
+	}
+
+	/*
+	 *This Scenario help on  opening the NF investigation
+	 */
+
+	public void openNFInvestigation(String testdata) throws IOException, Exception {
+		logger.log(Status.INFO, "Opening the Nf id of DC ");
+		DAOTest daoTest = new DAOTest();
+		boolean openNf = daoTest.openNf(testdata);
+		assertTrue(openNf, "The NF page could not be found.");
+		constructOpenNfAndLoad(testdata);
+		commonUtils.waitTime(5000);
+	}
+	
+	/*
+	 *This Scenario help on  opening the NF investigation
+	 */
+
+	public void openNfInvestigation(String testdata) throws IOException, Exception {
+		logger.log(Status.INFO, "Opening the Nf id of DC ");
+		DAOTest daoTest = new DAOTest();
+		boolean openNf = daoTest.openNf(testdata);
+		assertTrue(openNf, "The NF page could not be found.");
+		constructOpenNfAndLoad(testdata);
+		commonUtils.waitTime(5000);
+	}
+
+	/* This Scenario help on load nf number in Open NF id Field*/
+	
+	public void constructOpenNfAndLoad(String number) throws Exception {
+
+		driver.get(ReadData.getTestProperty(OPEN_NF_URL) + number);
+		logger.log(Status.INFO, "opened the nf id :" + number);
+		commonUtils.waitTime(6000);
+	}
+
+	/*
+	 *  This Scenario help on  Validating general tab field for all new and old investigation
+	 * 
+	 */
+	public String readNFNumber = null;
+
+	public void DcGenralTabFieldValidation(String[] testdata) throws InterruptedException, Exception {
+		DAOTest daoTest = new DAOTest();
+		logger.log(Status.INFO, "Validating the general tab Field of " + testdata[0] + " DC" +testdata[1]);
+		readNFNumber = daoTest.readNFNumber();
+		daoTest.editorMenuSelect(testdata[2]);
+		log.info("the Nf number for the created investigation is : " + readNFNumber);
+		commonUtils.scrollintoView();
+		commonUtils.waitTime(2000);
+		List<String> browserFieldValidation = daoTest.fieldValidation(testdata[3]);
+		Collections.sort(browserFieldValidation);
+		Set<String> readFiledNameFromSheet = daoTest.readFiledNameFromPATA(testdata[4], DC_GENRAL_TAB_FIELD_VALIDATION);
+		System.out.println(browserFieldValidation);
+		System.out.println(readFiledNameFromSheet);
+		assertEquals(browserFieldValidation, readFiledNameFromSheet,
+				"Both the repository and Webpage data field are not same in product tab");
+
+	}
+
+	/*
+	 *  This Scenario help on  Validating general tab closure data between repository and web page for all
+	 * new and old investigation
+	 * 
+	 */
+	public void DcClosureFieldDataValidation(Map<String, String> testdata) throws Exception {
+		DAOTest daoTest = new DAOTest();
+		logger.log(Status.INFO,
+				"Validating the Closure data for Pa : " + testdata.get(PROCESS_NAME) + " Ta : " + testdata.get(TA));
+		Set<String> readclosureNameFromPATA = daoTest.readFiledNameFromPATA(testdata.get(CLOSURE_REASON),
+				"Closure reason");
+		log.info(readclosureNameFromPATA.toString());
+		commonUtils.waitTime(3000);
+		Set<String> closureValuesValidation = daoTest.closureValuesValidation(readclosureNameFromPATA.size(),
+				testdata.get(HEADERS));
+		log.info(closureValuesValidation.toString());
+		assertEquals(readclosureNameFromPATA, closureValuesValidation,
+				"both the repository and webpage closure data are not same");
+	}
+
+	/*
+	 * This Scenario help on  Validating general tab product code data between repository and web page for
+	 * all new and old investigation
+	 * 
+	 */
+
+	public void DcProductCodeDataValidation(Map<String, String> testdata) throws Exception {
+		DAOTest daoTest = new DAOTest();
+		logger.log(Status.INFO,
+				"Validating the Product data for Pa : " + testdata.get(PROCESS_NAME) + " Ta : " + testdata.get(TA));
+		Set<String> readproductNameFromPATA = daoTest.readFiledNameFromPATA(testdata.get(PRODUCT_CODE),
+				PRODUCT_CODE);
+		log.info(readproductNameFromPATA.toString());
+		commonUtils.waitTime(3000);
+		Set<String> productValuesValidation = daoTest.productValuesValidation(readproductNameFromPATA.size(),
+				testdata.get(HEADERS));
+		log.info(productValuesValidation.toString());
+
+		assertEquals(readproductNameFromPATA, productValuesValidation,
+				"both the repository and webpage product data are not same");
+	}
+
+	/* This Scenario help on  Validating general tab Local Code Field data between repository and web page for
+	 all new and old investigation*/
+	
+	public void LocalCodeFieldValidatin(Map<String, String> testdata) throws Exception {
+		DAOTest daoTest = new DAOTest();
+		logger.log(Status.INFO,
+				"Validating the Local Code for Pa : " + testdata.get(PROCESS_NAME) + " Ta : " + testdata.get(TA));
+		boolean localcodeValidation = daoTest.LocalcodeValidation(testdata.get(LOCAL_CODE));
+		if(!localcodeValidation) {
+			log.info("validated in genral tab with error message");
+			logger.log(Status.INFO, "validated in genral tab with error message");
+			assertTrue(true);
+		}else {
+			assertTrue(localcodeValidation);
+		}
+		
+	}
+	
+}

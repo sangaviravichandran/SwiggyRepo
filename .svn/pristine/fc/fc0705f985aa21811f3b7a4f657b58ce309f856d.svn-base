@@ -1,0 +1,137 @@
+package ch.post.pf.nf.ta.execution;
+
+import java.util.Map;
+
+import org.testng.annotations.Ignore;
+import org.testng.annotations.Test;
+
+import ch.post.pf.nf.ta.baseutils.ReadData;
+import ch.post.pf.nf.ta.baseutils.Setup;
+import ch.post.pf.nf.ta.scenarios.Scenarios;
+
+
+public class NapfTestCase extends Setup {
+
+	protected Scenarios scenario = new Scenarios();
+
+	
+	@Test(priority = 0, dataProvider = "getLaungageDataReader", dataProviderClass = ReadData.class)
+	public void HomepageMenuListValidation(Map<String, String> testdata) throws Exception {
+		logger = extentreport.createTest(methodName + " :" + testdata.get("Language"));
+		scenario.profileMenuSelect(testdata.get("Language"));
+		scenario.appmenulistValidation();
+	}
+
+	
+	
+	@Test(priority = 1, dataProvider = "getDataReader", dataProviderClass = ReadData.class)
+	public void CreateNF(Map<String, String> testdata) throws Exception {
+		logger = extentreport.createTest(methodName + " for PA and TA :" + testdata.get("Process Name")
+				+ testdata.get("TA") + "DC:" + testdata.get("Mode"));
+		log.info(testdata.toString());
+		if (testdata.get("Mode").equalsIgnoreCase("Online")) {
+			scenario.profileMenuSelect(testdata.get("Language"));
+			scenario.createNFWithPaTa(testdata);
+			scenario.DcGenralTabFieldValidation(testdata);
+			scenario.DcClosureFieldDataValidation(testdata);
+			scenario.DcProductCodeDataValidation(testdata);
+		} else {
+			scenario.profileMenuSelect(testdata.get("Language"));
+			scenario.openNFInvestigation(testdata);
+			scenario.DcGenralTabFieldValidation(testdata);
+			scenario.DcClosureFieldDataValidation(testdata);
+			scenario.DcProductCodeDataValidation(testdata);
+		}
+	}
+
+	
+	@Test(priority = 2, dataProvider = "getActivitesDataReader", dataProviderClass = ReadData.class)
+	public void Activities(Map<String, String> testdata) throws Exception {
+		logger = extentreport.createTest(methodName + " for PA and TA :" + testdata.get("Process Name")
+				+ testdata.get("TA") + "DC:" + testdata.get("Mode"));
+		if (testdata.get("Mode").equalsIgnoreCase("Online")) {
+			scenario.profileMenuSelect(testdata.get("Language"));
+			scenario.createNFWithPaTa(testdata);
+			scenario.activitiesTab(testdata);
+		} else {
+			scenario.profileMenuSelect(testdata.get("Language"));
+			scenario.openNFInvestigation(testdata);
+			scenario.activitiesTab(testdata);
+		}
+	}
+	
+	
+	@Test(priority = 3, dataProvider = "getNotesDataReader", dataProviderClass = ReadData.class)
+	public void Notes(Map<String, String> testdata) throws Exception {
+		logger = extentreport.createTest(methodName + " for PA and TA :" + testdata.get("Process Name")
+				+ testdata.get("TA") + "DC:" + testdata.get("Mode"));
+		scenario.profileMenuSelect(testdata.get("Language"));
+		scenario.createNFWithPaTa(testdata);
+		scenario.notesTabAddEditDelete(testdata);
+	}
+
+	
+	
+	@Test(priority = 4, dataProvider = "getDataReader", dataProviderClass = ReadData.class)
+	public void productTabValidation(Map<String, String> testdata) throws Exception {
+		logger = extentreport.createTest(methodName + " for PA and TA :" + testdata.get("Process Name")
+				+ testdata.get("TA") + "DC:" + testdata.get("Mode"));
+		if (testdata.get("Mode").equalsIgnoreCase("Online")) {
+			scenario.profileMenuSelect(testdata.get("Language"));
+			scenario.createNFWithPaTa(testdata);
+			scenario.ProductTabFieldValidation(testdata);
+		} 
+	}
+	
+	@Ignore
+	@Test(priority = 5,dataProvider = "getLaungageDataReader", dataProviderClass = ReadData.class)
+	public void userInbox(Map<String, String> testdata) throws Exception {
+		logger = extentreport.createTest(methodName +"Field and Group button");
+		scenario.profileMenuSelect(testdata.get("Language"));
+		scenario.userInboxFieldValidation();
+	}
+	
+	@Ignore
+	@Test(priority = 6,dataProvider = "getUserInboxGroupDataReader", dataProviderClass = ReadData.class)
+	public void userInboxcreateNFsearchandCheckGroup(Map<String, String> testdata) throws Exception {
+		logger = extentreport.createTest(methodName + " for PA and TA :" + testdata.get("Process Name")
+		+ testdata.get("TA") + "DC:" + testdata.get("Mode"));
+		scenario.profileMenuSelect(testdata.get("Language"));
+		scenario.createNFWithPaTa(testdata);
+		scenario.userInboxNFsearchAndGroupcheck();
+	}
+	
+	@Ignore
+	@Test(priority = 7,dataProvider = "getLaungageDataReader", dataProviderClass = ReadData.class)
+	public void userInboxOpenNFsearchandCreateMess(Map<String, String> testdata) throws Exception {
+		logger = extentreport.createTest(methodName);
+		scenario.profileMenuSelect(testdata.get("Language"));
+		scenario.userInboxNFsearchAndopenCreateMess(ReadData.getTestProperty("openNfFIPO"));
+	}
+	
+	
+	@Test(priority = 8, dataProvider = "getUserInboxGroupNavigateDataReader", dataProviderClass = ReadData.class)
+	public void UserInboxGroupNavigate(Map<String, String> testdata) throws Exception {
+		logger = extentreport.createTest(methodName + " for PA and TA :" + testdata.get("Process Name")
+				+ testdata.get("TA") + "DC:" + testdata.get("Mode"));
+		scenario.profileMenuSelect(testdata.get("Language"));
+		scenario.createNFWithPaTa(testdata);
+		scenario.userGroupNavigate(testdata);
+	}	
+
+	@Test(priority = 9, dataProvider = "getDataReader", dataProviderClass = ReadData.class)
+	public void onHoldReminder(Map<String, String> testdata) throws Exception {
+		logger = extentreport.createTest(methodName + " for PA and TA :" + testdata.get("Process Name")
+				+ testdata.get("TA") + "DC:" + testdata.get("Mode"));
+		if (testdata.get("Mode").equalsIgnoreCase("Online")) {
+			scenario.profileMenuSelect(testdata.get("Language"));
+			scenario.createNFWithPaTa(testdata);
+			scenario.OnHoldreminder(testdata);
+		}
+		else {
+			scenario.profileMenuSelect(testdata.get("Language"));
+			scenario.openNFInvestigation(testdata);
+			scenario.OnHoldreminder(testdata);
+		}
+	}
+}

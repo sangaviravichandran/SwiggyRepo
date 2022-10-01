@@ -1,0 +1,128 @@
+package ch.post.pf.nf.ta.scenarios;
+
+import static org.testng.Assert.assertTrue;
+import org.openqa.selenium.WebElement;
+import org.slf4j.Logger;
+import ch.post.pf.nf.ta.baseutils.CommonUtils;
+import ch.post.pf.nf.ta.baseutils.Log4jUtil;
+import ch.post.pf.nf.ta.baseutils.Setup;
+import ch.post.pf.nf.ta.dao.DAOTest;
+import ch.post.pf.nf.ta.pagefactory.NAPFLocators;
+
+public class AssignInvestigationScenario extends Setup {
+	String readNFIDClickCheckBox = null;
+
+	Logger log = Log4jUtil.loadLogger(AssignInvestigationScenario.class);
+	CommonUtils commonUtils = new CommonUtils();
+	CreateNFScenarios CNFScenarios = new CreateNFScenarios();
+
+	/*
+	 * This Scenario help on Validating the Assign investigation page field
+	 * validation and moving one NF to another Group and chekcing the same is
+	 * moved...
+	 */
+	public void AssignInvestigation(String[] testinput) throws Exception {
+		DAOTest daoTest = new DAOTest();
+		daoTest.appMenuList(testinput[0]);
+		commonUtils.waitTime(3000);
+		daoTest.AssignInvestigationValidation(testinput[1], testinput[0]);
+		commonUtils.waitTime(3000);
+	}
+
+	/*
+	 * This Scenario help on Validating the Assign investigation page field
+	 * validation and moving one NF to another Group and chekcing the same is
+	 * moved...
+	 */
+
+	public String AssignInvestigationGroupMove(String[] testinput) throws Exception {
+		DAOTest daoTest = new DAOTest();
+		commonUtils.waitTime(3000);
+		readNFIDClickCheckBox = daoTest.ReadNFIDClickCheckBox(testinput[0]);
+		boolean userInboxGroupElementCheckafter = daoTest.AssignInvesuserInboxGroupElementCheck();
+		commonUtils.waitTime(2000);
+		if (userInboxGroupElementCheckafter) {
+			assertTrue(userInboxGroupElementCheckafter);
+		} else {
+			assertTrue(false, "the group elements is disabled status after clicking the checkbox");
+		}
+		String assignInvestigationselectGrouOption = daoTest.assignInvestigationselectGrouOption(testinput[0],
+				testinput[1], testinput[2], testinput[3], testinput[6], readNFIDClickCheckBox);
+		return assignInvestigationselectGrouOption;
+	}
+
+	/*
+	 * This Scenario help on Validating the Assign investigation page field
+	 * validation and moving one NF to another Group Queue Summary
+	 */
+
+	public void AssignInvestMovedGroupVerificationinGroupQueuSummary(String[] testinput) throws Exception {
+		DAOTest daoTest = new DAOTest();
+		NAPFLocators ls = new NAPFLocators();
+		commonUtils.waitTime(3000);
+		String FirstNfidAfterGroupQueueMove = daoTest.ReadNFIDClickCheckBox(testinput[0]);
+		if (FirstNfidAfterGroupQueueMove.equalsIgnoreCase(readNFIDClickCheckBox)) {
+			assertTrue(true);
+			log.info("The Nf id" + readNFIDClickCheckBox + "trying to move to group queue" + testinput[2]
+					+ " is found to be locked");
+
+		} else {
+			if (testinput[2].equalsIgnoreCase(TO_USER_INBOX)
+					|| testinput[2].equalsIgnoreCase(ZU_BENUTZERBRIEFKASTEN)
+					|| testinput[2].equalsIgnoreCase("à la boite d'utilisateur")
+					|| testinput[2].equalsIgnoreCase("ad mail box utilizzatore")) {
+				daoTest.appMenuList(testinput[4]);
+				WebElement nfsearchIngroupsummary = daoTest.NfsearchInUserInbox(readNFIDClickCheckBox, "",
+						testinput[5]);
+				if (nfsearchIngroupsummary != null) {
+					assertTrue(true);
+				} else {
+					commonUtils.getScreenhot(driver, BROWSER_NAME);
+					assertTrue(false, "The Nf id moved torespective group is not found on search");
+				}
+			} else {
+				daoTest.appMenuList(testinput[4]);
+				daoTest.groupQueueSummary(testinput[3]);
+				WebElement nfsearchIngroupsummary = daoTest.NfsearchInUserInbox(readNFIDClickCheckBox, "", "");
+				if (nfsearchIngroupsummary != null) {
+					assertTrue(true);
+				} else {
+					commonUtils.getScreenhot(driver, BROWSER_NAME);
+					assertTrue(false, "The Nf id moved torespective group is not found on search");
+				}
+			}
+		}
+	}
+
+	/* This Scenario help on Assign Investigation State Validation */
+
+	public void AssignInvestigationStateValidation(String[] testinput) throws Exception {
+		DAOTest daoTest = new DAOTest();
+		daoTest.appMenuList(testinput[0]);
+		commonUtils.waitTime(3000);
+		daoTest.AssignInvestigationValidation(testinput[1], testinput[0]);
+		commonUtils.waitTime(3000);
+		daoTest.AssignInvestigationSelectState(testinput[2]);
+		commonUtils.waitTime(2000);
+		daoTest.AssignInvestigationStatevalidation(testinput[2]);
+	}
+
+	public void AssignInvestigationpriorityValidation(String[] testinput) throws Exception {
+		DAOTest daoTest = new DAOTest();
+		daoTest.appMenuList(testinput[0]);
+		commonUtils.waitTime(3000);
+		daoTest.AssignInvestigationValidation(testinput[1], testinput[0]);
+		commonUtils.waitTime(3000);
+		daoTest.AssignInvestigationSelectPriority(testinput[2]);
+		commonUtils.waitTime(2000);
+		daoTest.AssignInvestigationPriorityValidation(testinput[2]);
+	}
+
+	public void AssignInvestigationGroupMoveErrorvalidation(String[] testinput) throws Exception {
+		DAOTest daoTest = new DAOTest();
+		commonUtils.waitTime(3000);
+		readNFIDClickCheckBox = daoTest.ReadNFIDClickCheckBox(testinput[0]);
+		commonUtils.waitTime(2000);
+		daoTest.assignInvestigationSoruceGropvalidation(testinput[2]);
+	}
+}

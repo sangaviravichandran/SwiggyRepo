@@ -1,0 +1,16 @@
+<h2>Methods run, sorted chronologically</h2><h3>&gt;&gt; means before, &lt;&lt; means after</h3><p/><br/><em>Suite</em><p/><small><i>(Hover the method name to see the test class name)</i></small><p/>
+<table border="1">
+<tr><th>Time</th><th>Delta (ms)</th><th>Suite<br>configuration</th><th>Test<br>configuration</th><th>Class<br>configuration</th><th>Groups<br>configuration</th><th>Method<br>configuration</th><th>Test<br>method</th><th>Thread</th><th>Instances</th></tr>
+<tr bgcolor="67b9bf">  <td>22/02/02 15:03:33</td>   <td>0</td> <td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td title="HomePageMenuListValidation.HomepageMenuListValidation(java.util.Map)[pri:0, instance:ch.post.pf.nf.ta.execution.HomePageMenuListValidation@62010f5c]">HomepageMenuListValidation</td> 
+  <td>main@45822040</td>   <td></td> </tr>
+<tr bgcolor="9c97cb">  <td>22/02/02 15:03:25</td>   <td>-7950</td> <td>&nbsp;</td><td>&nbsp;</td><td title="&gt;&gt;Setup.classNodesReport()[pri:0, instance:ch.post.pf.nf.ta.execution.HomePageMenuListValidation@62010f5c]">&gt;&gt;classNodesReport</td> 
+<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>  <td>main@45822040</td>   <td></td> </tr>
+<tr bgcolor="9c97cb">  <td>22/02/02 15:03:50</td>   <td>17114</td> <td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td title="&lt;&lt;Setup.endOfTest(org.testng.ITestResult)[pri:0, instance:ch.post.pf.nf.ta.execution.HomePageMenuListValidation@62010f5c]">&lt;&lt;endOfTest</td> 
+<td>&nbsp;</td>  <td>main@45822040</td>   <td></td> </tr>
+<tr bgcolor="9c97cb">  <td>22/02/02 15:03:51</td>   <td>17316</td> <td title="&lt;&lt;Setup.endReport()[pri:0, instance:ch.post.pf.nf.ta.execution.HomePageMenuListValidation@62010f5c]">&lt;&lt;endReport</td> 
+<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>  <td>main@45822040</td>   <td></td> </tr>
+<tr bgcolor="9c97cb">  <td>22/02/02 15:03:26</td>   <td>-7067</td> <td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td title="&gt;&gt;Setup.startOfTest(org.testng.ITestContext, java.lang.reflect.Method)[pri:0, instance:ch.post.pf.nf.ta.execution.HomePageMenuListValidation@62010f5c]">&gt;&gt;startOfTest</td> 
+<td>&nbsp;</td>  <td>main@45822040</td>   <td></td> </tr>
+<tr bgcolor="9c97cb">  <td>22/02/02 15:03:25</td>   <td>-8126</td> <td title="&gt;&gt;Setup.startReport()[pri:0, instance:ch.post.pf.nf.ta.execution.HomePageMenuListValidation@62010f5c]">&gt;&gt;startReport</td> 
+<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>  <td>main@45822040</td>   <td></td> </tr>
+</table>

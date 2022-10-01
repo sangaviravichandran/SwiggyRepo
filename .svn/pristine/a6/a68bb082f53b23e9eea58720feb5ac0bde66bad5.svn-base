@@ -1,0 +1,185 @@
+package ch.post.pf.nf.ta.scenarios;
+
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
+import java.awt.Robot;
+import java.awt.event.KeyEvent;
+import java.io.IOException;
+import java.util.Collections;
+import java.util.Currency;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.devtools.v85.page.Page.SetWebLifecycleStateState;
+import org.openqa.selenium.interactions.Actions;
+import org.slf4j.Logger;
+import org.testng.Assert;
+
+import com.aventstack.extentreports.Status;
+import com.aventstack.extentreports.model.Log;
+
+import ch.post.pf.nf.ta.baseutils.CommonUtils;
+import ch.post.pf.nf.ta.baseutils.Log4jUtil;
+import ch.post.pf.nf.ta.baseutils.ReadData;
+import ch.post.pf.nf.ta.baseutils.Setup;
+import ch.post.pf.nf.ta.dao.DAOTest;
+import ch.post.pf.nf.ta.pagefactory.NAPFLocators;
+
+public class SearchMemosScenario extends Setup {
+
+	Logger log = Log4jUtil.loadLogger(SearchMemosScenario.class);
+	CommonUtils commonUtils = new CommonUtils();
+	CreateNFScenarios CNFScenarios = new CreateNFScenarios();
+	
+	/*This Scenario help on to Search memos Fields Validation*/
+	
+	public void SearchmemosFieldValidation(String testdata) throws InterruptedException, Exception {
+		DAOTest daoTest = new DAOTest();
+		logger.log(Status.INFO, "Validating the Search Memos fields" + testdata);
+		commonUtils.waitTime(2000);
+		List<String> browserField = daoTest.SearchMemosField();
+		Collections.sort(browserField);
+		List<String> readFiledNameFromSheet = daoTest.readFiledNameFromXLSheet(testdata,
+				"SearchMemosFieldValidation");
+		Collections.sort(readFiledNameFromSheet);
+		commonUtils.waitTime(2000);
+		System.out.println(browserField);
+		System.out.println(readFiledNameFromSheet);
+		assertEquals(browserField, readFiledNameFromSheet,
+				"Both the repository and Webpage data field are not same in product tab");
+	}
+	
+	/*This Scenario help on to Search data in search memos tab page*/
+	
+	public void SearchDataInSearchMemos(Map<String, String> testdata) throws Exception {
+		DAOTest daoTest = new DAOTest();
+		NAPFLocators ls = new NAPFLocators();
+		log.info("Search Data In Search Memos " + testdata.get("Headers"));
+		logger.log(Status.INFO, "Search Data In Search Memos" + testdata.get("Headers"));
+		switch (testdata.get("Headers")) {
+		case "Memotyp":
+			commonUtils.waitTime(3000);
+			daoTest.appMenuList(testdata.get("Menu 1"));
+			commonUtils.waitTime(2000);
+			daoTest.MemoSearchpageHeadingValidation(testdata.get("Menu 1"));
+			log.info(testdata.get("Memotyp"));
+			daoTest.SearchMemosINsearch(ls.MemoType, testdata.get("Headers"), testdata.get("Memotyp"));
+			commonUtils.downenter(commonUtils.expandRootElement(ls.MemoType));
+			commonUtils.waitTime(2000);
+			daoTest.MemossearchClick();
+			String[] searchMemosFieldCheck4 = daoTest.SearchMemosFieldCheck(testdata.get("memoField"));
+			if(searchMemosFieldCheck4!=null) {
+			CNFScenarios.openNfInvestigation(searchMemosFieldCheck4[1]);
+			daoTest.editorMenuSelect("menutab");
+			daoTest.readMemoId(searchMemosFieldCheck4[0]);
+			}else {
+				log.info("No search memo result found");
+			}
+			break;
+		case "Status des Memos":
+			commonUtils.waitTime(3000);
+			daoTest.appMenuList(testdata.get("Menu 1"));
+			commonUtils.waitTime(3000);
+			daoTest.MemoSearchpageHeadingValidation(testdata.get("Menu 1"));
+			log.info(testdata.get("StatusOfMemos"));
+			commonUtils.waitTime(2000);
+			WebElement SearchInField = commonUtils.expandRootElement(ls.StatusOfMemos);
+			commonUtils.JSClick(SearchInField);
+			commonUtils.waitTime(2000);
+			commonUtils.type(SearchInField,testdata.get("Headers"), testdata.get("Status des Memos") );
+			commonUtils.waitTime(1000);
+			commonUtils.downenterkey(SearchInField);
+			//daoTest.SearchMemosINsearch(ls.StatusOfMemos, testdata.get("Status des Memos"), testdata.get("Headers"));
+			commonUtils.waitTime(2000);
+			daoTest.MemossearchClick();
+			String[] searchMemosFieldCheck3 = daoTest.SearchMemosFieldCheck(testdata.get("memoField"));
+			if(searchMemosFieldCheck3!=null) {
+			CNFScenarios.openNfInvestigation(searchMemosFieldCheck3[1]);
+			daoTest.editorMenuSelect("menutab");
+			daoTest.readMemoId(searchMemosFieldCheck3[0]);
+			}else {
+				log.info("No search memo result found");
+			}
+			break;
+		case "Memo Datumsbereich":
+			commonUtils.waitTime(3000);
+			daoTest.appMenuList(testdata.get("Menu 1"));
+			commonUtils.waitTime(3000);
+			daoTest.MemoSearchpageHeadingValidation(testdata.get("Menu 1"));
+			log.info(testdata.get("MemoCreatedDate"));
+			WebElement MemoCreatedFromDate = commonUtils.expandRootElement(ls.MemoCreatedFromDate);
+			commonUtils.JSClick(MemoCreatedFromDate);
+			commonUtils.waitTime(2000);
+			commonUtils.type(MemoCreatedFromDate,testdata.get("Headers"),testdata.get("Memo Datumsbereich_von"));
+			commonUtils.waitTime(2000);
+			WebElement MemoCreatedToDate = commonUtils.expandRootElement(ls.MemoCreatedToDate);
+			commonUtils.JSClick(MemoCreatedToDate);
+			commonUtils.waitTime(2000);
+			commonUtils.type(MemoCreatedToDate,testdata.get("Headers"),testdata.get("Memo Datumsbereich_bis"));
+			commonUtils.waitTime(2000);
+			Actions ac=new Actions(driver);
+			ac.sendKeys(Keys.TAB).build().perform();
+			ac.sendKeys(Keys.TAB).build().perform();
+			ac.sendKeys(Keys.TAB).build().perform();
+			ac.sendKeys(Keys.ENTER).build().perform();
+			commonUtils.waitTime(2000);
+			daoTest.MemossearchClick();
+			String[] searchMemosFieldCheck2 = daoTest.SearchMemosFieldCheck(testdata.get("memoField"));
+			if(searchMemosFieldCheck2!=null) {
+			CNFScenarios.openNfInvestigation(searchMemosFieldCheck2[1]);
+			daoTest.editorMenuSelect("menutab");
+			daoTest.readMemoId(searchMemosFieldCheck2[0]);
+			}else {
+				log.info("No search memo result found");
+			}
+			break;
+		case "NF Memo ID":
+			commonUtils.waitTime(3000);
+			daoTest.appMenuList(testdata.get("Menu 1"));
+			commonUtils.waitTime(3000);
+			daoTest.MemoSearchpageHeadingValidation(testdata.get("Menu 1"));
+			log.info(testdata.get("MemoCreatedDate"));
+			daoTest.SearchMemosINsearch(ls.NFMemosIdfrom,testdata.get("Headers") , testdata.get("NF Memo ID_von"));
+			commonUtils.waitTime(3000);
+			daoTest.SearchMemosINsearch(ls.NFMemosIdto,testdata.get("Headers"), testdata.get("NF Memo ID_bis"));
+			daoTest.MemossearchClick();
+			String[] searchMemosFieldCheck1 = daoTest.SearchMemosFieldCheck(testdata.get("memoField"));
+			if(searchMemosFieldCheck1!=null) {
+			CNFScenarios.openNfInvestigation(searchMemosFieldCheck1[1]);
+			daoTest.editorMenuSelect("menutab");
+			daoTest.readMemoId(searchMemosFieldCheck1[0]);
+			}else {
+				log.info("No search memo result found");
+			}
+			break;
+		case "Anlieferung":
+			commonUtils.waitTime(3000);
+			daoTest.appMenuList(testdata.get("Menu 1"));
+			commonUtils.waitTime(3000);
+			daoTest.MemoSearchpageHeadingValidation(testdata.get("Menu 1"));
+			log.info(testdata.get("Anlieferung"));
+			daoTest.SearchMemosINsearch(ls.deleiveryChannelMemos, testdata.get("Headers"), testdata.get("Anlieferung"));
+			commonUtils.waitTime(2000);
+			commonUtils.downenterkey(commonUtils.expandRootElement(ls.deleiveryChannelMemos));
+			commonUtils.waitTime(2000);
+			daoTest.MemossearchClick();
+			String[] searchMemosFieldCheck = daoTest.SearchMemosFieldCheck(testdata.get("memoField"));
+			if(searchMemosFieldCheck!=null) {
+			CNFScenarios.openNfInvestigation(searchMemosFieldCheck[1]);
+			daoTest.editorMenuSelect(testdata.get("menutab"));
+			daoTest.readMemoId(searchMemosFieldCheck[0]);
+			}else {
+				log.info("No search memo result found");
+			}
+		default:
+			log.info("the given key is not found in a case");
+			break;
+		}
+	}
+
+}

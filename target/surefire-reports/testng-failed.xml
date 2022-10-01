@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Failed suite [NapfSuite]" guice-stage="DEVELOPMENT" verbose="0">
+  <test thread-count="5" name="ActivitiesTestCase(failed)" verbose="0">
+    <classes>
+      <class name="ch.post.pf.nf.ta.execution.ActivitiesTestCase">
+        <methods>
+          <include name="Activities"/>
+          <include name="startOfTest"/>
+          <include name="endOfTest"/>
+          <include name="startReport"/>
+          <include name="endReport"/>
+          <include name="classNodesReport"/>
+        </methods>
+      </class> <!-- ch.post.pf.nf.ta.execution.ActivitiesTestCase -->
+    </classes>
+  </test> <!-- ActivitiesTestCase(failed) -->
+</suite> <!-- Failed suite [NapfSuite] -->

@@ -1,0 +1,77 @@
+package ch.post.pf.nf.ta.scenarios;
+
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
+import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import org.slf4j.Logger;
+
+import com.aventstack.extentreports.Status;
+
+import ch.post.pf.nf.ta.baseutils.CommonUtils;
+import ch.post.pf.nf.ta.baseutils.Log4jUtil;
+import ch.post.pf.nf.ta.baseutils.ReadData;
+import ch.post.pf.nf.ta.baseutils.Setup;
+import ch.post.pf.nf.ta.dao.DAOTest;
+
+public class ProductTabValidationScenarios extends Setup {
+
+	Logger log = Log4jUtil.loadLogger(ProductTabValidationScenarios.class);
+	CommonUtils commonUtils = new CommonUtils();
+	CreateNFScenarios CNFScenarios = new CreateNFScenarios();
+
+	/*
+	 *This Scenario help on validate all product tab field for both online and other DC channel
+	 * 
+	 */
+	public void ProductTabFieldValidation(String[] testdata) throws Exception {
+		DAOTest daoTest = new DAOTest();
+		logger.log(Status.INFO, "Validating the product tab field for Pa : " + testdata[0] + " Ta : " + testdata[1]);
+		daoTest.editorMenuSelect(testdata[2]);
+		commonUtils.waitTime(3000);
+		List<String> productTabWebPageFields = daoTest.fieldValidation(testdata[3]);
+		Collections.sort(productTabWebPageFields);
+		List<String> productTabReposirotyData = daoTest.readFiledNameFromXLSheet(testdata[4], "Prodcut tab");
+		Collections.sort(productTabReposirotyData);
+		System.out.println(productTabWebPageFields);
+		System.out.println(productTabReposirotyData);
+		assertEquals(productTabWebPageFields, productTabReposirotyData,
+				"Both the repository and Webpage data field are not same in product tab");
+	}
+
+	/* This Scenario help on Open Nf id and stay same window*/
+	
+	public void openNFInvestigation(String testdata) throws IOException, Exception {
+		logger.log(Status.INFO, "Opening the Nf id of DC ");
+		DAOTest daoTest = new DAOTest();
+		boolean openNf = daoTest.openNf(testdata);
+		assertTrue(openNf, "The NF page could not be found.");
+		constructOpenNfAndLoad(testdata);
+		commonUtils.waitTime(5000);
+		;
+	}
+
+	/* This Scenario help on load nf number in Open NF id Field*/
+	
+	public void constructOpenNfAndLoad(String number) throws Exception {
+		driver.get(ReadData.getTestProperty("opennfurl") + number);
+		logger.log(Status.INFO, "opened the nf id :" + number);
+		commonUtils.waitTime(6000);
+	}
+
+	/* This Scenario help on Data Check In Product Tab IBAN Field*/
+	
+	public void IBANFieldDataCheckInProductTab(Map<String, String> testdata) throws Exception {
+		DAOTest daoTest = new DAOTest();
+		daoTest.editorMenuSelect(testdata.get("EditorMenu1"));
+		commonUtils.waitTime(3000);
+		commonUtils.scrollintoView();
+		daoTest.EnterTheDataUsingIBANorPCNR(testdata.get("IBANFieldName"),testdata.get("MoneyReceiverdata"));
+		commonUtils.waitTime(2000);
+	}
+}

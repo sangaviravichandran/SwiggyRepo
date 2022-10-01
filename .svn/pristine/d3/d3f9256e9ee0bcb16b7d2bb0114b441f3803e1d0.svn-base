@@ -1,0 +1,94 @@
+package ch.post.pf.nf.ta.execution;
+
+import java.util.Map;
+
+import org.testng.SkipException;
+import org.testng.annotations.Ignore;
+import org.testng.annotations.Test;
+
+import ch.post.pf.nf.ta.baseutils.CommonUtils;
+import ch.post.pf.nf.ta.baseutils.ReadData;
+import ch.post.pf.nf.ta.baseutils.Setup;
+import ch.post.pf.nf.ta.scenarios.CreateNFScenarios;
+import ch.post.pf.nf.ta.scenarios.SearchInvestigationScenarios;
+
+public class SearchInvestigationTestCase extends Setup {
+
+	protected SearchInvestigationScenarios scenario = new SearchInvestigationScenarios();
+	protected CreateNFScenarios cfScenario = new CreateNFScenarios();
+	protected CommonUtils common = new CommonUtils();
+
+	@Test(priority = 10, dataProvider = "getSearchInvestigationField", dataProviderClass = ReadData.class)
+	public void searchInvestigationFieldVerification(Map<String, String> testdata) throws Exception {
+		if (testdata.get("CanExecute").equalsIgnoreCase("yes")) {
+			CommonUtils.waitTime(2000);
+			log.info("***************** START TEST *****************");
+			// this.browserLaunch(System.getProperty("browserName"));
+			this.browserLaunch("Chrome");
+			common.loadURL();
+			logger = parent.createNode(methodName + testdata.get("Menu 1"));
+			cfScenario.profileMenuSelect(testdata.get("Language"));
+			scenario.searchInvestigationFields_buttons(testdata);
+		} else {
+			logger = parent.createNode(methodName + testdata.get("Menu 1"));
+			throw new SkipException(methodName);
+		}
+
+	}
+
+	@Test(priority = 11, dataProvider = "getSearchInvestigation", dataProviderClass = ReadData.class)
+	public void SearchInvestigation(Map<String, String> testdata) throws Exception {
+		if (testdata.get("CanExecute").equalsIgnoreCase("yes")) {
+			CommonUtils.waitTime(2000);
+			log.info("***************** START TEST *****************");
+			// this.browserLaunch(System.getProperty("browserName"));
+			this.browserLaunch("Chrome");
+			common.loadURL();
+			CommonUtils.waitTime(2000);
+			logger = parent.createNode(methodName + testdata.get("Headers"));
+			log.info(testdata.toString());
+			cfScenario.profileMenuSelect(testdata.get("Language"));
+			scenario.SearchDataInSearchInvestigation(testdata);
+		} else {
+			logger = parent.createNode(methodName + testdata.get("Menu 1"));
+			throw new SkipException(methodName);
+		}
+	}
+	// getUserInboxGroupDataReader
+
+	@Test(priority = 12, dataProvider = "getSearchInvestigationField", dataProviderClass = ReadData.class)
+	public void MoreLessResetButtonCheckSearchInvestigation(Map<String, String> testdata) throws Exception {
+		if (testdata.get("CanExecute").equalsIgnoreCase("yes")) {
+			CommonUtils.waitTime(2000);
+			log.info("***************** START TEST *****************");
+			// this.browserLaunch(System.getProperty("browserName"));
+			this.browserLaunch("Chrome");
+			common.loadURL();
+			CommonUtils.waitTime(2000);
+			logger = parent.createNode(methodName);
+			cfScenario.profileMenuSelect(testdata.get("Language"));
+			scenario.ResetClickFunction(testdata);
+		} else {
+			logger = parent.createNode(methodName + testdata.get("Menu 1"));
+			throw new SkipException(methodName);
+		}
+	}
+
+	@Test(priority = 13, dataProvider = "getSearchInvestigationField", dataProviderClass = ReadData.class)
+	public void SearchInvestigationdownloadClick(Map<String, String> testdata) throws Exception {
+		if (testdata.get("CanExecute").equalsIgnoreCase("yes")) {
+			CommonUtils.waitTime(2000);
+			log.info("***************** START TEST *****************");
+			// this.browserLaunch(System.getProperty("browserName"));
+			this.browserLaunch("Chrome");
+			common.loadURL();
+			CommonUtils.waitTime(2000);
+			logger = parent.createNode(methodName);
+			cfScenario.profileMenuSelect(testdata.get("Language"));
+			scenario.SearchInvestigationDownload(testdata);
+		} else {
+			logger = parent.createNode(methodName + testdata.get("Menu 1"));
+			throw new SkipException(methodName);
+		}
+	}
+}

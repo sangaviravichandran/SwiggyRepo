@@ -1,0 +1,548 @@
+package org.napf.dao;
+
+import static org.testng.Assert.assertTrue;
+
+import java.awt.AWTException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
+import java.util.TreeSet;
+
+import org.apache.log4j.Logger;
+import org.napf.baseutils.CommonUtils;
+import org.napf.baseutils.Log4jUtil;
+import org.napf.baseutils.ReadData;
+import org.napf.baseutils.Setup;
+import org.napf.pagefactory.NAPFLocators;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+
+import com.aventstack.extentreports.Status;
+
+public class DAOTest extends Setup {
+
+	Logger log = Log4jUtil.loadLogger(DAOTest.class);
+	CommonUtils commonUtils = new CommonUtils();
+
+	public boolean appLanguage() throws Exception {
+		boolean flag = false;
+		NAPFLocators ls = new NAPFLocators();
+		boolean click = commonUtils.click(commonUtils.jsElementFinder(ls.headerProfileMenu));
+		if (click) {
+			flag = true;
+		}
+		return flag;
+	}
+
+	public boolean langugeselect(String Language) throws Exception {
+		boolean flag = false;
+		NAPFLocators ls = new NAPFLocators();
+		List<WebElement> profilemenuList = ls.profilemenuList;
+		for (int i = 0; i < profilemenuList.size(); i++) {
+			String label = profilemenuList.get(i).getAttribute("actual-label");
+			if (label.equalsIgnoreCase(Language)) {
+				boolean click = commonUtils.click(profilemenuList.get(i));
+				if (click) {
+					flag = true;
+				}
+				break;
+			}
+		}
+		return flag;
+	}
+
+	public boolean appMenuList() throws Exception {
+		boolean flag = false;
+		NAPFLocators ls = new NAPFLocators();
+		commonUtils.waitTime(3000);
+		List<WebElement> app_Menu_List = ls.app_Menu_List;
+		for (int i = 0; i < app_Menu_List.size(); i++) {
+			String text = app_Menu_List.get(i).getAttribute("label");
+			WebElement element = app_Menu_List.get(i);
+			if (element.isDisplayed()) {
+				log.info("the element :" + text + " is present in the page");
+				logger.log(Status.INFO,"the element :" + text + " is present in the page");
+				commonUtils.click(app_Menu_List.get(i));
+				logger.log(Status.INFO,"And landed in "+text+"page");
+				logger.addScreenCaptureFromPath(commonUtils.getScreenhot(driver, text+"page"));
+				flag = true;
+			}
+		}
+		return flag;
+	}
+
+	public boolean open_NF_input_field() throws Exception {
+		boolean flag = false;
+		NAPFLocators ll = new NAPFLocators();
+		WebElement open_NF_input = ll.open_NF_input;
+		boolean click = commonUtils.click(open_NF_input);
+		logger.log(Status.INFO,"Open Nf input field is found and editable.");
+		if (click) {
+			flag = true;
+		}
+		return flag;
+	}
+
+	public boolean CreateInvestigation() throws Exception {
+		boolean flag = false;
+		NAPFLocators ls = new NAPFLocators();
+		commonUtils.waitTime(3000);
+		commonUtils.click(commonUtils.jsElementFinder(ls.createInvestigation));
+		commonUtils.switchToWindow(1);
+		commonUtils.waitTime(2000);
+		WebElement jsElementFinder = commonUtils.jsElementFinder(ls.create_Inves_page);
+		if (jsElementFinder.isDisplayed()) {
+			log.info(jsElementFinder.getText());
+			logger.log(Status.INFO, "clicked in Create investgation icon");
+			flag = true;
+		}
+		return flag;
+	}
+
+	public boolean selectPATADD(String pa, String ta) throws Exception {
+		boolean flag = false;
+		NAPFLocators ls = new NAPFLocators();
+		try {
+			log.info("selecting the PA and TA");
+			logger.log(Status.INFO, "selecting the PA");
+			commonUtils.waitTime(6000);
+			WebElement shawdowroot6 = commonUtils.expandRootElement(ls.PaInitiator);
+			WebElement ProcessNameElement = commonUtils.dropdownSelectionViaShadowRoot(shawdowroot6, ls.paInput);
+			boolean type = commonUtils.type(ProcessNameElement, "selecting Process name", pa);
+			commonUtils.downenter();
+			commonUtils.waitTime(7000);
+			logger.log(Status.INFO, "selecting the TA");
+			WebElement shawdowroot9 = commonUtils.expandRootElement(ls.TaInitiator);
+			WebElement TaElement = commonUtils.dropdownSelectionViaShadowRoot(shawdowroot9, ls.TaInput);
+			boolean type2 = commonUtils.type(TaElement, "selecting Process name", ta);
+			commonUtils.downenter();
+			if (type && type2) {
+				flag = true;
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return flag;
+	}
+
+	public boolean saveButton() {
+		boolean flag = false;
+		log.info("selecting the save icon");
+		logger.log(Status.INFO, "selecting the save icon");
+		NAPFLocators ls = new NAPFLocators();
+		try {
+			WebElement ele12 = driver.findElement(By.tagName(ls.saveTag));
+			WebElement shawdowroot12 = commonUtils.expandRootElement(ele12);
+			WebElement ele13 = shawdowroot12.findElement(By.tagName(ls.saveTag1));
+			WebElement shawdowroot13 = commonUtils.expandRootElement(ele13);
+			WebElement ele14 = shawdowroot13.findElement(By.tagName(ls.saveTag2));
+			WebElement shawdowroot14 = commonUtils.expandRootElement(ele14);
+			WebElement element = shawdowroot14.findElement(By.cssSelector(ls.savecss));
+			if (element.isDisplayed()) {
+				logger.log(Status.INFO, "Save icon is present and Clicked");
+				element.click();
+				if(ls.aftersavePopUpok.isDisplayed()) {
+					commonUtils.click(ls.aftersavePopUpok);
+					flag = true;
+				}else {
+				flag = true;
+				}
+				}
+		} catch (Exception e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
+
+		return flag;
+	}
+
+	public List<String> fieldValidation(String Mode) throws InterruptedException, Exception {
+		boolean flag = false;
+		log.info("Reading the Feild from web page");
+		logger.log(Status.INFO, "Reading the Fields of " +Mode+ " DC from web page");
+		NAPFLocators ls = new NAPFLocators();
+		commonUtils.waitTime(7000);
+		List<String> browserField = new ArrayList<String>();
+		try {
+			// reading all field label and adding it to list
+			browserField.add(ls.accountField.getAttribute("label"));
+			ls.datepicketField.forEach((WebElement name) -> {
+				browserField.add(name.getAttribute("label"));
+			});
+
+			ls.textField.forEach((WebElement name) -> {
+				browserField.add(name.getAttribute("label"));
+			});
+
+			ls.comboboxField.forEach((WebElement name) -> {
+				browserField.add(name.getAttribute("label"));
+			});
+			
+			ls.textareaField.forEach((WebElement name) -> {
+				browserField.add(name.getAttribute("label"));
+			});
+			ls.checkboxField.forEach((WebElement name) -> {
+				browserField.add(name.getAttribute("label"));
+			});
+			// sort the list browserField
+			Collections.sort(browserField);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
+
+		return browserField;
+	}
+
+	public List<String> fieldValidationOnOpenNF(String mode) throws Exception {
+		constructOpenNfAndLoad(mode);
+		commonUtils.scrollintoView();
+		List<String> field = fieldValidation(mode);
+		return field;
+	}
+	
+	public void constructOpenNfAndLoad(String mode)throws Exception {
+		String split = ReadData.getTestProperty(mode);
+		driver.get(ReadData.getTestProperty("opennfurl") + split);
+		logger.log(Status.INFO, "opened the mode: "+mode+ " nf id :" + split);
+		commonUtils.waitTime(8000);
+		
+	}
+
+	public List<String> readFiledNameFromSheet(String sheet) throws Exception {
+		List<String> li = new ArrayList<String>();
+		log.info("Reading the date from repository");
+		logger.log(Status.INFO, "Reading the date from repository");
+		Map<String, String> readDataField = ReadData.readDataField(sheet + " NF");
+		// reading the values from map
+		Collection<String> values = readDataField.values();
+		li.addAll(values);
+		Collections.sort(li);
+
+		return li;
+
+	}
+
+	public Set<String> readFiledNameFromPATA(String feild,String name) throws Exception {
+		log.info("Reading"+name+ "data from repository ");
+		logger.log(Status.INFO, "Reading"+name+ "data from repository ");
+		
+		String[] split = feild.split("@@");
+		Set<String> li = new TreeSet<String>();
+		for (String string2 : split) {
+			li.add(string2);
+		}
+		return li;
+	}
+
+	public String readNFNumber() {
+		String NFNumber = null;
+		try {
+			log.info("Reading the NF number created");
+			logger.log(Status.INFO, "Reading the NF number created");
+			commonUtils.waitTime(5000);
+			WebElement editor = driver.findElement(By.tagName("pf-editor-page"));
+			WebElement editorsha = commonUtils.expandRootElement(editor);
+			WebElement editorheader = editorsha.findElement(By.tagName("pf-editor-header"));
+			WebElement editorheadersha = commonUtils.expandRootElement(editorheader);
+			boolean displayed = editorheadersha.findElement(By.tagName("pf-text")).isDisplayed();
+			if (displayed) {
+				NFNumber = editorheadersha.findElement(By.tagName("pf-text")).getText();
+			} else {
+				assertTrue(false);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			assertTrue(false);
+		}
+
+		return NFNumber;
+	}
+
+	public boolean openNfClick() throws AWTException {
+		boolean flag = false;
+		try {
+			log.info("current window id: " + driver.getWindowHandle());
+			WebElement findElement = driver.findElement(By.tagName("pf-tile-card"));
+			WebElement expandRootElement = commonUtils.expandRootElement(findElement);
+			expandRootElement.findElement(By.tagName("pf-button")).click();
+			if (flag != true) {
+				flag = true;
+			} else {
+				assertTrue(false);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			assertTrue(false);
+		}
+		return flag;
+
+	}
+
+	public boolean openNf(String number) throws Exception {
+		boolean flag = false;
+		try {
+			NAPFLocators ll = new NAPFLocators();
+			WebElement open_NF_input = ll.open_NF_input;
+			boolean click = commonUtils.click(open_NF_input);
+			open_NF_input.sendKeys(number);
+			boolean openNfClick = openNfClick();
+			if (openNfClick) {
+				flag = true;
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			assertTrue(false);
+		}
+
+		return flag;
+	}
+
+	public Set<String> closureValuesValidation(int size, String mode) throws Exception {
+		Set<String> li = new TreeSet<String>();
+		try {
+			logger.log(Status.INFO, "Selecting the closure values");
+			NAPFLocators ns = new NAPFLocators();
+			WebElement ele = commonUtils.expandRootElement(ns.clouserReason);
+			WebElement vaadin_combo = ele.findElement(By.tagName("vaadin-combo-box"));
+			WebElement ele1 = commonUtils.expandRootElement(vaadin_combo);
+			commonUtils.scrollintoView();
+			if (mode.equalsIgnoreCase("Swift")) {
+				ele1.findElement(By.tagName("vaadin-text-field")).click();
+				commonUtils.selectAllClean();
+			}
+			for (int i = 0; i < size; i++) {
+				ele1.findElement(By.tagName("vaadin-text-field")).click();
+				commonUtils.downenter();
+				WebElement findElement = ele1.findElement(By.tagName("vaadin-text-field"));
+				WebElement expandRootElement = commonUtils.expandRootElement(findElement);
+				commonUtils.waitTime(2000);
+				String attribute = expandRootElement.findElement(By.cssSelector("input[role='combobox']"))
+						.getAttribute("value").trim();
+				li.add(attribute);
+			}
+			WebElement findElement = ele1.findElement(By.tagName("vaadin-text-field"));
+			WebElement expandRootElement = commonUtils.expandRootElement(findElement);
+			if (mode.equals("Online")) {
+				expandRootElement.findElement(By.cssSelector("input[role='combobox']")).clear();
+				commonUtils.tab();
+			} else {
+
+				expandRootElement.findElement(By.cssSelector("input[role='combobox']")).clear();
+				commonUtils.tab();
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			assertTrue(false);
+		}
+
+		return li;
+	}
+
+	public Set<String> productValuesValidation(int size, String mode) throws Exception {
+		Set<String> li = new TreeSet<String>();
+		try {
+			logger.log(Status.INFO, "Selecting the product values");
+			NAPFLocators ns = new NAPFLocators();
+			WebElement ele = commonUtils.expandRootElement(ns.productReason);
+			WebElement vaadin_combo = ele.findElement(By.tagName("vaadin-combo-box"));
+			WebElement ele1 = commonUtils.expandRootElement(vaadin_combo);
+			commonUtils.scrollintoView();
+			if (mode.equalsIgnoreCase("Swift")) {
+				ele1.findElement(By.tagName("vaadin-text-field")).click();
+				commonUtils.selectAllClean();
+			}
+			for (int i = 0; i < size; i++) {
+				commonUtils.waitTime(2000);
+				ele1.findElement(By.tagName("vaadin-text-field")).click();
+				commonUtils.downenter();
+				WebElement findElement = ele1.findElement(By.tagName("vaadin-text-field"));
+				WebElement expandRootElement = commonUtils.expandRootElement(findElement);
+				commonUtils.waitTime(2000);
+				String attribute = expandRootElement.findElement(By.cssSelector("input[role='combobox']"))
+						.getAttribute("value").trim();
+				li.add(attribute);
+			}
+			WebElement findElement = ele1.findElement(By.tagName("vaadin-text-field"));
+			WebElement expandRootElement = commonUtils.expandRootElement(findElement);
+			if (mode.equals("Online")) {
+				expandRootElement.findElement(By.cssSelector("input[role='combobox']")).clear();
+				commonUtils.tab();
+			} else {
+				expandRootElement.findElement(By.cssSelector("input[role='combobox']")).clear();
+				commonUtils.tab();
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			logger.log(Status.ERROR, "product Values Validation");
+			e.printStackTrace();
+			assertTrue(false);
+		}
+
+		return li;
+	}
+	
+	
+	public boolean listvalidation(Set<String> readclosureNameFromPATA, Set<String> closureValuesValidation) {
+		// TODO Auto-generated method stub
+		logger.log(Status.INFO, "Validating the data between repository and web page");
+		List<String> li = new ArrayList<String>();
+		for (String string : readclosureNameFromPATA) {
+			li.add(string);
+		}
+		List<String> li2 = new ArrayList<String>();
+		for (String string : closureValuesValidation) {
+			li2.add(string);
+		}
+		boolean flag = false;
+		for (int i = 0; i < li.size(); i++) {
+			if (li2.contains(li.get(i).trim())) {
+				flag = true;
+			} else {
+				flag = false;
+				assertTrue(flag);
+			}
+		}
+		return flag;
+	}
+
+	public boolean editorMenuSelect(String tabname) throws Exception {
+		boolean flag = false;
+		logger.log(Status.INFO, "Moving to " +tabname +" tab");
+		commonUtils.waitTime(4000);
+		NAPFLocators ns = new NAPFLocators();
+		WebElement expandRootElement = commonUtils.expandRootElement(ns.editormenu);
+		List<WebElement> menunames = expandRootElement.findElements(By.tagName(ns.menuname));
+		for (int i = 0; i < menunames.size(); i++) {
+			String attribute = menunames.get(i).getAttribute("actual-label");
+			if (attribute.equalsIgnoreCase(tabname)) {
+				if (commonUtils.click(menunames.get(i))) {
+					logger.log(Status.INFO, "Clicking on the Tab:" +attribute);
+					log.info("Clicking on the Tab:" +attribute);
+					flag = true;
+				}
+			}
+		}
+
+		return flag;
+	}
+
+	public Map<String, String> ActivityTableData() {
+		logger.log(Status.INFO, "Reading the Data from Activities tab");
+		Map<String, String> ma = new TreeMap<String, String>();
+		try {
+			
+			NAPFLocators ns = new NAPFLocators();
+			WebElement expandRootElement = commonUtils.expandRootElement(ns.activityFieldValue);
+			WebElement firstfield = expandRootElement.findElement(By.cssSelector(ns.firstfield));
+			WebElement secondfield = expandRootElement.findElement(By.cssSelector(ns.secondfield));
+			WebElement thirdfield = expandRootElement.findElement(By.cssSelector(ns.thirdfield));
+			WebElement fourthfield = expandRootElement.findElement(By.cssSelector(ns.fourthfield));
+			WebElement fifthfield = expandRootElement.findElement(By.cssSelector(ns.fifthfield));
+			ma.put("Erstelldatum", firstfield.getText());
+			ma.put("Typ", secondfield.getText());
+			ma.put("durch", thirdfield.getText());
+			ma.put("Briefkasten", fourthfield.getText());
+			ma.put("Status", fifthfield.getText());
+			logger.log(Status.INFO, "table data found in activity tab");
+			logger.addScreenCaptureFromPath(commonUtils.getScreenhot(driver, "ActivityTableData"));
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			assertTrue(false);
+		}
+		return ma;
+	}
+
+	public void defaultWindow() {
+		commonUtils.switchToWindow(0);
+	}
+	
+	public boolean notesAdd() {
+		
+		boolean flag=false;
+		try {
+			NAPFLocators ns = new NAPFLocators();
+			commonUtils.waitTime(6000);
+			logger.log(Status.INFO, "Clicking on Add notes");
+			commonUtils.click(ns.notesadd);
+			WebElement expandRootElement = commonUtils.expandRootElement(ns.textarea);
+			WebElement findElement = expandRootElement.findElement(By.tagName(ns.textareashadow1));
+			WebElement expandRootElement2 = commonUtils.expandRootElement(findElement);
+			WebElement textareades = expandRootElement2.findElement(By.cssSelector(ns.noteAreaDEscription));
+			commonUtils.type(textareades, "note area description", "notedescription");
+			commonUtils.click(ns.saveButton);
+			logger.log(Status.INFO, "Saving the notes created");
+			commonUtils.waitTime(4000);
+			WebElement expandRootElement3 = commonUtils.expandRootElement(ns.activityFieldValue);
+			List<WebElement> vaadingridcellcontent = expandRootElement3.findElements(By.tagName(ns.editdeletebutton));
+			boolean elementPresent = commonUtils.isElementPresent(vaadingridcellcontent.get(vaadingridcellcontent.size()-1));
+			if (elementPresent) {
+				flag=true;
+				logger.log(Status.INFO, "notes table edit and delete icon are present");
+				logger.addScreenCaptureFromPath(commonUtils.getScreenhot(driver, null));
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			assertTrue(flag);
+		}
+		
+		return flag;
+		
+	}
+	
+	public boolean notesEditDeleteFunction() {
+		boolean flag=false;
+		try {
+			NAPFLocators ns = new NAPFLocators();
+			logger.log(Status.INFO, "Notes table edit and delete icon Vaidation");
+			WebElement editbuttonshadow = commonUtils.expandRootElement(ns.activityFieldValue);
+			WebElement notesEdit = editbuttonshadow.findElement(By.cssSelector(ns.notesEdit));
+			boolean click = commonUtils.click(notesEdit);
+			WebElement expandRootElement = commonUtils.expandRootElement(ns.textarea);
+			WebElement findElement = expandRootElement.findElement(By.tagName(ns.textareashadow1));
+			WebElement expandRootElement2 = commonUtils.expandRootElement(findElement);
+			WebElement textareades = expandRootElement2.findElement(By.cssSelector(ns.noteAreaDEscription));
+			commonUtils.type(textareades, "note area description", "notedescription");
+			commonUtils.click(ns.saveButton);
+			log.info("notes tabled edit action has been performed");
+			logger.log(Status.INFO, "Notes table edit icon is present");
+			logger.addScreenCaptureFromPath(commonUtils.getScreenhot(driver, null));
+			if (click) {
+				WebElement delete = editbuttonshadow.findElement(By.cssSelector(ns.notesDelete));
+				boolean deleteClick = commonUtils.click(delete);
+				log.info("Notes tabled delete action has been performed");
+				logger.log(Status.INFO, "Notes table delete icon is present and performed");
+				logger.addScreenCaptureFromPath(commonUtils.getScreenhot(driver, null));
+				commonUtils.waitTime(4000);
+				if (deleteClick) {
+					WebElement expandRootElement3 = commonUtils.expandRootElement(ns.activityFieldValue);
+					List<WebElement> vaadingridcellcontent = expandRootElement3.findElements(By.tagName(ns.editdeletebutton));
+					boolean elementPresent = commonUtils.isElementPresent(vaadingridcellcontent.get(vaadingridcellcontent.size()-1));
+					if (elementPresent!=true) {
+						flag=true;
+					}
+				}
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			assertTrue(flag);
+		}
+		
+		return false;
+		
+	}
+
+}

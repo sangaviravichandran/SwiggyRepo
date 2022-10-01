@@ -1,0 +1,118 @@
+package org.napf.pagefactory;
+
+import java.util.List;
+
+import org.napf.baseutils.Setup;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+public class NAPFLocators extends Setup{
+	
+	public NAPFLocators() {
+		PageFactory.initElements(driver, this);
+	}
+	
+	@FindBy(tagName = "pf-portal-header")
+	public WebElement headerProfileMenulist;
+	
+	public String headerProfileMenu ="return document.querySelector('pf-portal-header').shadowRoot.querySelector('pf-menu-item')";
+	
+	@FindBy(xpath = "//pf-menu-item[@visual=\"menu_small\"]")
+	public List<WebElement> profilemenuList;
+	
+	@FindBy(xpath="//pf-menu-item[@slot='app-menu']")
+	public List<WebElement> app_Menu_List;
+	
+	@FindBy(tagName="pf-text-field")
+	public WebElement open_NF_input;
+	
+	public String createInvestigation="return document.querySelector('pf-portal-header > pf-menu-item').shadowRoot.querySelector('div.outer.leaf > a > slot > pf-icon').shadowRoot.querySelector('svg')";
+	public String create_Inves_page="return document.querySelector('pf-editor-page').shadowRoot.querySelector('div > div.main-container > pf-grid > pf-editor-header').shadowRoot.querySelector('pf-text')";
+
+	@FindBy(xpath = "//pf-combobox[@testselector='gentab.processorName']")
+	public WebElement PaInitiator;
+	
+	public String paInput="input[aria-labelledby=\"vaadin-text-field-input-5\"]";
+	
+	@FindBy(xpath = "//pf-combobox[@testselector='gentab.ta']")
+	public WebElement TaInitiator;
+	
+	public String TaInput="input[aria-labelledby=\"vaadin-text-field-input-6\"]";
+	
+	//save button
+	public String saveTag="pf-portal-header";
+	public String saveTag1="pf-menu-item";
+	public String saveTag2="pf-icon";
+	public String savecss="div[class='icon-container']";
+	
+	@FindBy(xpath="//pf-button[@class='hydrated first-button button-index-0']")
+	public WebElement aftersavePopUpok;
+	
+	
+	//field valdiation
+	@FindBy(tagName = "pf-text-area")
+	public List<WebElement> textareaField;
+	
+	@FindBy(xpath="//pf-form-layout[@class=\"hydrated inside-grid\"]/pf-checkbox")
+	public List<WebElement> checkboxField;
+	
+	@FindBy(xpath="//pf-form-layout[@class=\"hydrated inside-grid\"]/pf-text-field")
+	public List<WebElement> textField;
+	
+	@FindBy(xpath="//pf-form-layout[@class=\"hydrated inside-grid\"]/pf-combobox")
+	public List<WebElement> comboboxField;
+	
+	@FindBy(xpath="//pf-form-layout[@class=\"hydrated inside-grid\"]/pf-date-picker")
+	public List<WebElement> datepicketField;
+
+	@FindBy(xpath="//pf-form-layout[@class=\"hydrated inside-grid\"]/pf-account-field")
+	public WebElement accountField;
+	
+	@FindBy(tagName = "pf-tile-card")
+	public WebElement openNfButton;
+	
+	@FindBy(xpath="//pf-combobox[@testselector=\"gentab.closureReason\"]")
+	public WebElement clouserReason;
+	
+	@FindBy(xpath="//pf-combobox[@testselector=\"gentab.productCode\"]")
+	public WebElement productReason;
+	
+	
+	//menu click in editor
+	@FindBy(tagName ="pf-tabs")
+	public WebElement editormenu;
+	
+	public String menuname="pf-menu-item";
+	
+	//table data
+	@FindBy(tagName ="pf-table")
+	public WebElement activityFieldValue;
+	
+	public String firstfield="vaadin-grid-cell-content[slot=\"vaadin-grid-cell-content-1\"]";
+	public String secondfield="vaadin-grid-cell-content[slot=\"vaadin-grid-cell-content-2\"]";
+	public String thirdfield="vaadin-grid-cell-content[slot=\"vaadin-grid-cell-content-3\"]";
+	public String fourthfield="vaadin-grid-cell-content[slot=\"vaadin-grid-cell-content-4\"]";
+	public String fifthfield="vaadin-grid-cell-content[slot=\"vaadin-grid-cell-content-5\"]";
+	
+	//notes tab
+	@FindBy(xpath  = "//pf-menu-item[@test-selector=\"note-detail-add\"]")
+	public WebElement notesadd;
+	
+	@FindBy(xpath = "(//pf-text-area[@test-selector=\"noteTextArea\"])[2]")
+	public WebElement textarea;
+	
+	public String textareashadow1="vaadin-text-area";
+	public String noteAreaDEscription="textarea[part='value']";
+	
+	@FindBy(xpath = "//pf-button[@test-selector=\"notes-add-edit-save-button\"]")
+	public WebElement saveButton;
+	
+	//use activityFieldValue webelement and travel with below shadow root
+	public String editdeletebutton="vaadin-grid-cell-content";
+	
+	public String notesEdit="pf-icon-button[icon=\"sl:pencil\"]";
+	public String notesDelete="pf-icon-button[icon=\"sl:delete\"]";
+	
+
+}

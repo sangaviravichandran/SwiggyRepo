@@ -1,0 +1,171 @@
+package org.napf.scenarios;
+
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
+import java.awt.Robot;
+import java.awt.event.KeyEvent;
+import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import org.apache.log4j.Logger;
+import org.napf.baseutils.CommonUtils;
+import org.napf.baseutils.ReadData;
+import org.napf.baseutils.Setup;
+import org.napf.dao.DAOTest;
+import org.testng.Assert;
+
+import com.aventstack.extentreports.Status;
+
+public class Scenarios extends Setup {
+
+	Logger log = Logger.getLogger(Scenarios.class);
+	CommonUtils commonUtils = new CommonUtils();
+
+	public void appmenulistValidation() throws Exception {
+		log.info("check the app menu list is found in the page with open NF field");
+		logger.log(Status.INFO, "check the app menu list is found in the page with open-NF field");
+		DAOTest daoTest = new DAOTest();
+		commonUtils.waitTime(2000);
+		boolean appMenuList = daoTest.appMenuList();
+		boolean open_NF_input_field = daoTest.open_NF_input_field();
+		if (appMenuList) {
+			assertTrue(appMenuList, "App Menulist is not found in the page");
+			logger.log(Status.INFO, "App Menu list is found");
+		} else {
+			assertTrue(false);
+			logger.log(Status.ERROR, "App Menu list is not found");
+		}
+		if (open_NF_input_field) {
+			Assert.assertTrue(open_NF_input_field, "Open_NF field is not found");
+			logger.log(Status.INFO, "Open-Nf field is found");
+		} else {
+			assertTrue(false);
+			logger.log(Status.ERROR, "Open-Nf field is not found");
+		}
+	}
+
+	public void profileMenuSelect(String Language) throws Exception {
+		log.info("select the Appropriate languge for execution: " + Language);
+		DAOTest daoTest = new DAOTest();
+		commonUtils.waitTime(2000);
+		boolean appLanguage = daoTest.appLanguage();
+		Assert.assertTrue(appLanguage, "Profile icon is not present");
+		boolean langugeselect = daoTest.langugeselect(Language);
+		Assert.assertTrue(langugeselect, "Langugae given is not present in the profile menu");
+	}
+
+	public void createNFWithPaTa(Map<String, String> testdata) throws Exception {
+		log.info("create Investigation And check The Field Based on PA :" + testdata.get("Process Name") + " TA :"
+				+ testdata.get("TA"));
+		DAOTest daoTest = new DAOTest();
+		commonUtils.waitTime(2000);
+		boolean createInvestigation = daoTest.CreateInvestigation();
+		assertTrue(createInvestigation, "unable to create investigation");
+		boolean selectPATADD = daoTest.selectPATADD(testdata.get("Process Name"), testdata.get("TA"));
+		assertTrue(selectPATADD, "both Pa and Ta were not selected");
+		boolean saveButton = daoTest.saveButton();
+		commonUtils.waitTime(4000);
+		assertTrue(saveButton, "The investigation save is not done");
+		String readNFNumber = daoTest.readNFNumber();
+		log.info("the Nf number for the created investigation is : " + readNFNumber);
+	}
+
+	public void openNFInvestigation(Map<String, String> testdata) throws IOException, Exception {
+		logger.log(Status.INFO, "Opening the Nf id of DC : " + testdata.get("Mode"));
+		DAOTest daoTest = new DAOTest();
+		boolean openNf = daoTest.openNf(ReadData.getTestProperty(testdata.get("Mode")));
+		assertTrue(openNf, "The NF page could not be found.");
+		daoTest.constructOpenNfAndLoad(testdata.get("Mode"));
+	}
+
+	public void activitiesTab(Map<String, String> testdata) throws Exception {
+		DAOTest daoTest = new DAOTest();
+		commonUtils.waitTime(4000);
+		daoTest.editorMenuSelect(testdata.get("menutab"));
+		Map<String, String> activityTableData = daoTest.ActivityTableData();
+		log.info("Recent Activity table data" + activityTableData);
+	}
+
+	public void notesTabAddEditDelete(Map<String, String> testdata) throws Exception {
+		DAOTest daoTest = new DAOTest();
+		commonUtils.waitTime(4000);
+		daoTest.editorMenuSelect(testdata.get("notesTab"));
+		daoTest.notesAdd();
+		daoTest.notesEditDeleteFunction();
+	}
+
+	public void DcGenralTabFieldValidation(Map<String, String> testdata) throws InterruptedException, Exception {
+		DAOTest daoTest = new DAOTest();
+		logger.log(Status.INFO, "Validating the general tab Field of " + testdata.get("Mode") + " DC");
+		if (!testdata.get("Mode").equalsIgnoreCase("Online")) {
+			List<String> fieldValidationOnOpenNF = daoTest.fieldValidationOnOpenNF(testdata.get("Mode"));
+			Collections.sort(fieldValidationOnOpenNF);
+			List<String> readFiledNameFromSheet = daoTest.readFiledNameFromSheet(testdata.get("Mode"));
+			Collections.sort(readFiledNameFromSheet);
+			assertEquals(fieldValidationOnOpenNF, readFiledNameFromSheet, "All fields are not present in General Tab");
+			log.info("All field are present in general tab");
+			logger.log(Status.INFO, "All field are present in " + testdata.get("Mode") + " DC");
+		} else {
+			List<String> browserFieldValidation = daoTest.fieldValidation(testdata.get("Mode"));
+			Collections.sort(browserFieldValidation);
+			List<String> readFiledNameFromSheet = daoTest.readFiledNameFromSheet(testdata.get("Mode"));
+			Collections.sort(readFiledNameFromSheet);
+			assertEquals(browserFieldValidation, readFiledNameFromSheet, "All fields are not present in General Tab");
+			log.info("All field are present in general tab");
+			logger.log(Status.INFO, "All field are present in " + testdata.get("Mode") + " DC");
+		}
+	}
+
+	public void DcClosureFieldDataValidation(Map<String, String> testdata) throws Exception {
+		DAOTest daoTest = new DAOTest();
+		logger.log(Status.INFO,
+				"Validating the Closure data for Pa : " + testdata.get("Process Name") + " Ta : " + testdata.get("TA"));
+		Set<String> readclosureNameFromPATA = daoTest.readFiledNameFromPATA(testdata.get("Closure reason"),
+				"Closure reason");
+		log.info(readclosureNameFromPATA);
+		commonUtils.waitTime(3000);
+		Set<String> closureValuesValidation = daoTest.closureValuesValidation(readclosureNameFromPATA.size(),
+				testdata.get("Mode"));
+		log.info(closureValuesValidation);
+		boolean listvalidation = daoTest.listvalidation(readclosureNameFromPATA, closureValuesValidation);
+		if (listvalidation) {
+			log.info("Found all closure selection in dropdown");
+		} else {
+			logger.log(Status.ERROR, "not all closure selection are found.");
+		}
+	}
+
+	public void DcProductCodeDataValidation(Map<String, String> testdata) throws Exception {
+		DAOTest daoTest = new DAOTest();
+
+		logger.log(Status.INFO,
+				"Validating the Product data for Pa : " + testdata.get("Process Name") + " Ta : " + testdata.get("TA"));
+		Set<String> readproductNameFromPATA = daoTest.readFiledNameFromPATA(testdata.get("Product code"),
+				"Product code");
+		log.info(readproductNameFromPATA);
+		commonUtils.waitTime(3000);
+		Set<String> productValuesValidation = daoTest.productValuesValidation(readproductNameFromPATA.size(),
+				testdata.get("Mode"));
+		log.info(productValuesValidation);
+		boolean productListvalidation = daoTest.listvalidation(readproductNameFromPATA, productValuesValidation);
+		if (productListvalidation) {
+			log.info("Found all product selection in dropdown");
+		} else {
+			logger.log(Status.ERROR, "not all product selection are found.");
+		}
+	}
+
+	public void Screenzoomout() throws Exception {
+		Robot r = new Robot();
+		for (int i = 0; i < 2; i++) {
+			r.keyPress(KeyEvent.VK_CONTROL);
+			r.keyPress(KeyEvent.VK_SUBTRACT);
+			r.keyRelease(KeyEvent.VK_SUBTRACT);
+			r.keyRelease(KeyEvent.VK_CONTROL);
+		}
+	}
+}

@@ -1,0 +1,60 @@
+package ch.post.pf.nf.ta.execution;
+
+import static org.testng.Assert.assertTrue;
+
+import java.util.Map;
+import org.testng.SkipException;
+import org.testng.annotations.Test;
+import com.aventstack.extentreports.Status;
+import ch.post.pf.nf.ta.baseutils.CommonUtils;
+import ch.post.pf.nf.ta.baseutils.ReadData;
+import ch.post.pf.nf.ta.baseutils.Setup;
+import ch.post.pf.nf.ta.dao.DAOTest;
+import ch.post.pf.nf.ta.scenarios.CreateNFScenarios;
+import ch.post.pf.nf.ta.scenarios.OnHoldReminderScenarios;
+
+public class OnHoldReminderTestCase extends Setup {
+
+	protected OnHoldReminderScenarios scenario = new OnHoldReminderScenarios();
+	protected CreateNFScenarios cfScenario = new CreateNFScenarios();
+	protected CommonUtils common = new CommonUtils();
+	protected DAOTest daoTest = new DAOTest();
+
+	/* This Testcase help in moving to on hold remainder and field validation */
+
+	@Test(priority = 0, dataProvider = "getOnHoldRemainder", dataProviderClass = ReadData.class)
+	public void onHoldReminder(Map<String, String> testdata) throws Exception {
+		try {
+			if (testdata.get(CAN_EXECUTE).equalsIgnoreCase(YES)) {
+				CommonUtils.waitTime(2000);
+				log.info("***************** START TEST *****************");
+				common.NAPFBrowserLaunch();
+				logger = parent.createNode(methodName + " for PA and TA :" + testdata.get(PROCESS_NAME)
+						+ testdata.get(TA) + "DC:" + testdata.get(HEADERS));
+				if (testdata.get(LANGUAGE).equalsIgnoreCase(MULTIPLE)) {
+					for (int i = 1; i <= 4; i++) {
+						if (i == 1) {
+							cfScenario.profileMenuSelect(testdata.get(DATA_VALIDATION_LANGUAGE + i));
+							cfScenario.createNFWithPaTa(testdata);
+						} else {
+							cfScenario.profileMenuSelect(testdata.get(DATA_VALIDATION_LANGUAGE + i));
+						}
+						String[] testinput = {
+								testdata.get("Process Name" + testdata.get(DATA_VALIDATION_LANGUAGE + i)),
+								testdata.get("TA" + testdata.get(DATA_VALIDATION_LANGUAGE + i)),
+								testdata.get(EDITOR_MENU + i), testdata.get(HEADERS), testdata.get(FIELD_NAMES + i) };
+						scenario.OnHoldreminder(testinput);
+					}
+				}
+			} else {
+				logger = parent.createNode(methodName + testdata.get(MENU_1));
+				throw new SkipException(methodName);
+			}
+		} catch (NullPointerException e) {
+			logger = parent.createNode(methodName + "CanExecute check");
+			logger.log(Status.FAIL, "canexecute Field is manditory should be updated as yes /no");
+			assertTrue(false);
+		}
+	}
+
+}

@@ -1,0 +1,98 @@
+package ch.post.pf.nf.ta.scenarios;
+
+import static org.testng.Assert.assertTrue;
+
+import java.io.IOException;
+import java.util.Map;
+
+import org.apache.commons.collections4.map.HashedMap;
+import org.slf4j.Logger;
+
+import com.aventstack.extentreports.Status;
+
+import ch.post.pf.nf.ta.baseutils.CommonUtils;
+import ch.post.pf.nf.ta.baseutils.Log4jUtil;
+import ch.post.pf.nf.ta.baseutils.ReadData;
+import ch.post.pf.nf.ta.baseutils.Setup;
+import ch.post.pf.nf.ta.dao.DAOTest;
+
+public class PartnerAddressScenario extends Setup {
+
+	Logger log = Log4jUtil.loadLogger(PartnerAddressScenario.class);
+	CommonUtils commonUtils = new CommonUtils();
+	CreateNFScenarios CNFScenarios =new CreateNFScenarios();
+	String readNFNumber=null;
+
+	public void partnerTypeFieldValidation(Map<String,String> testdata) throws Exception {
+		DAOTest daoTest = new DAOTest();
+		CNFScenarios.createNFWithPaTa(testdata);
+		readNFNumber = daoTest.readNFNumber();
+		daoTest.editorMenuSelect(testdata.get("menutab"));
+		daoTest.PartnerCreationbuttonsValidation();
+		daoTest.PartnerAddressTableFieldCheck();
+	}
+	
+	public void openNFInvestigation(String testdata) throws IOException, Exception {
+		logger.log(Status.INFO, "Opening the Nf id of DC ");
+		DAOTest daoTest = new DAOTest();
+		boolean openNf = daoTest.openNf(testdata);
+		assertTrue(openNf, "The NF page could not be found.");
+		constructOpenNfAndLoad(testdata);
+		commonUtils.waitTime(5000);;
+	}
+	
+	public void constructOpenNfAndLoad(String number) throws Exception {
+		
+		driver.get(ReadData.getTestProperty("opennfurl") + number);
+		logger.log(Status.INFO, "opened the nf id :" + number);
+		commonUtils.waitTime(6000);
+
+	}
+	
+	public void CreatingPADetails(Map<String,String> testdata) throws Exception {
+		DAOTest daoTest = new DAOTest();
+		String NFNumber=readNFNumber.replace("NF | ", "");
+		openNFInvestigation(NFNumber);
+		daoTest.editorMenuSelect(testdata.get("menutab"));
+		daoTest.CreatePADetails(testdata.get("PAPartnerType"), "PAAddress1");
+	}
+	
+	public void CreatingISYPartnerSearch(Map<String,String> testdata) throws Exception {
+		DAOTest daoTest = new DAOTest();
+		String NFNumber=readNFNumber.replace("NF | ", "");
+		openNFInvestigation(NFNumber);
+		daoTest.editorMenuSelect(testdata.get("menutab"));
+		daoTest.CreateISYPartnerSearch(testdata.get("ISYPartnerType"),testdata.get("ISYCountryCode"),testdata.get("ISYPartnerType1"));
+	}
+
+	public void CreatingPEDAPartnerSearch(Map<String,String> testdata) throws Exception {
+		DAOTest daoTest = new DAOTest();
+		String NFNumber=readNFNumber.replace("NF | ", "");
+		openNFInvestigation(NFNumber);
+		daoTest.editorMenuSelect(testdata.get("menutab"));
+		daoTest.CreatePEDAPartnerSeach(testdata.get("PEDA PartnerType"));
+	}
+	
+	public void EditAndDeletePartnerSearch(Map<String,String> testdata) throws Exception {
+		DAOTest daoTest = new DAOTest();
+		String NFNumber=readNFNumber.replace("NF | ", "");
+		openNFInvestigation(NFNumber);
+		daoTest.editorMenuSelect(testdata.get("menutab"));
+		daoTest.PartnerAddressEdit(testdata.get("Edit PartnerType"));
+		commonUtils.waitTime(2000);
+		daoTest.ClickTickButton();
+		commonUtils.waitTime(2000);
+		daoTest.PartnerAddresdelete();
+	}
+	
+	public void ISYViewValidtion(Map<String,String> testdata) throws Exception {
+		DAOTest daoTest = new DAOTest();
+		String NFNumber=readNFNumber.replace("NF | ", "");
+		openNFInvestigation(NFNumber);
+		daoTest.editorMenuSelect(testdata.get("menutab"));
+		daoTest.CreateISYPartnerSearch(testdata.get("ISY PartnerType"),testdata.get("ISY CountryCode"),testdata.get("ISY PartnerType1"));
+		commonUtils.waitTime(3000);
+		daoTest.ISYViewValidation();
+		
+	}
+}

@@ -1,0 +1,149 @@
+package ch.post.pf.nf.ta.execution;
+
+import static org.testng.Assert.assertTrue;
+
+import java.util.Map;
+
+import org.openqa.selenium.WebElement;
+import org.testng.SkipException;
+import org.testng.annotations.Ignore;
+import org.testng.annotations.Test;
+
+import com.aventstack.extentreports.Status;
+
+import ch.post.pf.nf.ta.baseutils.CommonUtils;
+import ch.post.pf.nf.ta.baseutils.ReadData;
+import ch.post.pf.nf.ta.baseutils.Setup;
+import ch.post.pf.nf.ta.dao.DAOTest;
+import ch.post.pf.nf.ta.pagefactory.NAPFLocators;
+import ch.post.pf.nf.ta.scenarios.CreateNFScenarios;
+import ch.post.pf.nf.ta.scenarios.ProductTabValidationScenarios;
+
+public class ProductTabValidationTestCase extends Setup {
+
+	protected ProductTabValidationScenarios scenario = new ProductTabValidationScenarios();
+	protected CreateNFScenarios Scenarios = new CreateNFScenarios();
+	protected CommonUtils commonUtils = new CommonUtils();
+	protected DAOTest daoTest = new DAOTest();
+
+	/*
+	 * This Testcase help on After create investigation Product Tab fields
+	 * validation in product Tab
+	 */
+
+	@Test(priority = 0, dataProvider = "getProducttabData", dataProviderClass = ReadData.class)
+	public void productTabValidation(Map<String, String> testdata) throws Exception {
+		NAPFLocators ls = new NAPFLocators();
+		try {
+			if (testdata.get(CAN_EXECUTE).equalsIgnoreCase(YES)) {
+				CommonUtils.waitTime(2000);
+				log.info("***************** START TEST *****************");
+				commonUtils.NAPFBrowserLaunch();
+				logger = parent.createNode(methodName + " for PA and TA :" + testdata.get(PROCESS_NAME)
+						+ testdata.get(TA) + "DC product tab field validation:" + testdata.get(HEADERS));
+				if (testdata.get(LANGUAGE).equalsIgnoreCase(MULTIPLE)) {
+					if (testdata.get(HEADERS).equalsIgnoreCase(ONLINE)) {
+						for (int i = 1; i <= 4; i++) {
+							logger.log(Status.INFO, "Validating the product tab fields in "
+									+ testdata.get("DataValidationLanguage" + i));
+							if (i == 1) {
+								commonUtils.waitTime(5000);
+								Scenarios.profileMenuSelect(testdata.get(DATA_VALIDATION_LANGUAGE + i));
+								commonUtils.waitTime(4000);
+								Scenarios.createNFWithPaTa(testdata);
+							} else {
+								commonUtils.waitTime(5000);
+								Scenarios.profileMenuSelect(testdata.get(DATA_VALIDATION_LANGUAGE + i));
+							}
+							String[] testinput = { testdata.get(PROCESS_NAME), testdata.get(TA),
+									testdata.get(EDITOR_MENU + i), testdata.get(FIELD_NAMES),
+									testdata.get(FIELD_NAMES + i) };
+							scenario.productTabFieldValidation(testinput);
+						}
+					} else {
+						for (int i = 1; i <= 4; i++) {
+							commonUtils.waitTime(5000);
+							logger.log(Status.INFO, "Validating the product tab fields in "
+									+ testdata.get(DATA_VALIDATION_LANGUAGE + i));
+							if (i == 1) {
+								commonUtils.waitTime(5000);
+								boolean searchAndMovetoUserinbox = daoTest.searchAndMovetoUserinbox(
+										testdata.get(DATA_VALIDATION_LANGUAGE + i), testdata.get(MENU_1),
+										testdata.get(NFID));
+							} else {
+								commonUtils.waitTime(4000);
+								commonUtils.loadURL();
+								commonUtils.waitTime(5000);
+								Scenarios.profileMenuSelect(testdata.get(DATA_VALIDATION_LANGUAGE + i));
+								commonUtils.waitTime(4000);
+								scenario.openNFInvestigation(commonUtils.splitString(testdata.get(NFID)));
+
+							}
+							String[] testinput = { testdata.get(PROCESS_NAME), testdata.get(TA),
+									testdata.get(EDITOR_MENU + i), testdata.get(HEADERS),
+									testdata.get(FIELD_NAMES + i) };
+							scenario.productTabFieldValidation(testinput);
+						}
+					}
+				}
+			} else {
+				logger = parent.createNode(methodName + testdata.get(MENU_1));
+				throw new SkipException(methodName);
+			}
+		} catch (NullPointerException e) {
+			// TODO: handle exception
+			logger = parent.createNode(methodName + "CanExecute check");
+			logger.log(Status.FAIL, "canexecute Field is manditory should be updated as yes /no");
+			assertTrue(false);
+		}
+	}
+
+	/*
+	 * This Testcase help on IBAN Fields validation and enter value iban check in
+	 * product Tab
+	 */
+
+	@Test(priority = 1, dataProvider = "getProducttabData", dataProviderClass = ReadData.class)
+	public void IBANFieldDataCheckInProduct(Map<String, String> testdata) throws Exception {
+		DAOTest daoTest = new DAOTest();
+		try {
+			if (testdata.get(CAN_EXECUTE).equalsIgnoreCase(YES)) {
+				CommonUtils.waitTime(2000);
+				log.info("***************** START TEST *****************");
+				commonUtils.NAPFBrowserLaunch();
+				logger = parent.createNode(methodName);
+				if (testdata.get(HEADERS).equalsIgnoreCase(ONLINE)) {
+					commonUtils.waitTime(5000);
+					Scenarios.profileMenuSelect(testdata.get(DATA_VALIDATION_LANGUAGE1));
+					commonUtils.waitTime(3000);
+					Scenarios.createNFWithPaTa(testdata);
+					commonUtils.waitTime(3000);
+					scenario.IBANFieldDataCheckInProductTab(testdata);
+					commonUtils.waitTime(2000);
+				} else {
+					if (testdata.get(HEADERS).equalsIgnoreCase(EFINANCE)) {
+						log.info("this NF-ID don't have IBAN Fields");
+						logger.log(Status.INFO, "this NF-ID don't have IBAN Fields");
+						assertTrue(true);
+					} else {
+						commonUtils.waitTime(5000);
+						daoTest.searchAndMovetoUserinbox(testdata.get(DATA_VALIDATION_LANGUAGE1),
+								testdata.get(MENU_1), testdata.get(NFID));
+						commonUtils.waitTime(3000);
+						scenario.IBANFieldDataCheckInProductTab(testdata);
+						commonUtils.waitTime(2000);
+					}
+				}
+			} else {
+				logger = parent.createNode(methodName + testdata.get(MENU_1));
+				throw new SkipException(methodName);
+			}
+		} catch (NullPointerException e) {
+			// TODO: handle exception
+			logger = parent.createNode(methodName + "CanExecute check");
+			logger.log(Status.FAIL, "canexecute Field is manditory should be updated as yes /no");
+			assertTrue(false);
+		}
+	}
+
+}

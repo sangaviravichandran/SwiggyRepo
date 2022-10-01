@@ -1,0 +1,690 @@
+package ch.post.pf.nf.ta.pagefactory;
+
+import java.util.List;
+
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+import ch.post.pf.nf.ta.baseutils.Setup;
+
+public class NAPFLocators extends Setup{
+	
+	public NAPFLocators() {
+		PageFactory.initElements(driver, this);
+	}
+	
+	@FindBy(tagName = "pf-portal-header")
+	public WebElement headerProfileMenulist;
+	
+	public String headerProfileMenu ="return document.querySelector('pf-portal-header').shadowRoot.querySelector('pf-menu-item')";
+
+	//return document.querySelector('body > app-root > app-navigation > pf-page-container > pf-grid > pf-card > app-user-inbox > pf-editor-header').shadowRoot.querySelector('pf-text')	
+	@FindBy(xpath = "//pf-menu-item[@visual=\"menu_small\"]")
+	public List<WebElement> profilemenuList;
+	
+	@FindBy(xpath="//pf-menu-item[@slot='app-menu']")
+	public List<WebElement> app_Menu_List;
+	
+	@FindBy(tagName="pf-text-field")
+	public WebElement open_NF_input;
+	
+	public String createInvestigation="return document.querySelector('pf-portal-header > pf-menu-item').shadowRoot.querySelector('div.outer.leaf > a > slot > pf-icon').shadowRoot.querySelector('svg')";
+	public String create_Inves_page="return document.querySelector('pf-editor-page').shadowRoot.querySelector('div > div.main-container > pf-grid > pf-editor-header').shadowRoot.querySelector('pf-text')";
+
+	public String PaInitiator ="return document.querySelector('pf-combobox[testselector=\"gentab.processorName\"]').shadowRoot.querySelector('vaadin-combo-box').shadowRoot.querySelector('#input').shadowRoot.querySelector('input')";
+	
+	public String TaInitiator="return document.querySelector('pf-combobox[testselector=\"gentab.ta\"]').shadowRoot.querySelector('vaadin-combo-box').shadowRoot.querySelector('#input').shadowRoot.querySelector('input')";
+	
+	//save button
+	public String savecss="return document.querySelector('pf-portal-header').shadowRoot.querySelector('pf-menu-item').shadowRoot.querySelector('pf-icon').shadowRoot.querySelector('svg')";
+	
+	public String SavePopupText="return document.querySelector('body > app-root > app-navigation > app-editor > pf-dialog:nth-child(2) > pf-text')";
+	
+	public String SavePopupClick="return document.querySelector('pf-dialog:nth-child(2) > pf-button.hydrated.last-button.button-index-1').shadowRoot.querySelector('vaadin-button').shadowRoot.querySelector('#button')";
+	
+	public String SavePopup="return document.querySelector('body > app-root > app-navigation > app-editor > pf-dialog:nth-child(2)').shadowRoot.querySelector('pf-fullscreen-container > pf-card')";
+	// reading nf number
+	public String NfNumber="return document.querySelector('pf-editor-page').shadowRoot.querySelector('pf-editor-header').shadowRoot.querySelector('pf-text')";
+	
+	// open NF click
+	public String openNFclick="return document.querySelector('pf-tile-card').shadowRoot.querySelector('pf-button').shadowRoot.querySelector('vaadin-button').shadowRoot.querySelector('#button')";
+	
+	//field valdiation
+	
+	public String custom_field="return document.querySelector('pf-custom-control').shadowRoot.querySelector('div.left-label-container > pf-text')";
+	
+	public String custom_field_one="return document.querySelectorAll('pf-custom-control')[";
+	public String custom_field_two="].shadowRoot.querySelector(\"div.vertical-label-container\")";
+	
+	@FindBy(tagName = "pf-text-area")
+	public List<WebElement> textareaField;
+	
+	@FindBy(xpath="(//pf-form-layout[@class=\"hydrated inside-grid\"])[1]/pf-checkbox")
+	public List<WebElement> checkboxField;
+	
+	@FindBy(xpath="(//pf-form-layout[@class=\"hydrated inside-grid\"])[1]/pf-text-field")
+	public List<WebElement> textField;
+	
+	@FindBy(xpath="(//pf-form-layout[@class=\"hydrated inside-grid\"])[1]/pf-combobox")
+	public List<WebElement> comboboxField;
+	
+	@FindBy(xpath="(//pf-form-layout[@class=\"hydrated inside-grid\"])[1]/pf-date-picker")
+	public List<WebElement> datepicketField;
+
+	@FindBy(xpath="(//pf-form-layout[@class=\"hydrated inside-grid\"])[1]/pf-account-field")
+	public List<WebElement> accountField;
+	
+	@FindBy(tagName = "pf-tile-card")
+	public WebElement openNfButton;
+	
+	public String clouserReason="return document.querySelector('pf-combobox[testselector=\"gentab.closureReason\"]').shadowRoot.querySelector('vaadin-combo-box').shadowRoot.querySelector('#input').shadowRoot.querySelector('input')";
+	public String clouserReasonToggle="return document.querySelector('pf-combobox[testselector=\"gentab.closureReason\"]').shadowRoot.querySelector('vaadin-combo-box').shadowRoot.querySelector('#toggleButton')";
+	
+	public String productReason="return document.querySelector('pf-combobox[testselector=\"gentab.productCode\"]').shadowRoot.querySelector('vaadin-combo-box').shadowRoot.querySelector('#input').shadowRoot.querySelector('input')";
+	public String productReasonToggle="return document.querySelector('pf-combobox[testselector=\"gentab.productCode\"]').shadowRoot.querySelector('vaadin-combo-box').shadowRoot.querySelector('#toggleButton')";
+	
+	//menu click in editor
+	public String editormenu="return document.querySelector('pf-tabs').shadowRoot.querySelectorAll('pf-menu-item')";
+	
+	
+	//table data
+	public String activityFieldValue ="return document.querySelector('pf-table').shadowRoot.querySelector('vaadin-grid')";
+	
+	public String firstfield="vaadin-grid-cell-content[slot=\"vaadin-grid-cell-content-1\"]";
+	public String secondfield="vaadin-grid-cell-content[slot=\"vaadin-grid-cell-content-2\"]";
+	public String thirdfield="vaadin-grid-cell-content[slot=\"vaadin-grid-cell-content-3\"]";
+	public String fourthfield="vaadin-grid-cell-content[slot=\"vaadin-grid-cell-content-4\"]";
+	public String fifthfield="vaadin-grid-cell-content[slot=\"vaadin-grid-cell-content-5\"]";
+	
+	//notes tab
+	public String notesadd="return document.querySelector('pf-menu-item[test-selector=\"note-detail-add\"]').shadowRoot.querySelector('pf-icon').shadowRoot.querySelector('#Layer_1')";
+	
+	public String textarea="return document.querySelectorAll('pf-text-area[test-selector=\"noteTextArea\"]')[1].shadowRoot.querySelector('vaadin-text-area').shadowRoot.querySelector('textarea')";
+	
+	@FindBy(xpath="//pf-button[@test-selector='notes-add-edit-save-button']")
+	public WebElement saveButton;
+	
+	//use activityFieldValue webelement and travel with below shadow root
+	public String editdeletebutton="vaadin-grid-cell-content";
+	
+	public String notesEdit="pf-icon-button[icon=\"sl:pencil\"]";
+
+	public String notesDelete="pf-icon-button[icon=\"sl:delete\"]";
+	//user inbox 
+	
+	
+	public String SourceGroupQueue="return document.querySelector('pf-card > app-user-inbox > pf-editor-header > pf-button.hydrated.first-button.button-index-0')";
+	public String PreviousGroupQueue="return document.querySelector('pf-card > app-user-inbox > pf-editor-header > pf-button.hydrated.button-index-2')";
+	public String OtherGroupQueue="return document.querySelector('pf-card > app-user-inbox > pf-editor-header > pf-button.hydrated.button-index-1')";
+	
+	@FindBy(xpath = "//pf-button[@testselector='editor-header-action--sourceGroupQueue']")
+	public WebElement sourceGroupQueue;
+	
+	@FindBy(xpath = "//pf-button[@testselector='editor-header-action--previousGroupQueue']")
+	public WebElement previousGroupQueue;
+	
+	@FindBy(xpath = "//pf-button[@testselector='editor-header-action--otherGroupQueue']")
+	public WebElement otherGroupQueue;
+	
+	public String userInboxNfField="return document.querySelector('pf-table').shadowRoot.querySelectorAll('vaadin-grid > vaadin-grid-cell-content')";
+	
+	public String landingPage_text="return document.querySelector('pf-editor-header').shadowRoot.querySelector('pf-text')";
+	
+	public String NFIdSort="return document.querySelector(\"#userProfileFrom > pf-table\").shadowRoot.querySelectorAll(\"vaadin-grid > vaadin-grid-cell-content\")[1]";
+	public String FirstNf_number="return document.querySelector(\"pf-table\").shadowRoot.querySelectorAll(\"vaadin-grid-cell-content\")[";
+	
+	public String all_NfNumber_search="return document.querySelector(\"#userProfileFrom > pf-table\").shadowRoot.querySelectorAll('vaadin-grid-cell-content')";
+	public String all_NfNumber_search_2="return document.querySelector(\"#userProfileFrom > pf-table\").shadowRoot.querySelectorAll(\"vaadin-checkbox\")[";
+	public String all_NfNumber_search_checkbox="]";
+
+	@FindBy(xpath = "//pf-text-area[@test-selector=\"customerTextArea\"]")
+	public WebElement customer_description;
+	
+	@FindBy(xpath="//pf-menu-item[@test-selector='customer.mes.add']")
+	public WebElement CreateMess;
+	
+	@FindBy(xpath="//pf-menu-item[@test-selector='customer.detail-save']")
+	public WebElement save_mess;
+	
+	public String checkboxmess_click="return document.querySelector(\"pf-table\").shadowRoot.querySelector(\"vaadin-grid > vaadin-grid-cell-content:nth-child(25) > vaadin-checkbox\")";
+	public String To_Do_Mess="return document.querySelector('pf-table').shadowRoot.querySelectorAll('vaadin-grid-cell-content')[0]";
+	
+	public String todo_mess_saved="return document.querySelector('pf-table').shadowRoot.querySelectorAll('vaadin-grid-cell-content')[2].querySelector('pf-text')";
+	@FindBy(xpath = "//pf-editor-header[@testselector=\"userInboxHeader\"]/pf-button")
+	public List<WebElement> userInboxHeader;
+	
+	public String userInboxHeaders="return document.querySelectorAll('#userProfileFrom > pf-editor-header > pf-button')[";
+	
+	
+	public String groupQueueList="return document.querySelector(\"pf-table\").shadowRoot.querySelectorAll(\"vaadin-grid-cell-content\")";
+	public String groupqueueselection="return document.querySelector(\"pf-table\").shadowRoot.querySelectorAll(\"vaadin-grid-cell-content\")[12]document.querySelector(\"pf-table\").shadowRoot.querySelectorAll(\"vaadin-grid-cell-content\")[";
+	public String groupque2="]";
+	
+	public String groupQueueMoveData="return document.querySelector('pf-dialog >pf-combobox').shadowRoot.querySelector('vaadin-combo-box').shadowRoot.querySelector('#input').shadowRoot.querySelector('div')";
+	
+	@FindBy(xpath = "//pf-button[@testselector=\"saveDialog\"]")
+	public WebElement saveGroup;
+	
+	// on hold 
+	//public String periodcalederdays="return document.querySelector(\"#onHoldRemForm > pf-grid > pf-form-layout > pf-text-field.hydrated.inside-grid.col-md-6.ng-dirty.ng-valid.ng-touched.hide-prefix\").shadowRoot.querySelector(\"vaadin-text-field\").shadowRoot.querySelector(\"#vaadin-text-field-input-24 > slot:nth-child(2) > input\")";
+	@FindBy(xpath = "//pf-text-field[@data-test-selector='onHoldReminder.period_for_first_reminder']")
+	public WebElement periodcalederdays;
+	
+	public String periodcalanderdayserrormess="return document.querySelector('#onHoldRemForm > pf-grid > pf-form-layout > pf-text-field.ng-touched.ng-dirty.hydrated.inside-grid.col-md-6.ng-invalid').shadowRoot.querySelector('vaadin-text-field')";
+
+	//search investigation flied paths
+	
+	public String MoreOption="return document.querySelector(\"pf-search-panel\").shadowRoot.querySelector(\"pf-button\")";
+	
+	@FindBy(xpath = "//pf-button[@testselector='searchInv.reset']")
+	public WebElement ResetButton;
+	
+	@FindBy(xpath = "//pf-button[@testselector='searchInv.search']")
+	public WebElement SearchButton;
+	
+	public String LessOption="return document.querySelector('pf-search-panel').shadowRoot.querySelector('div.search-parameter-container > div > pf-button')";
+	
+	public String SearchInvestigationLandingText="return document.querySelector(\"body > app-root > app-navigation > pf-page-container > pf-grid > pf-card > app-search-investigation > pf-search-panel\").shadowRoot.querySelector(\"div.search-title-line > pf-text\")";
+	
+	
+	
+	//all search field
+	
+	@FindBy(xpath="(//pf-search-panel[@testselector=\"inv-search-panel\"])/pf-combobox")
+	public List<WebElement> allSearchcomboboxField;
+	
+	@FindBy(xpath="(//pf-search-panel[@testselector=\"inv-search-panel\"])/pf-account-field")
+	public List<WebElement> allSearchaccountField;
+	
+	@FindBy(xpath="(//pf-search-panel[@testselector=\"inv-search-panel\"])/pf-checkbox")
+	public List<WebElement> allSearchcheckboxField;
+	
+	@FindBy(xpath="(//pf-search-panel[@testselector=\"inv-search-panel\"])/pf-text-field")
+	public List<WebElement> allSearchpfTextField;
+	
+	@FindBy(xpath="(//pf-search-panel[@testselector='inv-search-panel'])/pf-pktnr-account-field")
+	public List<WebElement> pfpktnraccountfield;
+	
+	
+	public String allSearchpfcustomcontrol="(//pf-form-layout[@slot=\"additional-search-input\"])/pf-custom-control";
+	
+	public String processNameInput="return document.querySelector('pf-combobox').shadowRoot.querySelector('vaadin-combo-box').shadowRoot.querySelector('#input').shadowRoot.querySelector('#vaadin-text-field-input-3 > slot:nth-child(2) > input')";
+	
+	@FindBy(xpath = "(//pf-custom-control[@testselector='searchInv.amount_range']/pf-text-field)[1]")
+	public WebElement AmountRangeFrom;
+	
+	@FindBy(xpath = "(//pf-custom-control[@testselector='searchInv.amount_range']/pf-text-field)[2]")
+	public WebElement AmountRangeTo;
+	
+	@FindBy(xpath = "//pf-date-picker[@testselector=\"searchInv.nf_date_range_from\"]")
+	public WebElement NFdateRangeFrom;
+	
+	@FindBy(xpath = "//pf-date-picker[@testselector=\"searchInv.nf_date_range_to\"]")
+	public WebElement NFdateRangeTo;
+	
+	@FindBy(xpath = "//pf-text-field[@testselector='searchInv.nf_id_range_from']")
+	public WebElement NFIdRangeFrom;
+	
+	@FindBy(xpath = "//pf-text-field[@testselector='searchInv.nf_id_range_to']")
+	public WebElement NFIdRangeto;
+	
+	public String OutBICInput="return document.querySelector(\"#frmBookRoom > pf-search-panel > pf-form-layout:nth-child(2) > pf-text-field.ng-pristine.ng-valid.hydrated.inside-grid.col-md-6.ng-touched.hide-prefix\").shadowRoot.querySelector(\"vaadin-text-field\").shadowRoot.querySelector(\"#vaadin-text-field-input-47 > slot:nth-child(2) > input\")";
+	
+	@FindBy(xpath = "//pf-account-field[@testselector='searchInv.post_account_own_search']")
+	public WebElement MoneyReceiver;
+	
+	
+	//searchpop up locators
+	public String PopUPtab="return document.querySelector(\"body > app-root > app-navigation > pf-page-container > pf-grid > pf-card > app-search-investigation > pf-status-dialog\").shadowRoot.querySelector(\"pf-dialog\").shadowRoot.querySelector(\"pf-fullscreen-container > pf-card\")";
+	
+	public String PopUptext="return document.querySelector(\"body > app-root > app-navigation > pf-page-container > pf-grid > pf-card > app-search-investigation > pf-status-dialog\").shadowRoot.querySelector(\"pf-dialog > div > pf-grid > pf-text\")";
+	
+	public String CloseButton="return document.querySelector(\"body > app-root > app-navigation > pf-page-container > pf-grid > pf-card > app-search-investigation > pf-status-dialog\").shadowRoot.querySelector(\"pf-dialog > pf-button\").shadowRoot.querySelector(\"vaadin-button\").shadowRoot.querySelector(\"#button\")";
+	
+	
+	//search data locators
+	@FindBy(xpath = "(//pf-button-row[@slot='search-result']/pf-text)[1]")
+	public WebElement searchResults;
+	
+	@FindBy(xpath = "(//pf-button-row[@slot='search-result']/pf-text)[2]")
+	public WebElement NoOfResults;
+
+	public String touserInbox="return document.querySelector('pf-search-panel > pf-button-row:nth-child(33) > pf-button.hydrated.button-index-1')";
+	public String unlockInverstigation="return document.querySelector('pf-search-panel > pf-button-row:nth-child(33) > pf-button.hydrated.button-index-2')";
+	
+	@FindBy(xpath="//*[@data-test-selector=\"moveNfToInboxId\"]")
+	public WebElement toUserInbox;
+	
+	@FindBy(xpath="//*[@data-test-selector=\"unleashNfId\"]")
+	public WebElement UnlockInverstigation;
+	
+	public String State="return document.querySelector(\"pf-search-panel > pf-combobox:nth-child(2)\").shadowRoot.querySelector(\"vaadin-combo-box\").shadowRoot.querySelector(\"#input\").shadowRoot.querySelector(\"#vaadin-text-field-input-4 > slot:nth-child(2) > input\")" ;
+	
+	@FindBy(xpath = "//pf-combobox[@testselector='searchInv.result_curr_search']")
+	public WebElement Currency;
+	
+	public String TA="return document.querySelector(\"#frmBookRoom > pf-search-panel > pf-form-layout:nth-child(2) > pf-combobox.ng-pristine.ng-valid.hydrated.inside-grid.col-md-6.ng-touched\").shadowRoot.querySelector(\"vaadin-combo-box\").shadowRoot.querySelector(\"#input\").shadowRoot.querySelector(\"#vaadin-text-field-input-480 > slot:nth-child(2) > input\")";
+
+	public String searchTableData="return document.querySelector('pf-table').shadowRoot.querySelectorAll('vaadin-grid-cell-content')";
+	
+	@FindBy(xpath = "//pf-icon-button[@test-selector=\"searchInv.search\"]")
+	public WebElement downloadclick;
+	
+	@FindBy(xpath = "//pf-menu-item[@testselector=\"portal-header--toolbar--automatic--search\"]")
+	public WebElement headersearchButton;
+	
+	// ABP automatische Suche
+	
+	public String APBPopupTab="return document.querySelector('body > app-root > app-navigation > pf-dialog').shadowRoot.querySelector('pf-fullscreen-container').shadowRoot.querySelector('div.content-container')";
+	
+	public String APBPopupheadtext="return document.querySelector('pf-dialog').shadowRoot.querySelector('pf-card').shadowRoot.querySelector('div.card-title-line > pf-text')";
+	
+	@FindBy(xpath = "(//pf-text[@text-type='h5'])[1]")
+	public WebElement APBPopupText;
+	//Insufficient search criteria to perform automatic search.
+	
+	@FindBy(xpath = "(//pf-text[@text-type='h5'])[2]")
+	public WebElement APBPopup2text;
+	
+	//Please go to DAB application for doing manual search.DE
+	
+	@FindBy(xpath = "//pf-link[@href-target='_self']")
+	public WebElement GoToDab;
+	
+	@FindBy(xpath = "(//pf-button[@role='button'])[1]")
+	public WebElement  abbrechen; 
+	
+	@FindBy(xpath = "(//pf-select[@test-selector='pf-select'])[3]")
+	public WebElement SelectTRZAHLUNG;
+	
+	@FindBy(xpath = "(//pf-select[@test-selector='pf-select'])[4]")
+	public WebElement SelectTRKARTEN;
+	
+	@FindBy(xpath = "(//pf-button[@role='button'])[4]")
+	public WebElement AttachTransactionButton;
+	
+	@FindBy(xpath = "//pf-link[@class='hydrated']")
+	public WebElement RequestStatus;
+	
+	// ida result locators
+	public String IDA_Result="return document.querySelector('pf-tabs').shadowRoot.querySelector('pf-menu-item.tabs_normal.hydrated.menu-entry-index-4')";
+	
+	@FindBy(xpath = "//form[@id='idaDetailsFrom']")
+	public WebElement idaDetailsFromDropDown;
+	
+	public String populateProductfield="return document.querySelector('pf-tabs > pf-tab:nth-child(5) > app-ida-results-tab > app-ida-details > pf-section > pf-button:nth-child(2)')";
+	
+	public String getAllLinkedTrans="return document.querySelector('pf-tabs > pf-tab:nth-child(5) > app-ida-results-tab > app-ida-details > pf-section > pf-button:nth-child(3)')";
+	
+	public String headerIDAResult="return document.querySelector('pf-table').shadowRoot.querySelectorAll('vaadin-grid > vaadin-grid-cell-content > vaadin-grid-sorter')";
+	
+	public String IDAResultDatatable="return document.querySelector('pf-table').shadowRoot.querySelectorAll('vaadin-grid > vaadin-grid-cell-content')";
+	
+	public String IDAResultTransacnumber="return document.querySelector('pf-table').shadowRoot.querySelectorAll('vaadin-grid > vaadin-grid-cell-content')[25]";
+	
+	public String IDAActionViewTrans="return document.querySelector('pf-grid > pf-section > pf-table').shadowRoot.querySelector('#trans-open-65734')";
+	
+	public String IDAActionDeleteTrans="return document.querySelector('pf-grid > pf-section > pf-table').shadowRoot.querySelector('#trans-delete-65734')";
+	
+	public String IDAActionToolTip="return document.querySelector('pf-table').shadowRoot.querySelector('vaadin-grid > vaadin-grid-cell-content:nth-child(40) > pf-tooltip')";
+	
+	public String IDAActionToolTipeDataField="return document.querySelector('pf-tooltip-bubble > pf-masthead').shadowRoot.querySelectorAll('div > pf-text')";
+	
+	public String IDAActionToolTipDataValue="return document.querySelectorAll('pf-portal > pf-tooltip-bubble > pf-masthead > pf-masthead-item > pf-text')";
+	
+	@FindBy(xpath = "//pf-button[@data-test-selector='editor-header-action--thirdPartyCheckback']")
+	public WebElement createCheckboxbocThirdParty;
+	
+	public String initiateMemopopup="return document.querySelector('pf-dialog:nth-child(8)').shadowRoot.querySelector('pf-fullscreen-container > pf-card')";
+	
+	@FindBy(xpath = "//pf-text[@text-type='h4']")
+	public WebElement initiateMemopopupText;
+	
+	@FindBy(xpath = "//pf-button[@testselector='cancelMemoTypeSelectionDialog']")
+	public WebElement cancelMemoTypeSelectionDialog;
+	
+	@FindBy(xpath = "//pf-button[@testselector='devaButton']")
+	public WebElement devaButton;
+	
+	@FindBy(xpath = "//pf-button[@testselector='swiftButton']")
+	public WebElement swiftButton;
+	
+	
+	
+	
+	// count of jobs table
+	
+	public String CountOfJobTable="return document.querySelector(\"body > app-root > app-navigation > pf-page-container > pf-grid > pf-card > app-group-queue-summary > pf-section > pf-table\").shadowRoot.querySelectorAll(\"vaadin-grid > vaadin-grid-cell-content\")";
+	
+	public String PopUpCountJob="return document.querySelector(\"body > app-root > app-navigation > pf-page-container > pf-grid > pf-card > app-group-queue-summary > pf-status-dialog\").shadowRoot.querySelector(\"pf-dialog > div\")";
+	
+	public String Popupcountheadname="return document.querySelector('pf-page-container > pf-grid > pf-card > app-group-queue-summary > pf-status-dialog').shadowRoot.querySelector('pf-dialog > div > pf-text')";
+	//Business Valiation.
+	
+	public String Popupcount1text="return document.querySelector('pf-card > app-group-queue-summary > pf-status-dialog').shadowRoot.querySelector('pf-dialog > div > pf-grid > pf-text')";
+	//No Records available.
+	
+	public String PopupCloseButton="return document.querySelector('pf-card > app-group-queue-summary > pf-status-dialog').shadowRoot.querySelector('pf-dialog > pf-button')";
+	
+	//Assign Investigation
+
+	public String AssignInvestigation="return document.querySelector('#userProfileFrom > pf-editor-header').shadowRoot.querySelector('pf-text')";
+	
+	public String SelectUser="return document.querySelector('pf-combobox').shadowRoot.querySelector('vaadin-combo-box').shadowRoot.querySelector('#input').shadowRoot.querySelector('#vaadin-text-field-input-3 > slot:nth-child(2) > input')";
+	
+	@FindBy(xpath = "//pf-button[@testselector=\"user-retrieve\"]")
+	public WebElement Retrieve;
+	
+	public String STATE="return document.querySelector('pf-card > app-assign-investigation > pf-form-layout > pf-combobox').shadowRoot.querySelector('div > pf-text')";
+	
+	public String ALL="return document.querySelector('app-assign-investigation > pf-form-layout > pf-combobox').shadowRoot.querySelector('vaadin-combo-box').shadowRoot.querySelector('#input').shadowRoot.querySelector('#vaadin-text-field-input-5')";
+	
+	public String AINFID="return document.querySelector('pf-grid > pf-card > app-assign-investigation > pf-table').shadowRoot.querySelectorAll('vaadin-grid > vaadin-grid-cell-content')[2]";
+			
+	public String AIstate="return document.querySelector('pf-grid > pf-card > app-assign-investigation > pf-table').shadowRoot.querySelectorAll('vaadin-grid > vaadin-grid-cell-content')[3]";
+	
+	public String AIprcessName="return document.querySelector('pf-grid > pf-card > app-assign-investigation > pf-table').shadowRoot.querySelectorAll('vaadin-grid > vaadin-grid-cell-content')[4]";
+	
+	public String AITA="return document.querySelector('pf-grid > pf-card > app-assign-investigation > pf-table').shadowRoot.querySelectorAll('vaadin-grid > vaadin-grid-cell-content')[5]";
+	
+	public String AILastChange="return document.querySelector('pf-grid > pf-card > app-assign-investigation > pf-table').shadowRoot.querySelectorAll('vaadin-grid > vaadin-grid-cell-content')[6]";
+	
+	public String AIQueueName="return document.querySelector('pf-grid > pf-card > app-assign-investigation > pf-table').shadowRoot.querySelectorAll('vaadin-grid > vaadin-grid-cell-content')[7]";
+	
+	public String AIDeliveryChannel="return document.querySelector('pf-grid > pf-card > app-assign-investigation > pf-table').shadowRoot.querySelectorAll('vaadin-grid > vaadin-grid-cell-content')[8]";
+	
+	@FindBy(xpath = "//pf-table[@testselector='userInboxTable']")
+	public WebElement pfTableGroupquee;
+	
+	public String ABPAutomaticSearchPopup="return document.querySelector('body > app-root > app-navigation > app-editor > pf-dialog:nth-child(11)').shadowRoot.querySelector('pf-fullscreen-container > pf-card')";
+	
+	public String AICheckBOX="return document.querySelector('body > app-root > app-navigation > pf-page-container > pf-grid > pf-card > app-assign-investigation > pf-table').shadowRoot.querySelectorAll('vaadin-grid > vaadin-grid-cell-content')[33]";
+	
+	public String AIFirstNFID="return document.querySelector('body > app-root > app-navigation > pf-page-container > pf-grid > pf-card > app-assign-investigation > pf-table').shadowRoot.querySelectorAll('vaadin-grid > vaadin-grid-cell-content')[35]";
+	
+	//Attachment function
+	
+	public String AttachmentTab="return document.querySelector('pf-card > pf-tabs').shadowRoot.querySelector('div.menu-bar > pf-menu-container > pf-menu-item.tabs_normal.hydrated.menu-entry-index-2')";
+	
+	public String AttachmentDetails="return document.querySelector('pf-tabs > pf-tab:nth-child(3) > app-attachment-tab > pf-grid > pf-section:nth-child(1)').shadowRoot.querySelector('div.title-line.normal > pf-text')";
+	
+	public String BLOBFileNameSort="return document.querySelector('pf-card > pf-tabs > pf-tab:nth-child(3) > app-attachment-tab > pf-grid > pf-table:nth-child(2)').shadowRoot.querySelectorAll('vaadin-grid > vaadin-grid-cell-content')[0]";
+	
+	public String AttachmentTypeSort="return document.querySelector('pf-card > pf-tabs > pf-tab:nth-child(3) > app-attachment-tab > pf-grid > pf-table:nth-child(2)').shadowRoot.querySelectorAll('vaadin-grid > vaadin-grid-cell-content')[1]";
+	
+	public String AttachmentSort="return document.querySelector('pf-card > pf-tabs > pf-tab:nth-child(3) > app-attachment-tab > pf-grid > pf-table:nth-child(2)').shadowRoot.querySelectorAll('vaadin-grid > vaadin-grid-cell-content')[2]";
+	
+	public String SIdetailsheader="return document.querySelectorAll('pf-tabs > pf-tab:nth-child(3) > app-attachment-tab > pf-grid > pf-section')[1].shadowRoot.querySelector('div.title-line.normal > pf-text')";
+	
+	public String SIBLOBFileSort="return document.querySelector('pf-tabs > pf-tab:nth-child(3) > app-attachment-tab > pf-grid > pf-table:nth-child(4)').shadowRoot.querySelectorAll('vaadin-grid > vaadin-grid-cell-content')[1]";
+	
+	public String SIIDSort="return document.querySelector('pf-tabs > pf-tab:nth-child(3) > app-attachment-tab > pf-grid > pf-table:nth-child(4)').shadowRoot.querySelectorAll('vaadin-grid > vaadin-grid-cell-content')[2]";
+	
+	public String SITypeSort="return document.querySelector('pf-tabs > pf-tab:nth-child(3) > app-attachment-tab > pf-grid > pf-table:nth-child(4)').shadowRoot.querySelectorAll('vaadin-grid > vaadin-grid-cell-content')[3]";
+	
+	public String SICreationSort="return document.querySelector('pf-tabs > pf-tab:nth-child(3) > app-attachment-tab > pf-grid > pf-table:nth-child(4)').shadowRoot.querySelectorAll('vaadin-grid > vaadin-grid-cell-content')[4]";
+	
+	public String SICommentSort="return document.querySelector('pf-tabs > pf-tab:nth-child(3) > app-attachment-tab > pf-grid > pf-table:nth-child(4)').shadowRoot.querySelectorAll('vaadin-grid > vaadin-grid-cell-content')[5]";
+	
+	public String AttachmentToNFButton="return document.querySelector('pf-grid > pf-section:nth-child(3) > pf-button-row > pf-button')";
+	
+	public String DropAreaheader="return document.querySelectorAll('pf-tabs > pf-tab:nth-child(3) > app-attachment-tab > pf-grid > pf-section')[2].shadowRoot.querySelector('div.title-line.normal > pf-text')";
+	
+	public String SelectButtonInDrop="return document.querySelector('pf-grid > pf-section:nth-child(5) > app-file-upload > pf-file-upload').shadowRoot.querySelector('vaadin-upload').shadowRoot.querySelector('#addButton').shadowRoot.querySelector('#button')";
+	
+	public String DropImage="return document.querySelector('pf-grid > pf-section:nth-child(5) > app-file-upload > pf-file-upload').shadowRoot.querySelector('vaadin-upload').shadowRoot.querySelector('#dropLabelContainer')";
+	
+	//search memos
+	
+	public String NoResultPopup="return document.querySelector('app-search-memos > pf-status-dialog').shadowRoot.querySelector('pf-dialog > div')";
+	
+	public String NoResultPopupText="return document.querySelector('app-search-memos > pf-status-dialog').shadowRoot.querySelector('pf-dialog > div > pf-grid > pf-text')";
+	
+	public String NoResultPopupClose="return document.querySelector('app-search-memos > pf-status-dialog').shadowRoot.querySelector('pf-button').shadowRoot.querySelector('vaadin-button').shadowRoot.querySelector('#button')";
+	
+	//Search memos validation
+	
+	public String SearchMemosHeader="return document.querySelector('pf-card > app-search-memos > pf-search-panel').shadowRoot.querySelector('div.search-title-line > pf-text')";
+		
+	@FindBy(xpath = "//pf-combobox[@testselector='searchMemo.memo_type_code_id']")
+	public WebElement MemoType;
+		
+	@FindBy(xpath = "//pf-text-field[@testselector='searchMemo.nf_memo_id_range_from']")
+	public WebElement NFMemosIdfrom;
+	
+	@FindBy(xpath = "//pf-text-field[@testselector='searchMemo.nf_memo_id_range_to']")
+	public WebElement NFMemosIdto;
+	
+	@FindBy(xpath = "//pf-date-picker[@role='datepicker'][1]")
+	public WebElement MemoCreatedFromDate;
+	
+	@FindBy(xpath = "//pf-date-picker[@role='datepicker'][2]")
+	public WebElement MemoCreatedToDate;
+	
+	@FindBy(xpath = "//pf-combobox[@testselector='searchMemo.status_type_code_id']")
+	public WebElement StatusOfMemos;
+	
+	public String MemoSearchButton="return document.querySelector('pf-grid > pf-card > app-search-memos > pf-search-panel > pf-button.hydrated.last-button.button-index-1').shadowRoot.querySelector('vaadin-button').shadowRoot.querySelector('#button')";
+	
+	public String memoOverViewFirstBox="return document.querySelector('body > app-root > app-navigation > pf-page-container > pf-grid > pf-card > app-search-memos > pf-search-panel > pf-section.col-7.inside-grid.hydrated > app-tree-custom > pf-menu-container > pf-menu-item.hydrated.in-tree.first-menu-entry.menu-entry-index-0.menu_small').shadowRoot.querySelector('div.outer.leaf > a')";
+	
+	public String memoDetail="return document.querySelectorAll('body > app-root > app-navigation > pf-page-container > pf-grid > pf-card > app-search-memos > pf-search-panel > pf-section.col-5.inside-grid.hydrated > pf-form-layout > pf-text-field')";
+	public String memoDetailTab="return document.querySelectorAll('body > app-root > app-navigation > pf-page-container > pf-grid > pf-card > app-search-memos > pf-search-panel > pf-section.col-5.inside-grid.hydrated > pf-form-layout > pf-text-field')[";
+	public String memoDetailTab2="].shadowRoot.querySelector('div')";
+	
+	public String memoOverViewheader="return document.querySelector('pf-card > app-search-memos > pf-search-panel > pf-section.col-7.inside-grid.hydrated').shadowRoot.querySelector('div.title-line.normal > pf-text')";
+	
+	public String memoDetailheader="return document.querySelector('pf-card > app-search-memos > pf-search-panel > pf-section.col-5.inside-grid.hydrated').shadowRoot.querySelector('div.title-line.normal > pf-text')";
+	
+	//Partner Address
+	
+	public String PartnerAdrssheader="return document.querySelector('body > app-root > app-navigation > app-editor > pf-editor-page > pf-card > pf-tabs > pf-tab:nth-child(7) > app-partner-address-tab > pf-grid > pf-section').shadowRoot.querySelector('div.title-line.normal > pf-text')";
+	
+	@FindBy(xpath = "//pf-button[@testselector='createPADetails']")
+	public WebElement CreatPADetail;
+	
+	@FindBy(xpath = "//pf-button[@testselector='isyPartnerSearch']")
+	public WebElement ISYPartnerSearch;
+	
+	@FindBy(xpath = "//pf-button[@testselector='pedaPartnerSearch']")
+	public WebElement PEDAPartnerSearch;
+	
+	//Partner Address fields
+	
+	public String PaPartnerTypesort="return document.querySelector('pf-card > pf-tabs > pf-tab:nth-child(7) > app-partner-address-tab > pf-table').shadowRoot.querySelectorAll('vaadin-grid > vaadin-grid-cell-content')[0]";
+	
+	public String PaSourceTypeSort="return document.querySelector('pf-card > pf-tabs > pf-tab:nth-child(7) > app-partner-address-tab > pf-table').shadowRoot.querySelectorAll('vaadin-grid > vaadin-grid-cell-content')[1]";
+	
+	public String PaAddress1sort="return document.querySelector('pf-card > pf-tabs > pf-tab:nth-child(7) > app-partner-address-tab > pf-table').shadowRoot.querySelectorAll('vaadin-grid > vaadin-grid-cell-content')[2]";
+	
+	public String PaAddress2Sort="return document.querySelector('pf-card > pf-tabs > pf-tab:nth-child(7) > app-partner-address-tab > pf-table').shadowRoot.querySelectorAll('vaadin-grid > vaadin-grid-cell-content')[3]";
+	
+	public String PaAddress3Sort="return document.querySelector('pf-card > pf-tabs > pf-tab:nth-child(7) > app-partner-address-tab > pf-table').shadowRoot.querySelectorAll('vaadin-grid > vaadin-grid-cell-content')[4]";
+	
+	public String PaAddress4Sort="return document.querySelector('pf-card > pf-tabs > pf-tab:nth-child(7) > app-partner-address-tab > pf-table').shadowRoot.querySelectorAll('vaadin-grid > vaadin-grid-cell-content')[5]";
+	
+	public String PaAddress5Sort="return document.querySelector('pf-card > pf-tabs > pf-tab:nth-child(7) > app-partner-address-tab > pf-table').shadowRoot.querySelectorAll('vaadin-grid > vaadin-grid-cell-content')[6]";
+	
+	//Create online partner Popup
+	
+	public String PopupPartnerheader="return document.querySelector('pf-tabs > pf-tab:nth-child(7) > app-partner-address-tab > pf-dialog:nth-child(3)').shadowRoot.querySelector('pf-card').shadowRoot.querySelector('pf-text')";
+	
+	public String PopupPartnerType="return document.querySelector(\"#createPAForm > pf-form-layout > pf-combobox.col-md-6.ng-untouched.ng-pristine.ng-invalid.hydrated\").shadowRoot.querySelector(\"div\")";
+	
+	public String PartnerTypeInput="return document.querySelector(\"#createPAForm > pf-form-layout > pf-combobox.col-md-6.ng-untouched.ng-pristine.ng-invalid.hydrated\").shadowRoot.querySelector(\"vaadin-combo-box\").shadowRoot.querySelector(\"#input\").shadowRoot.querySelector(\"div[part='input-field']\")";
+	
+	public String PartnerTypeSearch="return document.querySelector('#createPAForm > pf-form-layout > pf-combobox.col-md-6.hydrated.ng-touched.ng-dirty.ng-valid').shadowRoot.querySelector('vaadin-combo-box').shadowRoot.querySelector('#overlay').shadowRoot.querySelector('#dropdown').shadowRoot.querySelector('#overlay').shadowRoot.querySelector('#content').shadowRoot.querySelectorAll('#selector > vaadin-combo-box-item')";
+	
+	public String PopupSourceType="return document.querySelector('pf-combobox:nth-child(2)').shadowRoot.querySelector('div > pf-text')";
+	
+	public String PopupAddress1="return document.querySelector('pf-form-layout > pf-text-area').shadowRoot.querySelector('div > pf-text')";
+	
+	public String Address1Input="return document.querySelector('#createPAForm > pf-form-layout > pf-text-area').shadowRoot.querySelector('vaadin-text-area').shadowRoot.querySelector('div')";
+	
+	public String OnlineCreateCheck="return document.querySelector(\"pf-tabs > pf-tab:nth-child(7) > app-partner-address-tab > pf-table\").shadowRoot.querySelectorAll(\"vaadin-grid > vaadin-grid-cell-content\")[22]";
+	
+	@FindBy(xpath = "//pf-button[@test-selector='pa.save']")
+	public WebElement PopUpSAVEButton;
+	
+	@FindBy(xpath = "//pf-button[@test-selector='pa.reset']")
+	public WebElement PopUpRESETButton;
+	
+	public String PopUpCANCELButton="return document.querySelector('pf-tabs > pf-tab:nth-child(7) > app-partner-address-tab > pf-dialog:nth-child(3) > pf-button.pull-right.hydrated.button-index-1').shadowRoot.querySelector('vaadin-button').shadowRoot.querySelector('#button')";
+	
+	public String OnlineText="return document.querySelector(\"#createPAForm > pf-form-layout > pf-combobox.col-md-6.ng-untouched.ng-pristine.hydrated\").shadowRoot.querySelector(\"div.value\")";
+	
+	//ISY partner Search Popup
+	
+	@FindBy(xpath = "//pf-button[@test-selector='isy.reset']")
+	public WebElement PopUpISYRESETButton;
+	
+	@FindBy(xpath = "//pf-button[@test-selector='isy.search']")
+	public WebElement PopUpISYSearchButton;
+	
+	public String PopUpISYheader="return document.querySelector('pf-card > pf-tabs > pf-tab:nth-child(7) > app-partner-address-tab > pf-dialog:nth-child(4) > pf-grid > pf-section').shadowRoot.querySelector('div.title-line.normal > pf-text')";
+	
+	public String ISYPartnerType="return document.querySelector('pf-combobox.col-6.hydrated.ng-dirty.ng-valid.ng-touched').shadowRoot.querySelector('div > pf-text')";
+	
+	public String ISYPartnerKey="return document.querySelector('#isySearchCriteriaPanel > pf-form-layout > pf-text-field').shadowRoot.querySelector('div')";
+	
+	public String ISYPartnerKeyInput="return document.querySelector('#isySearchCriteriaPanel > pf-form-layout > pf-text-field').shadowRoot.querySelector('vaadin-text-field').shadowRoot.querySelector('#vaadin-text-field-input-64')";
+	
+	public String ISYPartnerInputSearch="return document.querySelector('#isySearchCriteriaPanel > pf-form-layout > pf-combobox:nth-child(1)').shadowRoot.querySelector('vaadin-combo-box').shadowRoot.querySelector('#overlay').shadowRoot.querySelector('#dropdown').shadowRoot.querySelector('#overlay').shadowRoot.querySelector('#content').shadowRoot.querySelectorAll('#selector > vaadin-combo-box-item')";
+	
+	public String ISYISOCountry="return document.querySelector('#isySearchCriteriaPanel > pf-form-layout > pf-combobox.col-6.ng-pristine.ng-invalid.hydrated.ng-touched').shadowRoot.querySelector('div > pf-text')";
+	
+	public String ISYISOCountryInput="return document.querySelector('pf-combobox.col-6.hydrated.ng-touched.ng-dirty.ng-valid').shadowRoot.querySelector('vaadin-combo-box').shadowRoot.querySelector('#input').shadowRoot.querySelector('#vaadin-text-field-input-65 > slot:nth-child(2) > input')";
+	
+	public String ISYISOCountrySearch="return document.querySelector('#isySearchCriteriaPanel > pf-form-layout > pf-combobox:nth-child(3)').shadowRoot.querySelector('vaadin-combo-box').shadowRoot.querySelector('#overlay').shadowRoot.querySelector('#dropdown').shadowRoot.querySelector('#overlay').shadowRoot.querySelector('#content').shadowRoot.querySelectorAll('#selector > vaadin-combo-box-item')";
+	
+	public String Isypartnertype="return document.querySelector('#isySearchResult > pf-grid > pf-form-layout > pf-combobox').shadowRoot.querySelector('div > pf-text')";
+	
+	public String Isypartnertypeinput="return document.querySelector('#isySearchResult > pf-grid > pf-form-layout > pf-combobox').shadowRoot.querySelector('vaadin-combo-box').shadowRoot.querySelector('#input').shadowRoot.querySelector('#vaadin-text-field-input-135 > slot:nth-child(2) > input')";
+	
+	public String Isysavebutton="return document.querySelector('pf-tabs > pf-tab:nth-child(7) > app-partner-address-tab > pf-dialog:nth-child(4) > pf-button:nth-child(5)').shadowRoot.querySelector('vaadin-button').shadowRoot.querySelector('#button')";
+	
+	public String ISYCreatecheckValidation="return document.querySelector(\"pf-tabs > pf-tab:nth-child(7) > app-partner-address-tab > pf-table\").shadowRoot.querySelectorAll(\"vaadin-grid > vaadin-grid-cell-content\")[29]";
+	
+	//PEDA Partner Search Popup
+	
+	public String PEDAResetButton="return document.querySelector('pf-card > pf-tabs > pf-tab:nth-child(7) > app-partner-address-tab > pf-dialog:nth-child(5) > pf-button.hydrated.first-button.button-index-0')";
+	
+	public String PEDASearchButton="return document.querySelector('pf-tabs > pf-tab:nth-child(7) > app-partner-address-tab > pf-dialog:nth-child(5) > pf-button.hydrated.last-button.button-index-1')";
+	
+	public String PEDAPopPupheader="return document.querySelector('pf-tabs > pf-tab:nth-child(7) > app-partner-address-tab > pf-dialog:nth-child(5) > pf-grid > pf-section').shadowRoot.querySelector('div.title-line.normal > pf-text')";
+	
+	public String PEDALocalCode="return document.querySelector('#createPedaForm > pf-form-layout > pf-text-field').shadowRoot.querySelector('div > pf-text')";
+	
+	public String PEDAPartnerType="return document.querySelector('#paPedaForm > pf-grid > pf-form-layout > pf-combobox').shadowRoot.querySelector('div > pf-text')";
+	
+	public String PEDApartnerTypeInput="return document.querySelector('#paPedaForm > pf-grid > pf-form-layout > pf-combobox').shadowRoot.querySelector('vaadin-combo-box').shadowRoot.querySelector('#input').shadowRoot.querySelector('#vaadin-text-field-input-126 > slot:nth-child(2) > input')";
+	
+	public String PEDASaveButton="return document.querySelector('pf-card > pf-tabs > pf-tab:nth-child(7) > app-partner-address-tab > pf-dialog:nth-child(5) > pf-button:nth-child(4)')";
+	
+	public String PEDALocalCodeInput="return document.querySelector('#createPedaForm > pf-form-layout > pf-text-field').shadowRoot.querySelector('vaadin-text-field').shadowRoot.querySelector('#vaadin-text-field-input-66 > slot:nth-child(2) > input')";
+	
+	public String PDEACreateCheck="return document.querySelector(\"pf-tabs > pf-tab:nth-child(7) > app-partner-address-tab > pf-table\").shadowRoot.querySelectorAll(\"vaadin-grid > vaadin-grid-cell-content\")[41]";
+	
+	//sorting source type 
+	
+	public String SourceTypeStatus="return document.querySelector('pf-editor-page > pf-card > pf-tabs > pf-tab:nth-child(7) > app-partner-address-tab > pf-table').shadowRoot.querySelector('vaadin-grid').shadowRoot.querySelector('#vaadin-grid-cell-25')";
+	//sorting Partner Type
+	
+	public String PartnerTypeStatus="return document.querySelector('pf-card > pf-tabs > pf-tab:nth-child(7) > app-partner-address-tab > pf-table').shadowRoot.querySelector('vaadin-grid > vaadin-grid-cell-content:nth-child(29)')";
+	
+	public String PAEditButton="return document.querySelector('pf-card > pf-tabs > pf-tab:nth-child(7) > app-partner-address-tab > pf-table').shadowRoot.querySelector('pf-toolbar > pf-menu-item.hydrated.first-menu-entry.menu-entry-index-0.toolbar_small')";
+	
+	public String PAEditPARTNERTYPE="return document.querySelector('#onlineTypeForm > pf-grid > pf-form-layout > pf-combobox').shadowRoot.querySelector('div > pf-text')";
+	
+	public String PAEditPARTNERTYPEINPUT="return document.querySelector('#onlineTypeForm > pf-grid > pf-form-layout > pf-combobox').shadowRoot.querySelector('vaadin-combo-box').shadowRoot.querySelector('#input').shadowRoot.querySelector('#vaadin-text-field-input-157 > slot:nth-child(2) > input')";
+	
+	public String PAEditPARTNERINPUTSEARCH="return document.querySelector('#isySearchResult > pf-grid > pf-form-layout > pf-combobox').shadowRoot.querySelector('vaadin-combo-box').shadowRoot.querySelector('#overlay').shadowRoot.querySelector('#dropdown').shadowRoot.querySelector('#overlay').shadowRoot.querySelector('#content').shadowRoot.querySelectorAll('#selector > vaadin-combo-box-item')";
+	
+	@FindBy(xpath = "//pf-button[@test-selector='pa-save-button-pa']")
+	public WebElement PAEditPARTNERSAVEButton;
+	
+	public String TickButton="return document.querySelector('pf-tabs > pf-tab:nth-child(7) > app-partner-address-tab > pf-table').shadowRoot.querySelector('vaadin-grid-cell-content:nth-child(44) > pf-toolbar > pf-menu-item.hydrated.last-menu-entry.menu-entry-index-2.toolbar_small').shadowRoot.querySelector('div.outer.leaf > a > slot > pf-icon').shadowRoot.querySelector('#Layer_1')";
+	
+	public String DELETEButton="return document.querySelector('pf-card > pf-tabs > pf-tab:nth-child(7) > app-partner-address-tab > pf-table').shadowRoot.querySelector('vaadin-grid > vaadin-grid-cell-content:nth-child(44) > pf-toolbar > pf-menu-item.hydrated.menu-entry-index-1.toolbar_small')";
+	
+	public String DELETEPopup="return document.querySelector('pf-card > pf-tabs > pf-tab:nth-child(7) > app-partner-address-tab > pf-dialog:nth-child(9) > pf-text')";
+	
+	public String DELETEPopupClose="return document.querySelector('pf-tabs > pf-tab:nth-child(7) > app-partner-address-tab > pf-dialog:nth-child(9) > pf-button.hydrated.last-button.button-index-1').shadowRoot.querySelector('vaadin-button').shadowRoot.querySelector('#button')";
+	
+	//ISY view function
+	public String ISYVIEWButton="return document.querySelector('pf-tabs > pf-tab:nth-child(7) > app-partner-address-tab > pf-table').shadowRoot.querySelector('vaadin-grid-cell-content:nth-child(44) > pf-toolbar > pf-menu-item.hydrated.first-menu-entry.menu-entry-index-0.toolbar_small')";
+	
+	public String isyPartnerType="return document.querySelectorAll('#isyTabForm > pf-grid > pf-form-layout > pf-text-field')[0].shadowRoot.querySelector('div.left-label-container > pf-text')";
+	
+	public String isyViewCloseButton="return document.querySelector('pf-tabs > pf-tab:nth-child(7) > app-partner-address-tab > pf-dialog:nth-child(6) > pf-button').shadowRoot.querySelector('vaadin-button').shadowRoot.querySelector('#button')";
+	
+	//productTab in fieled
+	
+	public String AccForFeesINProduct="return document.querySelector('pf-account-field.inside-grid.hydrated.col-md-6.ng-dirty.ng-touched.ng-invalid').shadowRoot.querySelector('pf-text-field').shadowRoot.querySelector('div > pf-text')";
+	
+	public String AccForFeesInput="return document.querySelector('pf-account-field.inside-grid.hydrated.col-md-6.ng-dirty.ng-touched.ng-invalid').shadowRoot.querySelector('pf-text-field').shadowRoot.querySelector('vaadin-text-field').shadowRoot.querySelector('#vaadin-text-field-input-99 > slot:nth-child(2) > input')";
+	
+	public String postalAccMoney="return  document.querySelector('pf-account-field.ng-pristine.ng-invalid.inside-grid.hydrated.col-md-6.ng-touched').shadowRoot.querySelector('pf-text-field').shadowRoot.querySelector('div > pf-text')";
+	
+	public String postalAccMoneyInput="return document.querySelector('pf-account-field.ng-pristine.ng-invalid.inside-grid.hydrated.col-md-6.ng-touched').shadowRoot.querySelector('pf-text-field').shadowRoot.querySelector('vaadin-text-field').shadowRoot.querySelector('#vaadin-text-field-input-100 > slot:nth-child(2) > input')";
+	
+	public String SomeoneClick="return document.querySelector('pf-text-field.ng-pristine.ng-valid.hydrated.inside-grid.col-md-6.ng-touched.hide-prefix').shadowRoot.querySelector('vaadin-text-field').shadowRoot.querySelector('#vaadin-text-field-input-73 > slot:nth-child(2) > input')";
+	
+	//IDA ATTACH
+	
+	@FindBy(xpath = "//pf-group-title[@text-type=\"h2\"]")
+	public WebElement Createcheckbackthirdpartyheader;
+	
+	public String transactionNumber="return document.querySelector('pf-table').shadowRoot.querySelectorAll('vaadin-grid > vaadin-grid-cell-content')[22]";
+	
+	public String transactionCheckBox="return document.querySelector('pf-grid > div > app-step-holder:nth-child(3) > pf-section > app-trstep-swift > pf-table').shadowRoot.querySelector('vaadin-grid > vaadin-grid-cell-content:nth-child(29) > vaadin-checkbox')";
+	
+	@FindBy(xpath = "(//pf-button[@test-selector='bicfield-btn-action-cancel'])[2]")
+	public WebElement CancelInformationButton;
+	
+	public String OutBICtext="return document.querySelector('#bicFieldForm > pf-form-layout > pf-text-field').shadowRoot.querySelector('div > pf-text')";
+	
+	public String OutBICInputBox="return document.querySelector('#bicFieldForm > pf-form-layout > pf-text-field').shadowRoot.querySelector('vaadin-text-field').shadowRoot.querySelector('#vaadin-text-field-input-74 > slot:nth-child(2) > input')";
+	
+	public String errorMesscheckoutBIC="return document.querySelector(\"#bicFieldForm > pf-form-layout > pf-text-field\").shadowRoot.querySelector(\"vaadin-text-field\").shadowRoot.querySelector(\"div[part=error-message]\")";
+	
+	public String ChannelInformationStatus="return document.querySelector('pf-grid > div > app-step-holder:nth-child(5) > pf-section > app-bicstep > pf-grid > div > pf-button-row > pf-status-chip')";
+	
+	public String IDAOverridecheckBox="return document.querySelector('#bicFieldForm > pf-form-layout > pf-checkbox').shadowRoot.querySelector('vaadin-checkbox')";
+	
+	@FindBy(xpath = "//pf-button[@testselector='letter-cancel-button']")
+	public WebElement CancelLetterButton;
+	
+	@FindBy(xpath = "//pf-button[@testselector='letter-preview-button']")
+	public WebElement PreviewLetterButton;
+	
+	public String TransactionResultheader="return document.querySelector('pf-tabs > pf-tab:nth-child(10) > app-letter-creation-tab > pf-grid > div > app-step-holder:nth-child(3) > pf-section').shadowRoot.querySelector('div.title-line.normal > pf-text')";
+	
+	public String BankIdentificationheader="return document.querySelector('pf-grid > div > app-step-holder:nth-child(5) > pf-section').shadowRoot.querySelector('div.title-line.normal > pf-text')";
+	
+	public String OutputDeleveryChennal="return document.querySelectorAll('#channelTemplateDeva > pf-form-layout > pf-combobox')[0].shadowRoot.querySelector('div > pf-text')";
+	
+	public String OutputTemplateId="return document.querySelectorAll('#channelTemplateDeva > pf-form-layout > pf-combobox')[1].shadowRoot.querySelector('div > pf-text')";
+	
+	public String OutputSubTemplateId="return document.querySelectorAll('#channelTemplateDeva > pf-form-layout > pf-combobox')[2].shadowRoot.querySelector('div > pf-text')";
+	
+	public String OutputContactPersion="return document.querySelector('#channelTemplateDeva > pf-form-layout > pf-text-field').shadowRoot.querySelector('div.left-label-container > pf-text')";
+	
+	public String NfIDMessCreate="return document.querySelector('pf-card > app-search-investigation > pf-search-panel > pf-table').shadowRoot.querySelector('vaadin-grid > vaadin-grid-cell-content:nth-child(46)')";
+	
+	public String NfCheckBoxmess="return document.querySelector('pf-card > app-search-investigation > pf-search-panel > pf-table').shadowRoot.querySelector('vaadin-grid > vaadin-grid-cell-content:nth-child(45) > vaadin-checkbox')";
+	
+	@FindBy(xpath = "//pf-button[@testselector='moveNfToInboxId']")
+	public WebElement MovetouserInboxButton;
+	
+//	@FindBy(xpath = "//pf-button[@testselector='unleashNfId']")
+//	public WebElement movetounlock;
+	
+	public String MovetouserInbox="return document.querySelector('pf-card > app-search-investigation > pf-search-panel > pf-button-row:nth-child(33) > pf-button.hydrated.button-index-1')";
+	
+	public String movetounlock="return document.querySelector('pf-card > app-search-investigation > pf-search-panel > pf-button-row:nth-child(33) > pf-button.hydrated.button-index-2')";		
+}	
+
+
+

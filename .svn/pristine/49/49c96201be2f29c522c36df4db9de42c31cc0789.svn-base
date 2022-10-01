@@ -1,0 +1,136 @@
+package ch.post.pf.nf.ta.execution;
+
+import static org.testng.Assert.assertTrue;
+
+import java.util.Map;
+
+import org.testng.SkipException;
+import org.testng.annotations.Test;
+
+import com.aventstack.extentreports.Status;
+
+import ch.post.pf.nf.ta.baseutils.CommonUtils;
+import ch.post.pf.nf.ta.baseutils.ReadData;
+import ch.post.pf.nf.ta.baseutils.Setup;
+import ch.post.pf.nf.ta.scenarios.CreateNFScenarios;
+import ch.post.pf.nf.ta.scenarios.UserInboxScenarios;
+
+public class UserInboxTestCase extends Setup {
+
+	protected UserInboxScenarios scenario = new UserInboxScenarios();
+	protected CreateNFScenarios cfScenario = new CreateNFScenarios();
+	protected CommonUtils common = new CommonUtils();
+
+	/* This Testcase help on App User Inbox All Fields validation */
+
+	@Test(priority = 0, dataProvider = "getUserInboxGroupfield", dataProviderClass = ReadData.class)
+	public void userInbox(Map<String, String> testdata) throws Exception {
+		try {
+			if (testdata.get(CAN_EXECUTE).equalsIgnoreCase(YES)) {
+				CommonUtils.waitTime(2000);
+				log.info("***************** START TEST *****************");
+				common.NAPFBrowserLaunch();
+				common.loadURL();
+				logger = parent.createNode(methodName + "Field and Group button");
+				CommonUtils.waitTime(2000);
+				cfScenario.profileMenuSelect(testdata.get(LANGUAGE));
+				scenario.userInboxFieldValidation(testdata.get(MENU_1));
+			} else {
+				logger = parent.createNode(methodName + testdata.get(MENU_1));
+				throw new SkipException(methodName);
+			}
+		} catch (NullPointerException e) {
+			// TODO: handle exception
+			logger = parent.createNode(methodName + "CanExecute check");
+			logger.log(Status.FAIL, "canexecute Field is manditory should be updated as yes /no");
+			assertTrue(false);
+		}
+	}
+
+	/*
+	 * This Testcase help on App User Inbox All Fields validation and move to
+	 * perticular Group element in User Inbox
+	 */
+
+	@Test(priority = 1, dataProvider = "getUserInboxGroupfield", dataProviderClass = ReadData.class)
+	public void userInboxcreateNFsearchandCheckGroup(Map<String, String> testdata) throws Exception {
+		try {
+			if (testdata.get(CAN_EXECUTE).equalsIgnoreCase(YES)) {
+				CommonUtils.waitTime(2000);
+				log.info("***************** START TEST *****************");
+				common.NAPFBrowserLaunch();
+				logger = parent.createNode(methodName + " for PA and TA :" + testdata.get(PROCESS_NAME)
+						+ testdata.get(TA) + "DC:" + testdata.get(MODE));
+				CommonUtils.waitTime(2000);
+				cfScenario.profileMenuSelect(testdata.get(LANGUAGE));
+				cfScenario.createNFWithPaTa(testdata);
+				scenario.userInboxNFsearchAndGroupcheck(testdata.get(MENU_1));
+			} else {
+				logger = parent.createNode(methodName + testdata.get(MENU_1));
+				throw new SkipException(methodName);
+			}
+		} catch (NullPointerException e) {
+			// TODO: handle exception
+			logger = parent.createNode(methodName + "CanExecute check");
+			logger.log(Status.FAIL, "canexecute Field is manditory should be updated as yes /no");
+			assertTrue(false);
+		}
+	}
+
+	/*
+	 * This Testcase help on App User Inbox All Fields validation and move to
+	 * particular Group element in User Inbox and Search in GroupQueueSummary Tab
+	 */
+	
+	@Test(priority = 2, dataProvider = "getUserInboxGroupfield", dataProviderClass = ReadData.class)
+	public void userInboxOpenNFsearchandCreateMess(Map<String, String> testdata) throws Exception {
+		try {
+			if (testdata.get(CAN_EXECUTE).equalsIgnoreCase(YES)) {
+				CommonUtils.waitTime(2000);
+				log.info("***************** START TEST *****************");
+				common.NAPFBrowserLaunch();
+				logger = parent.createNode(methodName);
+				CommonUtils.waitTime(2000);
+				cfScenario.profileMenuSelect(testdata.get(LANGUAGE));
+				scenario.userInboxNFsearchAndopenCreateMess(testdata.get(FIFO_NF_ID), testdata.get(MENU_TAB),
+						testdata.get(MENU2));
+			} else {
+				logger = parent.createNode(methodName + testdata.get(MENU_1));
+				throw new SkipException(methodName);
+			}
+		} catch (NullPointerException e) {
+			// TODO: handle exception
+			logger = parent.createNode(methodName + "CanExecute check");
+			logger.log(Status.FAIL, "canexecute Field is manditory should be updated as yes /no");
+			assertTrue(false);
+		}
+	}
+
+	/* This Testcase help on App User Inbox Group Navigate*/
+	
+	@Test(priority = 3, dataProvider = "getUserInboxGroupfield", dataProviderClass = ReadData.class)
+	public void UserInboxGroupNavigate(Map<String, String> testdata) throws Exception {
+		try {
+			if (testdata.get(CAN_EXECUTE).equalsIgnoreCase(YES)) {
+				CommonUtils.waitTime(2000);
+				log.info("***************** START TEST *****************");
+				common.NAPFBrowserLaunch();
+				logger = parent.createNode(methodName + " for PA and TA :" + testdata.get(PROCESS_NAME)
+						+ testdata.get(TA) + "DC:" + testdata.get(MODE));
+				CommonUtils.waitTime(2000);
+				cfScenario.profileMenuSelect(testdata.get(LANGUAGE));
+				cfScenario.createNFWithPaTa(testdata);
+				scenario.userGroupNavigate(testdata);
+			} else {
+				logger = parent.createNode(methodName + testdata.get(MENU_1));
+				throw new SkipException(methodName);
+			}
+		} catch (NullPointerException e) {
+			// TODO: handle exception
+			logger = parent.createNode(methodName + "CanExecute check");
+			logger.log(Status.FAIL, "canexecute Field is manditory should be updated as yes /no");
+			assertTrue(false);
+		}
+	}
+
+}

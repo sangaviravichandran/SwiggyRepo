@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Suite">
+	<listeners>
+		<listener class-name="ch.post.pf.nf.ta.baseutils.IannaotationTrans"></listener>
+	</listeners>
+	<test thread-count="5" name="Test">
+		<classes>
+			<class name="ch.post.pf.nf.ta.execution.UserInboxTestCase">
+				<methods>
+					<exclude name="SearchInvestigation"></exclude>
+				</methods>
+			</class>
+			<class name="ch.post.pf.nf.ta.execution.OnHoldReminderTestCase" />
+			<class name="ch.post.pf.nf.ta.execution.ActivitiesTestCase" />
+			<class
+				name="ch.post.pf.nf.ta.execution.ProductTabValidationTestCase" />
+			<class
+				name="ch.post.pf.nf.ta.execution.SearchInvestigationTestCase" />
+			<class name="ch.post.pf.nf.ta.execution.CreateNFTestCase" />
+			<class name="ch.post.pf.nf.ta.execution.NotesTabTestCase" />
+			<class
+				name="ch.post.pf.nf.ta.execution.HomePageMenuListValidation" />
+		</classes>
+
+	</test> <!-- Test -->
+</suite> <!-- Suite -->

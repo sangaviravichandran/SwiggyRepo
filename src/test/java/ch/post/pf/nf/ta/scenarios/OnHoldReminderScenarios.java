@@ -1,0 +1,65 @@
+package ch.post.pf.nf.ta.scenarios;
+
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
+import org.slf4j.Logger;
+import com.aventstack.extentreports.Status;
+import ch.post.pf.nf.ta.baseutils.CommonUtils;
+import ch.post.pf.nf.ta.baseutils.Log4jUtil;
+import ch.post.pf.nf.ta.baseutils.Setup;
+import ch.post.pf.nf.ta.dao.DAOTest;
+
+public class OnHoldReminderScenarios extends Setup {
+
+	Logger log = Log4jUtil.loadLogger(OnHoldReminderScenarios.class);
+	CommonUtils commonUtils = new CommonUtils();
+
+	/*
+	 * This Scenario help on Valdiating the On hold reminder list validation in
+	 * editor menu
+	 */
+	public void OnHoldreminder(String[] testdata) throws Exception {
+		DAOTest daoTest = new DAOTest();
+		logger.log(Status.INFO, "Validating On Hold Reminder tab");
+		daoTest.editorMenuSelect(testdata[2]);
+		commonUtils.waitTime(2000);
+		if (testdata[0].equalsIgnoreCase(AUSLAND) && testdata[1].equalsIgnoreCase(CASH_INTERNATIONAL)
+				|| testdata[0].equalsIgnoreCase(FOREIGN_PAYMENTS) && testdata[1].equalsIgnoreCase(CASH_INTERNATIONAL)
+				|| testdata[0].equalsIgnoreCase(ETRANGER) && testdata[1].equalsIgnoreCase(CASH_INTERNATIONAL)
+				|| testdata[0].equalsIgnoreCase(ESTERO) && testdata[1].equalsIgnoreCase(CASH_INTERNATIONAL)) {
+			List<String> fieldValidation = daoTest.fieldValidation(testdata[3]);
+			Collections.sort(fieldValidation);
+			Set<String> readOnHoldFiledNameFromPATA = daoTest.readFiledNameFromPATA(testdata[4], ON_HOLD_FIELD);
+			assertEquals(fieldValidation, readOnHoldFiledNameFromPATA,
+					"Filed name in repository is not same in web page");
+			log.info("Found 5 fields with same name");
+			logger.log(Status.INFO, "Found 5 fields and are same between repository and web page");
+			commonUtils.waitTime(3000);
+			boolean onHoldcalanderdayscheck = daoTest.onHoldcalanderdayscheck(testdata[0]);
+			if (onHoldcalanderdayscheck) {
+				assertTrue(onHoldcalanderdayscheck);
+			} else {
+				assertTrue(onHoldcalanderdayscheck);
+			}
+		} else {
+			List<String> fieldValidation = daoTest.fieldValidation(testdata[3]);
+			Collections.sort(fieldValidation);
+			log.info(fieldValidation.toString());
+			Set<String> readOnHoldFiledNameFromPATA = daoTest.readFiledNameFromPATA(testdata[4], ON_HOLD_FIELD);
+			assertEquals(fieldValidation, readOnHoldFiledNameFromPATA,
+					"Filed name in repository is not same in web page");
+			log.info("Found 2 fields with same name");
+			logger.log(Status.INFO, "Found 2 fields and are same between repository and web page");
+			boolean onHoldcalanderdayscheck = daoTest.onHoldcalanderdayscheck(testdata[0]);
+			if (onHoldcalanderdayscheck) {
+				assertTrue(onHoldcalanderdayscheck);
+			} else {
+				assertTrue(true);
+			}
+		}
+	}
+
+}

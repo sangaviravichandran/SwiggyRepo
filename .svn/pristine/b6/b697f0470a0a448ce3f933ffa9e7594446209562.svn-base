@@ -1,0 +1,181 @@
+package ch.post.pf.nf.ta.scenarios;
+
+import static org.testng.Assert.assertTrue;
+
+import java.io.IOException;
+import java.util.Map;
+
+import org.apache.commons.collections4.map.HashedMap;
+import org.slf4j.Logger;
+
+import com.aventstack.extentreports.Status;
+
+import ch.post.pf.nf.ta.baseutils.CommonUtils;
+import ch.post.pf.nf.ta.baseutils.Log4jUtil;
+import ch.post.pf.nf.ta.baseutils.ReadData;
+import ch.post.pf.nf.ta.baseutils.Setup;
+import ch.post.pf.nf.ta.dao.DAOTest;
+
+public class PartnerAddressScenario extends Setup {
+
+	Logger log = Log4jUtil.loadLogger(PartnerAddressScenario.class);
+	CommonUtils commonUtils = new CommonUtils();
+	CreateNFScenarios CNFScenarios =new CreateNFScenarios();
+	String readNFNumber=null;
+	
+	/*
+	 * This Scenario help on partner type field validation 
+	 */
+
+	public void partnerTypeFieldValidation(Map<String,String> testdata) throws Exception {
+		DAOTest daoTest = new DAOTest();
+		commonUtils.waitTime(3000);
+		CNFScenarios.createNFWithPaTa(testdata);
+		readNFNumber = daoTest.readNFNumber();
+		daoTest.editorMenuSelect(testdata.get("menutab"));
+		commonUtils.waitTime(2000);
+		daoTest.PartnerCreationbuttonsValidation();
+		commonUtils.waitTime(1000);
+		daoTest.PartnerAddressTableFieldCheck();
+	}
+	
+	/* This Scenario help on Open Nf id and stay same window*/
+	
+	public void openNFInvestigation(String testdata) throws IOException, Exception {
+		logger.log(Status.INFO, "Opening the Nf id of DC ");
+		DAOTest daoTest = new DAOTest();
+		boolean openNf = daoTest.openNf(testdata);
+		assertTrue(openNf, "The NF page could not be found.");
+		constructOpenNfAndLoad(testdata);
+		commonUtils.waitTime(5000);
+	}
+	
+	/* This Scenario help on load nf number in Open NF id Field*/
+	
+	public void constructOpenNfAndLoad(String number) throws Exception {
+		driver.get(ReadData.getTestProperty("opennfurl") + number);
+		logger.log(Status.INFO, "opened the nf id :" + number);
+		commonUtils.waitTime(6000);
+
+	}
+	
+	/*
+	 * This Scenario help on partner type create PA detail validation
+	 */
+	public void CreatingPADetails(Map<String,String> testdata) throws Exception {
+		DAOTest daoTest = new DAOTest();
+		String NFNumber=readNFNumber.replace("NF | ", "");
+		openNFInvestigation(NFNumber);
+		daoTest.editorMenuSelect(testdata.get("menutab"));
+		daoTest.CreatePADetails(testdata.get("PAPartnerType"), testdata.get("PAAddress1"));
+	}
+	/*
+	 * This Scenario help on partner type create ISY detail validation
+	 */
+	public void CreatingISYPartnerSearch(Map<String,String> testdata) throws Exception {
+		DAOTest daoTest = new DAOTest();
+		String NFNumber=readNFNumber.replace("NF | ", "");
+		openNFInvestigation(NFNumber);
+		commonUtils.waitTime(2000);
+		daoTest.editorMenuSelect(testdata.get("menutab"));
+		commonUtils.waitTime(2000);
+		daoTest.CreateISYPartnerSearch(testdata.get("ISYPartnerType"),testdata.get("ISYCountryCode"),testdata.get("ISYPartnerType1"));
+	}
+
+	/*
+	 * This Scenario help on partner type create PEDA detail validation
+	 */
+	public void CreatingPEDAPartnerSearch(Map<String,String> testdata) throws Exception {
+		DAOTest daoTest = new DAOTest();
+		String NFNumber=readNFNumber.replace("NF | ", "");
+		commonUtils.waitTime(1000);
+		openNFInvestigation(NFNumber);
+		commonUtils.waitTime(2000);
+		daoTest.editorMenuSelect(testdata.get("menutab"));
+		commonUtils.waitTime(2000);
+		daoTest.CreatePEDAPartnerSeach(testdata.get("PEDA PartnerType"));
+	}
+	
+	/*
+	 * This Scenario help on partner type create partner address PA edit detail validation
+	 */
+	public void EditPADetailPartnerSearch(Map<String,String> testdata) throws Exception {
+		DAOTest daoTest = new DAOTest();
+		String NFNumber=readNFNumber.replace("NF | ", "");
+		commonUtils.waitTime(2000);
+		openNFInvestigation(NFNumber);
+		daoTest.editorMenuSelect(testdata.get("menutab"));
+		commonUtils.waitTime(2000);
+		daoTest.PartnerAddressPADetailEdit(testdata.get("Edit PartnerType"));
+		commonUtils.waitTime(2000);
+		daoTest.ClickTickButton();
+		commonUtils.waitTime(2000);
+	}
+	
+	/*
+	 * This Scenario help on partner type create partner address ISY view detail validation
+	 */
+	public void ISYViewValidtion(Map<String,String> testdata) throws Exception {
+		DAOTest daoTest = new DAOTest();
+		String NFNumber=readNFNumber.replace("NF | ", "");
+		openNFInvestigation(NFNumber);
+		commonUtils.waitTime(2000);
+		daoTest.editorMenuSelect(testdata.get("menutab"));
+		commonUtils.waitTime(2000);
+		daoTest.ISYViewValidation();
+		
+	}
+	
+	/*
+	 * This Scenario help on partner type create partner address PEDA edit detail validation
+	 */
+	public void editPEDApartnerAddress(Map<String,String> testdata) throws Exception {
+		DAOTest daoTest = new DAOTest();
+		String NFNumber=readNFNumber.replace("NF | ", "");
+		openNFInvestigation(NFNumber);
+		commonUtils.waitTime(2000);
+		daoTest.editorMenuSelect(testdata.get("menutab"));
+		commonUtils.waitTime(2000);
+		daoTest.EditPEDAPartnerAddress(testdata.get("Edit PEDA PartnerType"));
+	}
+	
+	
+	/*
+	 * This Scenario help on partner type create partner address PA delete  validation
+	 */
+	public void deletePartnerAddressPA(Map<String,String> testdata) throws Exception {
+		DAOTest daoTest = new DAOTest();
+		String NFNumber=readNFNumber.replace("NF | ", "");
+		openNFInvestigation(NFNumber);
+		commonUtils.waitTime(2000);
+		daoTest.editorMenuSelect(testdata.get("menutab"));
+		commonUtils.waitTime(2000);
+		daoTest.PartnerAddresdelete();
+	}
+	
+	/*
+	 * This Scenario help on partner type create partner address ISY delete  validation
+	 */
+	public void deleteISYpartnerAddress(Map<String,String> testdata) throws Exception {
+		DAOTest daoTest = new DAOTest();
+		String NFNumber=readNFNumber.replace("NF | ", "");
+		openNFInvestigation(NFNumber);
+		commonUtils.waitTime(2000);
+		daoTest.editorMenuSelect(testdata.get("menutab"));
+		commonUtils.waitTime(2000);
+		daoTest.ISYPartnerAddresdelete();
+}
+	
+	/*
+	 * This Scenario help on partner type create partner address PEDA delete  validation
+	 */
+		public void deletePEDApartnerAddress(Map<String,String> testdata) throws Exception {
+			DAOTest daoTest = new DAOTest();
+			String NFNumber=readNFNumber.replace("NF | ", "");
+			openNFInvestigation(NFNumber);
+			commonUtils.waitTime(2000);
+			daoTest.editorMenuSelect(testdata.get("menutab"));
+			commonUtils.waitTime(2000);
+			daoTest.PEDAPartnerAddresdelete();
+	}
+}

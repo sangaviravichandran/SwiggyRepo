@@ -1,0 +1,262 @@
+package ch.post.pf.nf.ta.execution;
+
+import static org.testng.Assert.assertTrue;
+
+import java.util.Map;
+import org.testng.SkipException;
+import org.testng.annotations.Test;
+import com.aventstack.extentreports.Status;
+import ch.post.pf.nf.ta.baseutils.CommonUtils;
+import ch.post.pf.nf.ta.baseutils.ReadData;
+import ch.post.pf.nf.ta.baseutils.Setup;
+import ch.post.pf.nf.ta.scenarios.CreateNFScenarios;
+import ch.post.pf.nf.ta.scenarios.PartnerAddressScenario;
+
+public class PartnerAddressTestCase extends Setup {
+
+	protected PartnerAddressScenario scenario = new PartnerAddressScenario();
+	protected CreateNFScenarios Scenarios = new CreateNFScenarios();
+	protected CommonUtils common = new CommonUtils();
+
+	/* This Testcase help on partner Type Field Validation */
+
+	@Test(priority = 1, dataProvider = "getpartnerAddress", dataProviderClass = ReadData.class)
+	public void PartnerAddress(Map<String, String> testdata) throws Exception {
+		try {
+			if (testdata.get(CAN_EXECUTE).equalsIgnoreCase(YES)) {
+				CommonUtils.waitTime(2000);
+				log.info("***************** START TEST *****************");
+				common.NAPFBrowserLaunch();
+				logger = parent.createNode(methodName);
+				Scenarios.profileMenuSelect(testdata.get(LANGUAGE));
+				scenario.partnerTypeFieldValidation(testdata);
+				common.waitTime(3000);
+			} else {
+				logger = parent.createNode(methodName + testdata.get(MENU_1));
+				throw new SkipException(methodName);
+			}
+		} catch (NullPointerException e) {
+				logger = parent.createNode(methodName + "CanExecute check");
+			logger.log(Status.FAIL, "canexecute Field is manditory should be updated as yes /no");
+			assertTrue(false);
+		}
+	}
+
+	/* This Testcase help on Create a PA details in partner Address Tab */
+
+	@Test(priority = 2, dataProvider = "getpartnerAddress", dataProviderClass = ReadData.class)
+	public void CreatingPADetails(Map<String, String> testdata) throws Exception {
+		try {
+			if (testdata.get(CAN_EXECUTE).equalsIgnoreCase(YES)) {
+				CommonUtils.waitTime(2000);
+				log.info("***************** START TEST *****************");
+				common.NAPFBrowserLaunch();
+				logger = parent.createNode(methodName);
+				Scenarios.profileMenuSelect(testdata.get(LANGUAGE));
+				scenario.CreatingPADetails(testdata);
+				common.waitTime(3000);
+			} else {
+				logger = parent.createNode(methodName + testdata.get(MENU_1));
+				throw new SkipException(methodName);
+			}
+		} catch (NullPointerException e) {
+			logger = parent.createNode(methodName + "CanExecute check");
+			logger.log(Status.FAIL, "canexecute Field is manditory should be updated as yes /no");
+			assertTrue(false);
+		}
+	}
+
+	/* This Testcase help on Create a ISY Partner in partner Address Tab */
+
+	@Test(priority = 3, dataProvider = "getpartnerAddress", dataProviderClass = ReadData.class)
+	public void CreatingISYPartnerSearch(Map<String, String> testdata) throws Exception {
+		try {
+			if (testdata.get(CAN_EXECUTE).equalsIgnoreCase(YES)) {
+				CommonUtils.waitTime(2000);
+				log.info("***************** START TEST *****************");
+				common.NAPFBrowserLaunch();
+				logger = parent.createNode(methodName);
+				Scenarios.profileMenuSelect(testdata.get(LANGUAGE));
+				scenario.CreatingISYPartnerSearch(testdata);
+				common.waitTime(3000);
+			} else {
+				logger = parent.createNode(methodName + testdata.get(MENU_1));
+				throw new SkipException(methodName);
+			}
+		} catch (NullPointerException e) {
+			logger = parent.createNode(methodName + "CanExecute check");
+			logger.log(Status.FAIL, "canexecute Field is manditory should be updated as yes /no");
+			assertTrue(false);
+		}
+	}
+
+	/* This Testcase help on Create a PEDA Partner in partner Address Tab */
+
+	@Test(priority = 4, dataProvider = "getpartnerAddress", dataProviderClass = ReadData.class)
+	public void CreatingPEDAPartnerSearch(Map<String, String> testdata) throws Exception {
+		try {
+			if (testdata.get(CAN_EXECUTE).equalsIgnoreCase(YES)) {
+				CommonUtils.waitTime(2000);
+				log.info("***************** START TEST *****************");
+				common.NAPFBrowserLaunch();
+				logger = parent.createNode(methodName);
+				Scenarios.profileMenuSelect(testdata.get(LANGUAGE));
+				scenario.CreatingPEDAPartnerSearch(testdata);
+				common.waitTime(3000);
+			} else {
+				logger = parent.createNode(methodName + testdata.get(MENU_1));
+				throw new SkipException(methodName);
+			}
+		} catch (NullPointerException e) {
+			logger = parent.createNode(methodName + "CanExecute check");
+			logger.log(Status.FAIL, "canexecute Field is manditory should be updated as yes /no");
+			assertTrue(false);
+		}
+	}
+
+	/* This Testcase help on Edit a PA details in partner Address Tab */
+
+	@Test(priority = 5, dataProvider = "getpartnerAddress", dataProviderClass = ReadData.class)
+	public void EditPartnerPADeatilsSearch(Map<String, String> testdata) throws Exception {
+		try {
+			if (testdata.get(CAN_EXECUTE).equalsIgnoreCase(YES)) {
+				CommonUtils.waitTime(2000);
+				log.info("***************** START TEST *****************");
+				common.NAPFBrowserLaunch();
+				logger = parent.createNode(methodName);
+				Scenarios.profileMenuSelect(testdata.get(LANGUAGE));
+				scenario.EditPADetailPartnerSearch(testdata);
+				common.waitTime(3000);
+			} else {
+				logger = parent.createNode(methodName + testdata.get(MENU_1));
+				throw new SkipException(methodName);
+			}
+		} catch (NullPointerException e) {
+			logger = parent.createNode(methodName + "CanExecute check");
+			logger.log(Status.FAIL, "canexecute Field is manditory should be updated as yes /no");
+			assertTrue(false);
+		}
+	}
+
+	/* This Testcase help on View ISY Validation in partner Address Tab */
+
+	@Test(priority = 6, dataProvider = "getpartnerAddress", dataProviderClass = ReadData.class)
+	public void ViewISYpartnerAddress(Map<String, String> testdata) throws Exception {
+		try {
+			if (testdata.get(CAN_EXECUTE).equalsIgnoreCase(YES)) {
+				CommonUtils.waitTime(2000);
+				log.info("***************** START TEST *****************");
+				common.NAPFBrowserLaunch();
+				logger = parent.createNode(methodName);
+				Scenarios.profileMenuSelect(testdata.get(LANGUAGE));
+				scenario.ISYViewValidtion(testdata);
+				common.waitTime(3000);
+			} else {
+				logger = parent.createNode(methodName + testdata.get(MENU_1));
+				throw new SkipException(methodName);
+			}
+		} catch (NullPointerException e) {
+			// TODO: handle exception
+			logger = parent.createNode(methodName + "CanExecute check");
+			logger.log(Status.FAIL, "canexecute Field is manditory should be updated as yes /no");
+			assertTrue(false);
+		}
+	}
+
+	/* This Testcase help on Edit a PEDA Search in partner Address Tab */
+
+	@Test(priority = 7, dataProvider = "getpartnerAddress", dataProviderClass = ReadData.class)
+	public void EditPEDApartnerAddress(Map<String, String> testdata) throws Exception {
+		try {
+			if (testdata.get(CAN_EXECUTE).equalsIgnoreCase(YES)) {
+				CommonUtils.waitTime(2000);
+				log.info("***************** START TEST *****************");
+				common.NAPFBrowserLaunch();
+				logger = parent.createNode(methodName);
+				Scenarios.profileMenuSelect(testdata.get(LANGUAGE));
+				scenario.editPEDApartnerAddress(testdata);
+				common.waitTime(3000);
+			} else {
+				logger = parent.createNode(methodName + testdata.get(MENU_1));
+				throw new SkipException(methodName);
+			}
+		} catch (NullPointerException e) {
+			// TODO: handle exception
+			logger = parent.createNode(methodName + "CanExecute check");
+			logger.log(Status.FAIL, "canexecute Field is manditory should be updated as yes /no");
+			assertTrue(false);
+		}
+	}
+
+	/* This Testcase help on Delete a PA details in partner Address Tab */
+
+	@Test(priority = 7, dataProvider = "getpartnerAddress", dataProviderClass = ReadData.class)
+	public void deletePartnerAddressPA(Map<String, String> testdata) throws Exception {
+		try {
+			if (testdata.get(CAN_EXECUTE).equalsIgnoreCase(YES)) {
+				CommonUtils.waitTime(2000);
+				log.info("***************** START TEST *****************");
+				common.NAPFBrowserLaunch();
+				logger = parent.createNode(methodName);
+				Scenarios.profileMenuSelect(testdata.get(LANGUAGE));
+				scenario.deletePartnerAddressPA(testdata);
+				common.waitTime(3000);
+			} else {
+				logger = parent.createNode(methodName + testdata.get(MENU_1));
+				throw new SkipException(methodName);
+			}
+		} catch (NullPointerException e) {
+			logger = parent.createNode(methodName + "CanExecute check");
+			logger.log(Status.FAIL, "canexecute Field is manditory should be updated as yes /no");
+			assertTrue(false);
+		}
+	}
+
+	/* This Testcase help on Delete a ISY Search in partner Address Tab */
+
+	@Test(priority = 8, dataProvider = "getpartnerAddress", dataProviderClass = ReadData.class)
+	public void deleteISYpartnerAddress(Map<String, String> testdata) throws Exception {
+		try {
+			if (testdata.get(CAN_EXECUTE).equalsIgnoreCase(YES)) {
+				CommonUtils.waitTime(2000);
+				log.info("***************** START TEST *****************");
+				common.NAPFBrowserLaunch();
+				logger = parent.createNode(methodName);
+				Scenarios.profileMenuSelect(testdata.get(LANGUAGE));
+				scenario.deleteISYpartnerAddress(testdata);
+				common.waitTime(3000);
+			} else {
+				logger = parent.createNode(methodName + testdata.get(MENU_1));
+				throw new SkipException(methodName);
+			}
+		} catch (NullPointerException e) {
+			logger = parent.createNode(methodName + "CanExecute check");
+			logger.log(Status.FAIL, "canexecute Field is manditory should be updated as yes /no");
+			assertTrue(false);
+		}
+	}
+
+	/* This Testcase help on Delete a PEDA Search in partner Address Tab */
+
+	@Test(priority = 9, dataProvider = "getpartnerAddress", dataProviderClass = ReadData.class)
+	public void deletePEDApartnerAddress(Map<String, String> testdata) throws Exception {
+		try {
+			if (testdata.get(CAN_EXECUTE).equalsIgnoreCase(YES)) {
+				CommonUtils.waitTime(2000);
+				log.info("***************** START TEST *****************");
+				common.NAPFBrowserLaunch();
+				logger = parent.createNode(methodName);
+				Scenarios.profileMenuSelect(testdata.get(LANGUAGE));
+				scenario.deletePEDApartnerAddress(testdata);
+			} else {
+				logger = parent.createNode(methodName + testdata.get(MENU_1));
+				throw new SkipException(methodName);
+			}
+		} catch (NullPointerException e) {
+		    logger = parent.createNode(methodName + "CanExecute check");
+			logger.log(Status.FAIL, "canexecute Field is manditory should be updated as yes /no");
+			assertTrue(false);
+		}
+	}
+
+}

@@ -1,0 +1,22 @@
+package ch.post.pf.nf.ta.baseutils;
+
+import java.util.List;
+
+import org.testng.TestNG;
+import org.testng.collections.Lists;
+
+public class TestAutomationApp {
+
+	public static void main(String[] args) {
+
+		System.setProperty("browserName",args[0]);
+		System.setProperty("TestEnv",args[1]);
+		
+		TestNG testng = new TestNG();
+		List<String> suites = Lists.newArrayList();
+		suites.add("./testng.xml");
+		testng.setTestSuites(suites);
+		testng.run();
+
+	}
+}

@@ -1,0 +1,73 @@
+package ch.post.pf.nf.ta.execution;
+
+import java.util.Map;
+
+import org.testng.SkipException;
+import org.testng.annotations.Test;
+
+import ch.post.pf.nf.ta.baseutils.CommonUtils;
+import ch.post.pf.nf.ta.baseutils.ReadData;
+import ch.post.pf.nf.ta.baseutils.Setup;
+import ch.post.pf.nf.ta.scenarios.ActivitiesScenario;
+import ch.post.pf.nf.ta.scenarios.AttachmentScenario;
+import ch.post.pf.nf.ta.scenarios.CreateNFScenarios;
+import ch.post.pf.nf.ta.scenarios.PartnerAddressScenario;
+
+public class AttachMentTestCase extends Setup {
+
+	protected AttachmentScenario scenario = new AttachmentScenario();
+	protected CreateNFScenarios Scenarios = new CreateNFScenarios();
+	protected CommonUtils common = new CommonUtils();
+
+	@Test(priority = 1, dataProvider = "getAttachment", dataProviderClass = ReadData.class)
+	public void Attachmentvalidation(Map<String, String> testdata) throws Exception {
+		if (testdata.get("CanExecute").equalsIgnoreCase("yes")) {
+			CommonUtils.waitTime(2000);
+			log.info("***************** START TEST *****************");
+			// this.browserLaunch(System.getProperty("browserName"));
+			this.browserLaunch("Chrome");
+			common.loadURL();
+			logger = parent.createNode(methodName);
+			Scenarios.profileMenuSelect(testdata.get("Language"));
+			scenario.AttachmenttabValidation(testdata);
+		} else {
+			logger = parent.createNode(methodName + testdata.get("Menu 1"));
+			throw new SkipException(methodName);
+		}
+	}
+
+	@Test(priority = 2, dataProvider = "getAttachment", dataProviderClass = ReadData.class)
+	public void AttachmentSIDetailvalidation(Map<String, String> testdata) throws Exception {
+		if (testdata.get("CanExecute").equalsIgnoreCase("yes")) {
+			CommonUtils.waitTime(2000);
+			log.info("***************** START TEST *****************");
+			// this.browserLaunch(System.getProperty("browserName"));
+			this.browserLaunch("Chrome");
+			common.loadURL();
+			logger = parent.createNode(methodName);
+			Scenarios.profileMenuSelect(testdata.get("Language"));
+			scenario.AttachmentSIDetailsValidation(testdata);
+		} else {
+			logger = parent.createNode(methodName + testdata.get("Menu 1"));
+			throw new SkipException(methodName);
+		}
+	}
+
+	@Test(priority = 3, dataProvider = "getAttachment", dataProviderClass = ReadData.class)
+	public void AttachmentDropAreavalidation(Map<String, String> testdata) throws Exception {
+		if (testdata.get("CanExecute").equalsIgnoreCase("yes")) {
+			CommonUtils.waitTime(2000);
+			log.info("***************** START TEST *****************");
+			// this.browserLaunch(System.getProperty("browserName"));
+			this.browserLaunch("Chrome");
+			common.loadURL();
+			logger = parent.createNode(methodName);
+			Scenarios.profileMenuSelect(testdata.get("Language"));
+			scenario.AttachmentDropAreaValidation(testdata);
+		} else {
+			logger = parent.createNode(methodName + testdata.get("Menu 1"));
+			throw new SkipException(methodName);
+		}
+	}
+
+}

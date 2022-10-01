@@ -1,0 +1,172 @@
+package ch.post.pf.nf.ta.scenarios;
+
+import static org.testng.Assert.assertEquals;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import org.openqa.selenium.WebElement;
+import org.slf4j.Logger;
+import com.aventstack.extentreports.Status;
+import ch.post.pf.nf.ta.baseutils.CommonUtils;
+import ch.post.pf.nf.ta.baseutils.Log4jUtil;
+import ch.post.pf.nf.ta.baseutils.Setup;
+import ch.post.pf.nf.ta.dao.DAOTest;
+import ch.post.pf.nf.ta.pagefactory.NAPFLocators;
+
+public class ProfileMenuValidationScenario extends Setup {
+
+	Logger log = Log4jUtil.loadLogger(ProfileMenuValidationScenario.class);
+	CommonUtils commonUtils = new CommonUtils();
+	CreateNFScenarios CNFScenarios = new CreateNFScenarios();
+
+	/* This Scenario help on Profile Management all fields validation */
+
+	public void profilemanagementFieldValidation(String testdata) throws InterruptedException, Exception {
+		DAOTest daoTest = new DAOTest();
+		logger.log(Status.INFO, "Validating the Profile Management fields" + testdata);
+		daoTest.ClickProfileManagment();
+		commonUtils.waitTime(2000);
+		List<String> browserField = daoTest.ProfileManagementField();
+		Collections.sort(browserField);
+		List<String> readFiledNameFromSheet = daoTest.readFiledNameFromXLSheet(testdata,
+				"ProfileManagmentFieldValidation");
+		System.out.println(browserField);
+		System.out.println(readFiledNameFromSheet);
+		assertEquals(browserField, readFiledNameFromSheet,
+				"Both the repository and Webpage data field are not same in product tab");
+	}
+
+	/* This Scenario help on Create a new Profile */
+
+	public void createProfileManagement(Map<String, String> testdata) throws Exception {
+		DAOTest daoTest = new DAOTest();
+		commonUtils.waitTime(2000);
+		daoTest.CreateProfileManagemanet(testdata);
+		commonUtils.waitTime(1000);
+		daoTest.SAVEProfileManagement();
+	}
+
+	public void editingProfileManagement(Map<String, String> testdata) throws Exception {
+		DAOTest daoTest = new DAOTest();
+		daoTest.ClickProfileManagment();
+		commonUtils.waitTime(2000);
+		daoTest.ProfileManagemanetEdit(testdata.get(PROFILE_NAME), testdata.get(AFTER_FIRST_NAME),
+				testdata.get(AFTER_LAST_NAME));
+		commonUtils.waitTime(1000);
+	}
+
+	public void deleteProfileManagement(Map<String, String> testdata) throws Exception {
+		DAOTest daoTest = new DAOTest();
+		daoTest.ClickProfileManagment();
+		commonUtils.waitTime(2000);
+		daoTest.ProfileManagementDeleteFunction(testdata.get(PROCESS_NAME));
+		commonUtils.waitTime(1000);
+	}
+
+	public void workGroupvalueValidation(Map<String, String> testdata) throws Exception {
+		DAOTest daoTest = new DAOTest();
+		NAPFLocators ls = new NAPFLocators();
+		daoTest.ClickProfileManagment();
+		commonUtils.jsElementFinder(ls.DropDownButton).click();
+
+	}
+
+	public void profileManagementdatavalueValidation(Map<String, String> testdata) throws Exception {
+		DAOTest daoTest = new DAOTest();
+		NAPFLocators ls = new NAPFLocators();
+		commonUtils.waitTime(1000);
+		commonUtils.jsElementFinder(ls.headerProfileMenu).click();
+		commonUtils.waitTime(2000);
+		commonUtils.jsElementFinder(ls.DropDownButton).click();
+		List<WebElement> UserProfileList1 = commonUtils.expandRootsElement(ls.UserProfileList1);
+		if (UserProfileList1.size() < 5) {
+			commonUtils.waitTime(1000);
+			commonUtils.jsElementFinder(ls.profilemanagement).click();
+			commonUtils.waitTime(2000);
+			daoTest.AddProfileButton();
+			commonUtils.scrollintoViewinpopup(ls.PopupScroll);
+			commonUtils.waitTime(2000);
+			List<String> readFiledNameFromXLSheet = daoTest.readFiledNameFromXLSheet(testdata.get(WORK_GROUP_VALUES),
+					PROFILE_MANAGEMENT);
+			log.info(readFiledNameFromXLSheet.toString());
+			commonUtils.waitTime(3000);
+			Set<String> WorkGroupValuesValidation = daoTest.WorkGroupValuesValidation(readFiledNameFromXLSheet.size());
+			log.info(WorkGroupValuesValidation.toString());
+			assertEquals(readFiledNameFromXLSheet, WorkGroupValuesValidation,
+					"both the repository and webpage Work Group data are not same");
+			commonUtils.waitTime(2000);
+			List<String> readFiledNameFromXLSheet1 = daoTest.readFiledNameFromXLSheet(testdata.get(PROCESS_NAME_VALUE),
+					PROFILE_MANAGEMENT);
+			log.info(readFiledNameFromXLSheet1.toString());
+			commonUtils.waitTime(3000);
+			Set<String> ProcessValuesValidation = daoTest.ProcessValuesValidation(readFiledNameFromXLSheet1.size());
+			log.info(ProcessValuesValidation.toString());
+			assertEquals(readFiledNameFromXLSheet1, ProcessValuesValidation,
+					"both the repository and webpage Process Name data are not same");
+			commonUtils.waitTime(2000);
+			List<String> readFiledNameFromXLSheet2 = daoTest.readFiledNameFromXLSheet(testdata.get(TA_NAME_VALUES),
+					PROFILE_MANAGEMENT);
+			log.info(readFiledNameFromXLSheet2.toString());
+			commonUtils.waitTime(3000);
+			Set<String> TANameValuesValidation = daoTest.TANameValuesValidation(readFiledNameFromXLSheet2.size());
+			log.info(TANameValuesValidation.toString());
+			assertEquals(readFiledNameFromXLSheet2, TANameValuesValidation,
+					"both the repository and webpage TA Name data are not same");
+			commonUtils.waitTime(2000);
+			List<String> readFiledNameFromXLSheet3 = daoTest.readFiledNameFromXLSheet(testdata.get(QUEUE_NAME_VALUES),
+					PROFILE_MANAGEMENT);
+			log.info(readFiledNameFromXLSheet3.toString());
+			Collections.sort(readFiledNameFromXLSheet3);
+			commonUtils.waitTime(3000);
+			List<String> QueueNameValuesValidation = daoTest
+					.QueueNameValuesValidation(readFiledNameFromXLSheet3.size());
+			log.info(QueueNameValuesValidation.toString());
+			Collections.sort(QueueNameValuesValidation);
+			System.out.println(readFiledNameFromXLSheet3);
+			System.out.println(QueueNameValuesValidation);
+			assertEquals(readFiledNameFromXLSheet3, QueueNameValuesValidation,
+					"both the repository and webpage Queue Name data are not same");
+			commonUtils.waitTime(2000);
+			List<String> readFiledNameFromXLSheet4 = daoTest.readFiledNameFromXLSheet(testdata.get(DELEVERY_VALUES),
+					PROFILE_MANAGEMENT);
+			log.info(readFiledNameFromXLSheet4.toString());
+			commonUtils.waitTime(3000);
+			List<String> DeleveryChannelValuesValidation = daoTest
+					.DeleveryChannelValuesValidation(readFiledNameFromXLSheet4.size() - 1);
+			log.info(DeleveryChannelValuesValidation.toString());
+			assertEquals(readFiledNameFromXLSheet4, DeleveryChannelValuesValidation,
+					"both the repository and webpage Delevery Channel data are not same");
+			commonUtils.waitTime(2000);
+			List<String> readFiledNameFromXLSheet5 = daoTest.readFiledNameFromXLSheet(testdata.get(TEMPLATE_ID_VALUES),
+					PROFILE_MANAGEMENT);
+			log.info(readFiledNameFromXLSheet5.toString());
+			commonUtils.waitTime(3000);
+			List<String> TemplateIDValuesValidation = daoTest
+					.TemplateIDValuesValidation(readFiledNameFromXLSheet5.size() - 1);
+			log.info(TemplateIDValuesValidation.toString());
+			assertEquals(readFiledNameFromXLSheet5, TemplateIDValuesValidation,
+					"both the repository and webpage Template-ID data are not same");
+		} else {
+			commonUtils.waitTime(2000);
+			WebElement profilemanagement = commonUtils.expandRootElement(ls.profilemanagement);
+			commonUtils.jsClick(profilemanagement);
+			commonUtils.waitTime(2000);
+			daoTest.AddProfileButton();
+			commonUtils.waitTime(1000);
+			WebElement MaxprofilePopup = commonUtils.expandRootElement(ls.MaxprofilePopup);
+			WebElement MaxprofilePopupClose = commonUtils.expandRootElement(ls.MaxprofilePopupClose);
+			if (commonUtils.isElementPresent(MaxprofilePopup)) {
+				commonUtils.waitTime(2000);
+				WebElement MaxprofilePopupClose1 = commonUtils.expandRootElement(ls.MaxprofilePopupClose);
+				commonUtils.click(MaxprofilePopupClose1);
+				log.info("if exceed the maximum profile count so Can't validating the fields");
+				logger.log(Status.INFO, "if exceed the maximum profile count so Can't validating the fields");
+			} else {
+				log.info("maximum profile count PopUp is not Opened");
+				logger.log(Status.INFO, "maximum profile count PopUp is not Opened");
+			}
+		}
+
+	}
+}

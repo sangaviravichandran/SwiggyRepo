@@ -1,0 +1,309 @@
+package ch.post.pf.nf.ta.baseutils;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.DateUtil;
+import org.apache.poi.ss.usermodel.RichTextString;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.slf4j.Logger;
+import org.testng.annotations.DataProvider;
+
+import io.opentelemetry.exporter.logging.SystemOutLogExporter;
+
+public class ReadData {
+
+	static Logger log = Log4jUtil.loadLogger(ReadData.class);
+	
+
+	public static String getProperty(String keyName) throws Exception {
+		InputStream s1 = TestAutomationApp.class.getResourceAsStream("/config.properties");
+		Properties prod = new Properties();
+		prod.load(s1);
+
+		String data = prod.getProperty(keyName);
+
+		log.info("data read from config file is :" + keyName + ": " + data);
+		return data;
+
+	}
+
+	public static String getTestProperty(String keyName) throws Exception {
+		InputStream s1 = TestAutomationApp.class.getResourceAsStream("/TestConfig.properties");
+		Properties prod = new Properties();
+		prod.load(s1);
+
+		String data = prod.getProperty(keyName);
+
+		log.info("data read from config file is :" + keyName + ": " + data);
+		return data;
+	}
+
+
+	@DataProvider(name = "getActivitesDataReader", parallel = false)
+	public Object[][] ActivitesDataReader() throws Exception {
+		Object[][] obj = readDataFromExcel("C:\\NAPF_Test\\TestCases.xls", "Activities");
+		return obj;
+	}
+	
+	@DataProvider(name = "getProducttabData", parallel = false)
+	public Object[][] productTabValidation() throws Exception {
+		Object[][] obj = readDataFromExcel("C:\\NAPF_Test\\TestCases.xls", "DcProducttabFieldValidation");
+		return obj;
+	}
+	
+	@DataProvider(name = "getGenralTabData", parallel = false)
+	public Object[][] CreateNFDcGenralTabFieldValidation() throws Exception {
+		Object[][] obj = readDataFromExcel("C:\\NAPF_Test\\TestCases.xls", "DcGenralTabFieldValidation");
+		return obj;
+	}
+	
+	@DataProvider(name = "getWorkFlowData", parallel = false)
+	public Object[][] WorkFlowFieldValidation() throws Exception {
+		Object[][] obj = readDataFromExcel("C:\\NAPF_Test\\TestCases.xls", "WorkFlowTestData");
+		return obj;
+	}
+	
+	@DataProvider(name = "getDataReader", parallel = false)
+	public Object[][] createNFWithPaTa() throws Exception {
+		Object[][] obj = readDataFromExcel("/MasterFile.xlsx", "PATA");
+		return obj;
+	}
+	
+	@DataProvider(name = "getLocalcodevalue", parallel = false)
+	public Object[][] LocalCodeValidationDcGenralTab() throws Exception {
+		Object[][] obj = readDataFromExcel("C:\\NAPF_Test\\TestCases.xls", "CreatePATALocalCodeValidation");
+		return obj;
+	}
+
+	@DataProvider(name = "getmenuPage", parallel = false)
+	public Object[][] HomepageMenuListValidation() throws Exception {
+		Object[][] obj = readDataFromExcel("C:\\NAPF_Test\\TestCases.xls", "HomePageMenuList");
+		return obj;
+	}
+	
+	@DataProvider(name = "getOnHoldRemainder", parallel = false)
+	public Object[][] onHoldReminder() throws Exception {
+		Object[][] obj = readDataFromExcel("C:\\NAPF_Test\\TestCases.xls", "OnHoldReminder");
+		return obj;
+	}
+
+	@DataProvider(name = "getNotesDataReader", parallel = false)
+	public Object[][] notesTabData() throws Exception {
+		Object[][] obj = readDataFromExcel("C:\\NAPF_Test\\TestCases.xls", "NotesTab");
+		return obj;
+	}
+	
+	@DataProvider(name = "getSearchInvestigationField", parallel = false)
+	public Object[][] SearchInvestigationField() throws Exception {
+		Object[][] obj = readDataFromExcel("/MasterFile.xlsx", "SearchInvestigation_field");
+		return obj;
+	}
+	
+	@DataProvider(name = "getAssigninvestigationFieldvalidation", parallel = false)
+	public Object[][] assigninvestigationfieldValidation() throws Exception {
+		Object[][] obj = readDataFromExcel("/MasterFile.xlsx", "AssigninvestationFieldValid");
+		return obj;
+	}
+	
+	@DataProvider(name = "getSearchInvestigation", parallel = false)
+	public Object[][] SearchInvestigation() throws Exception {
+		Object[][] obj = readDataFromExcel("C:\\NAPF_Test\\TestCases.xls", "SearchInvestigation");
+		return obj;
+	}
+	
+	@DataProvider(name = "getAssignInvestigation", parallel = false)
+	public Object[][] AssignInvestigation() throws Exception {
+		Object[][] obj = readDataFromExcel("C:\\NAPF_Test\\TestCases.xls", "AssignInvestigation");
+		return obj;
+	}
+	
+	@DataProvider(name = "getpartnerAddress", parallel = false)
+	public Object[][] partnerAddress() throws Exception {
+		Object[][] obj = readDataFromExcel("C:\\NAPF_Test\\TestCases.xls", "partnerAddress");
+		return obj;
+	}
+	
+	@DataProvider(name = "getAttachment", parallel = false)
+	public Object[][] Attachment() throws Exception {
+		Object[][] obj = readDataFromExcel("C:\\NAPF_Test\\TestCases.xls", "AttachMent");
+		return obj;
+	}
+	
+	@DataProvider(name = "getUserInboxGroupfield", parallel = false)
+	public Object[][] UserInboxGroup() throws Exception {
+		Object[][] obj = readDataFromExcel("C:\\NAPF_Test\\TestCases.xls", "UserInboxGroup");
+		return obj;
+	}
+	
+	
+	@DataProvider(name = "getEditerMemos", parallel = false)
+	public Object[][] EditerMemos() throws Exception {
+		Object[][] obj = readDataFromExcel("C:\\NAPF_Test\\TestCases.xls", "EditerMemosFields");
+		return obj;
+	}
+	
+	@DataProvider(name = "getSearchMemos", parallel = false)
+	public Object[][] SearchMemos() throws Exception {
+		Object[][] obj = readDataFromExcel("C:\\NAPF_Test\\TestCases.xls", "searchMemos");
+		return obj;
+	}
+	
+	@DataProvider(name = "getSearchMemosFields", parallel = false)
+	public Object[][] Searchmemosfields() throws Exception {
+		Object[][] obj = readDataFromExcel("/MasterFile.xlsx", "SearchMemosField");
+		return obj;
+	}
+	
+	@DataProvider(name = "getProfilemanagment", parallel = false)
+	public Object[][] ProfileManagement() throws Exception {
+		Object[][] obj = readDataFromExcel("C:\\NAPF_Test\\TestCases.xls", "ProfileManagement");
+		return obj;
+	}
+	
+	@DataProvider(name = "getProfileManagementFields", parallel = false)
+	public Object[][] ProfileManagementFields() throws Exception {
+		Object[][] obj = readDataFromExcel("/MasterFile.xlsx", "ProfileManagementFields");
+		return obj;
+	}
+	
+	@DataProvider(name = "getProductTabFieldvalue", parallel = false)
+	public Object[][] ProductTabFieldsentervalue() throws Exception {
+		Object[][] obj = readDataFromExcel("C:\\NAPF_Test\\TestCases.xls", "IDA-Results");
+		return obj;
+	}
+	
+	@DataProvider(name = "getIDAresultFields", parallel = false)
+	public Object[][] IdaResultsViewFields() throws Exception {
+		Object[][] obj = readDataFromExcel("C:\\NAPF_Test\\TestCases.xls", "IDA-ResultsViewFields");
+		return obj;
+	}
+	
+	@DataProvider(name = "productclosure", parallel = false)
+	public Object[][] CreatePATA() throws Exception {
+		Object[][] obj = readDataFromExcel("/MasterFile.xlsx", "closureproduct");
+		return obj;
+	}
+	
+	public static Object[][] readDataFromExcel(String path, String sheetName) throws Exception {
+		Object[][] obj = null;
+		List<Map<String, String>> li = new ArrayList<Map<String, String>>();
+		int objincr = 0;
+		//InputStream is = ReadData.class.getResourceAsStream(path);
+		
+		Workbook wb;
+		if(path.contains("TestCases"))
+		{
+			FileInputStream is=new FileInputStream(path);
+			wb=new HSSFWorkbook(is);
+		}
+		else
+		{
+			InputStream is = ReadData.class.getResourceAsStream(path);
+			wb = new HSSFWorkbook(is);
+			System.out.println(wb+"hssfworkbook");
+		}
+		Sheet sh = wb.getSheet(sheetName);
+		log.info("Reading data from a sheet: " + sheetName);
+		int physicalNumberOfRows = sh.getPhysicalNumberOfRows();
+		Row Header = sh.getRow(0);
+		for (int i = 1; i < physicalNumberOfRows; i++) {
+			Row row = sh.getRow(i);
+			int physicalNumberOfCells = row.getPhysicalNumberOfCells();
+			Map<String, String> ma = new HashMap<String, String>();
+			for (int j = 0; j < physicalNumberOfCells; j++) {
+				Cell cell = row.getCell(j);
+				@SuppressWarnings("deprecation")
+				CellType cellType = cell.getCellType();
+				switch (cellType) {
+				case STRING:
+					RichTextString stringCellValue = cell.getRichStringCellValue();
+					RichTextString headerName = Header.getCell(j).getRichStringCellValue();
+					ma.put(headerName.toString().trim(), stringCellValue.toString().trim());
+					break;
+				case NUMERIC:
+					if (DateUtil.isCellDateFormatted(cell)) {
+						Date dateCellValue = cell.getDateCellValue();
+						SimpleDateFormat s = new SimpleDateFormat("MM/dd/yyyy");
+						String format = s.format(dateCellValue);
+						String headerName1 = Header.getCell(j).getStringCellValue().trim();
+						ma.put(headerName1, format);
+					} else {
+						double numericCellValue = cell.getNumericCellValue();
+
+						String valueOf = String.valueOf(numericCellValue);
+						String headerName2 = Header.getCell(j).getStringCellValue().trim();
+						ma.put(headerName2, valueOf);
+					}
+					break;
+				}
+			}
+			li.add(ma);
+		}
+		if (li.size() != 0) {
+			obj = new Object[li.size()][1];
+			for (Map<String, String> entry : li) {
+				obj[objincr][0] = entry;
+				objincr++;
+			}
+		}
+		return obj;
+	}
+
+	public static Map<String, String> readDataField(String sheetName) throws Exception {
+		FileInputStream fi = (FileInputStream) ReadData.class.getClass().getResourceAsStream("/MasterFile.xlsx");
+		Workbook wb = new XSSFWorkbook(fi);
+		Sheet sh = wb.getSheet(sheetName);
+		log.info("Reading data from a sheet: " + sheetName);
+		int physicalNumberOfRows = sh.getPhysicalNumberOfRows();
+		Row Header = sh.getRow(0);
+		Map<String, String> ma = new HashMap<String, String>();
+		for (int i = 1; i < physicalNumberOfRows; i++) {
+			Row row = sh.getRow(i);
+			int physicalNumberOfCells = row.getPhysicalNumberOfCells();
+			for (int j = 0; j < physicalNumberOfCells; j++) {
+				Cell cell = row.getCell(j);
+				CellType cellType = cell.getCellType();
+				switch (cellType) {
+				case STRING:
+					RichTextString stringCellValue = cell.getRichStringCellValue();
+					RichTextString headerName = Header.getCell(j).getRichStringCellValue();
+					ma.put(headerName.toString().trim(), stringCellValue.toString().trim());
+					break;
+				case NUMERIC:
+					if (DateUtil.isCellDateFormatted(cell)) {
+						Date dateCellValue = cell.getDateCellValue();
+						SimpleDateFormat s = new SimpleDateFormat("MM/dd/yyyy");
+						String format = s.format(dateCellValue);
+						String headerName1 = Header.getCell(j).getStringCellValue().trim();
+						ma.put(headerName1, format);
+					} else {
+						double numericCellValue = cell.getNumericCellValue();
+						long l = (long) numericCellValue;
+						String valueOf = String.valueOf(l);
+						String headerName2 = Header.getCell(j).getStringCellValue().trim();
+						ma.put(headerName2, valueOf);
+					}
+					break;
+				}
+			}
+		}
+		return ma;
+	}
+
+}

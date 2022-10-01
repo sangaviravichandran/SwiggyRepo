@@ -1,0 +1,49 @@
+package ch.post.pf.nf.ta.scenarios;
+
+import static org.testng.Assert.assertTrue;
+
+import org.slf4j.Logger;
+import org.testng.Assert;
+
+import com.aventstack.extentreports.Status;
+
+import ch.post.pf.nf.ta.baseutils.CommonUtils;
+import ch.post.pf.nf.ta.baseutils.Log4jUtil;
+import ch.post.pf.nf.ta.baseutils.Setup;
+import ch.post.pf.nf.ta.dao.DAOTest;
+
+public class HomePageMenuValidationScenario extends Setup {
+
+	Logger log = Log4jUtil.loadLogger(HomePageMenuValidationScenario.class);
+	CommonUtils commonUtils = new CommonUtils();
+
+	/*
+	 * This Scenario help on Validating all app menu list in home page
+	 * 
+	 */
+	public void appmenulistValidation(String data,String data1,String data2) throws Exception {
+		log.info("check the app menu list is found in the page with open NF field");
+		logger.log(Status.INFO, "check the app menu list is found in the page with open-NF field");
+		DAOTest daoTest = new DAOTest();
+		commonUtils.waitTime(2000);
+		boolean appMenuList = daoTest.appMenuListValidation(data);
+		commonUtils.waitTime(2000);
+		boolean open_NF_input_field = daoTest.open_NF_input_field(data1,data2);
+		if (appMenuList) {
+			assertTrue(appMenuList, "App Menulist is not found in the page");
+			logger.log(Status.INFO, "App Menu list is found");
+		} else {
+			assertTrue(false);
+			logger.log(Status.ERROR, "App Menu list is not found");
+		}
+		if (open_NF_input_field) {
+			Assert.assertTrue(open_NF_input_field, "Open_NF field is not found");
+			logger.log(Status.INFO, "Open-Nf field is found");
+		} else {
+			assertTrue(false);
+			logger.log(Status.ERROR, "Open-Nf field is not found");
+		}
+	}
+
+	
+}

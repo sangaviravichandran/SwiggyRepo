@@ -1,0 +1,98 @@
+package ch.post.pf.nf.ta.execution;
+
+import java.util.Map;
+
+import org.testng.SkipException;
+import org.testng.annotations.Ignore;
+import org.testng.annotations.Test;
+
+import ch.post.pf.nf.ta.baseutils.CommonUtils;
+import ch.post.pf.nf.ta.baseutils.ReadData;
+import ch.post.pf.nf.ta.baseutils.Setup;
+import ch.post.pf.nf.ta.scenarios.CreateNFScenarios;
+import ch.post.pf.nf.ta.scenarios.UserInboxScenarios;
+
+public class UserInboxTestCase extends Setup {
+
+	protected UserInboxScenarios scenario = new UserInboxScenarios();
+	protected CreateNFScenarios cfScenario = new CreateNFScenarios();
+	protected CommonUtils common = new CommonUtils();
+
+	@Test(priority = 5, dataProvider = "getUserInboxGroupfield", dataProviderClass = ReadData.class)
+	public void userInbox(Map<String, String> testdata) throws Exception {
+		if (testdata.get("CanExecute").equalsIgnoreCase("yes")) {
+			CommonUtils.waitTime(2000);
+			log.info("***************** START TEST *****************");
+			// this.browserLaunch(System.getProperty("browserName"));
+			this.browserLaunch("Chrome");
+			common.loadURL();
+			logger = parent.createNode(methodName + "Field and Group button");
+			CommonUtils.waitTime(2000);
+			cfScenario.profileMenuSelect(testdata.get("Language"));
+			scenario.userInboxFieldValidation(testdata.get("Menu 1"));
+		} else {
+			logger = parent.createNode(methodName + testdata.get("Menu 1"));
+			throw new SkipException(methodName);
+		}
+	}
+
+	@Test(priority = 6, dataProvider = "getUserInboxGroupfield", dataProviderClass = ReadData.class)
+	public void userInboxcreateNFsearchandCheckGroup(Map<String, String> testdata) throws Exception {
+		if (testdata.get("CanExecute").equalsIgnoreCase("yes")) {
+			CommonUtils.waitTime(2000);
+			log.info("***************** START TEST *****************");
+			// this.browserLaunch(System.getProperty("browserName"));
+			this.browserLaunch("Chrome");
+			common.loadURL();
+			logger = parent.createNode(methodName + " for PA and TA :" + testdata.get("Process Name")
+					+ testdata.get("TA") + "DC:" + testdata.get("Mode"));
+			CommonUtils.waitTime(2000);
+			cfScenario.profileMenuSelect(testdata.get("Language"));
+			cfScenario.createNFWithPaTa(testdata);
+			scenario.userInboxNFsearchAndGroupcheck(testdata.get("Menu"));
+		} else {
+			logger = parent.createNode(methodName + testdata.get("Menu 1"));
+			throw new SkipException(methodName);
+		}
+	}
+
+	@Test(priority = 7, dataProvider = "getUserInboxGroupfield", dataProviderClass = ReadData.class)
+	public void userInboxOpenNFsearchandCreateMess(Map<String, String> testdata) throws Exception {
+		if (testdata.get("CanExecute").equalsIgnoreCase("yes")) {
+			CommonUtils.waitTime(2000);
+			log.info("***************** START TEST *****************");
+			// this.browserLaunch(System.getProperty("browserName"));
+			this.browserLaunch("Chrome");
+			common.loadURL();
+			logger = parent.createNode(methodName);
+			CommonUtils.waitTime(2000);
+			cfScenario.profileMenuSelect(testdata.get("Language"));
+			scenario.userInboxNFsearchAndopenCreateMess(testdata.get("FIFONFID"),
+					testdata.get("menutab"),testdata.get("menu2"));
+		} else {
+			logger = parent.createNode(methodName + testdata.get("Menu 1"));
+			throw new SkipException(methodName);
+		}
+	}
+
+	@Test(priority = 8, dataProvider = "getUserInboxGroupfield", dataProviderClass = ReadData.class)
+	public void UserInboxGroupNavigate(Map<String, String> testdata) throws Exception {
+		if (testdata.get("CanExecute").equalsIgnoreCase("yes")) {
+			CommonUtils.waitTime(2000);
+			log.info("***************** START TEST *****************");
+			// this.browserLaunch(System.getProperty("browserName"));
+			this.browserLaunch("Chrome");
+			common.loadURL();
+			logger = parent.createNode(methodName + " for PA and TA :" + testdata.get("Process Name")
+					+ testdata.get("TA") + "DC:" + testdata.get("Mode"));
+			CommonUtils.waitTime(2000);
+			cfScenario.profileMenuSelect(testdata.get("Language"));
+			cfScenario.createNFWithPaTa(testdata);
+			scenario.userGroupNavigate(testdata);
+		} else {
+			logger = parent.createNode(methodName + testdata.get("Menu 1"));
+			throw new SkipException(methodName);
+		}
+	}
+
+}

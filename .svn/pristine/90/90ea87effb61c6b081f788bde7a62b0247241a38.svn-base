@@ -1,0 +1,7 @@
+-------------------------------------------------------------------------------
+Test set: TestSuite
+-------------------------------------------------------------------------------
+Tests run: 3, Failures: 1, Errors: 0, Skipped: 2, Time elapsed: 1.761 s <<< FAILURE! - in TestSuite
+startOfTest(ch.post.pf.nf.ta.execution.HomePageMenuListValidation)  Time elapsed: 1.466 s  <<< FAILURE!
+java.lang.NullPointerException
+

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="ExecutionSuite">
+	<suite-files>
+        <suite-file path="./src/test/resources/SuiteFile/Activities.xml" />
+        <suite-file path="./src/test/resources/SuiteFile/Assigninvestigation.xml" />
+        <suite-file path="./src/test/resources/SuiteFile/AttachmentTestcase.xml" />
+        <suite-file path="./src/test/resources/SuiteFile/CreateNFTestcase.xml" />
+        <suite-file path="./src/test/resources/SuiteFile/EditorMenuTestCase.xml" />
+        <suite-file path="./src/test/resources/SuiteFile/HomePageMenuListValidation.xml" />
+        <suite-file path="./src/test/resources/SuiteFile/IDAResultTestCase.xml" />
+        <suite-file path="./src/test/resources/SuiteFile/NotesTabTestCase.xml" />
+        <suite-file path="./src/test/resources/SuiteFile/OnHoldReminder.xml" />
+        <suite-file path="./src/test/resources/SuiteFile/PartnerAddressTestCase.xml" />
+        <suite-file path="./src/test/resources/SuiteFile/ProductTabValidation.xml" />
+        <suite-file path="./src/test/resources/SuiteFile/Profilemanagement.xml" />
+        <suite-file path="./src/test/resources/SuiteFile/SearchinvestigationTest.xml" />
+        <suite-file path="./src/test/resources/SuiteFile/SearchMemos.xml" />
+        <suite-file path="./src/test/resources/SuiteFile/UserInbox.xml" />
+        <suite-file path="./src/test/resources/SuiteFile/WorkFlowTestCase.xml" />
+    </suite-files>
+</suite> <!-- Suite -->

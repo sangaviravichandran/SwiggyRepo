@@ -1,0 +1,146 @@
+package org.napf.pagefactory;
+
+import java.util.List;
+
+import org.napf.baseutils.Setup;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+public class NAPFLocators extends Setup{
+	
+	public NAPFLocators() {
+		PageFactory.initElements(driver, this);
+	}
+	
+	@FindBy(tagName = "pf-portal-header")
+	public WebElement headerProfileMenulist;
+	
+	public String headerProfileMenu ="return document.querySelector('pf-portal-header').shadowRoot.querySelector('pf-menu-item')";
+	
+	@FindBy(xpath = "//pf-menu-item[@visual=\"menu_small\"]")
+	public List<WebElement> profilemenuList;
+	
+	@FindBy(xpath="//pf-menu-item[@slot='app-menu']")
+	public List<WebElement> app_Menu_List;
+	
+	@FindBy(tagName="pf-text-field")
+	public WebElement open_NF_input;
+	
+	public String createInvestigation="return document.querySelector('pf-portal-header > pf-menu-item').shadowRoot.querySelector('div.outer.leaf > a > slot > pf-icon').shadowRoot.querySelector('svg')";
+	public String create_Inves_page="return document.querySelector('pf-editor-page').shadowRoot.querySelector('div > div.main-container > pf-grid > pf-editor-header').shadowRoot.querySelector('pf-text')";
+
+	public String PaInitiator ="return document.querySelector('pf-combobox[testselector=\"gentab.processorName\"]').shadowRoot.querySelector('vaadin-combo-box').shadowRoot.querySelector('#input').shadowRoot.querySelector('input')";
+	
+	public String TaInitiator="return document.querySelector('pf-combobox[testselector=\"gentab.ta\"]').shadowRoot.querySelector('vaadin-combo-box').shadowRoot.querySelector('#input').shadowRoot.querySelector('input')";
+	
+	//save button
+	public String savecss="return document.querySelector('pf-portal-header').shadowRoot.querySelector('pf-menu-item').shadowRoot.querySelector('pf-icon').shadowRoot.querySelector('svg')";
+	
+	// reading nf number
+	public String NfNumber="return document.querySelector('pf-editor-page').shadowRoot.querySelector('pf-editor-header').shadowRoot.querySelector('pf-text')";
+	
+	// open NF click
+	public String openNFclick="return document.querySelector('pf-tile-card').shadowRoot.querySelector('pf-button').shadowRoot.querySelector('vaadin-button').shadowRoot.querySelector('#button')";
+	
+	//field valdiation
+	
+	public String custom_field="return document.querySelector('pf-custom-control').shadowRoot.querySelector('div.left-label-container > pf-text')";
+	@FindBy(tagName = "pf-text-area")
+	public List<WebElement> textareaField;
+	
+	@FindBy(xpath="(//pf-form-layout[@class=\"hydrated inside-grid\"])[1]/pf-checkbox")
+	public List<WebElement> checkboxField;
+	
+	@FindBy(xpath="(//pf-form-layout[@class=\"hydrated inside-grid\"])[1]/pf-text-field")
+	public List<WebElement> textField;
+	
+	@FindBy(xpath="(//pf-form-layout[@class=\"hydrated inside-grid\"])[1]/pf-combobox")
+	public List<WebElement> comboboxField;
+	
+	@FindBy(xpath="(//pf-form-layout[@class=\"hydrated inside-grid\"])[1]/pf-date-picker")
+	public List<WebElement> datepicketField;
+
+	@FindBy(xpath="(//pf-form-layout[@class=\"hydrated inside-grid\"])[1]/pf-account-field")
+	public List<WebElement> accountField;
+	
+	@FindBy(tagName = "pf-tile-card")
+	public WebElement openNfButton;
+	
+	public String clouserReason="return document.querySelector('pf-combobox[testselector=\"gentab.closureReason\"]').shadowRoot.querySelector('vaadin-combo-box').shadowRoot.querySelector('#input').shadowRoot.querySelector('input')";
+	public String clouserReasonToggle="return document.querySelector('pf-combobox[testselector=\"gentab.closureReason\"]').shadowRoot.querySelector('vaadin-combo-box').shadowRoot.querySelector('#toggleButton')";
+	
+	public String productReason="return document.querySelector('pf-combobox[testselector=\"gentab.productCode\"]').shadowRoot.querySelector('vaadin-combo-box').shadowRoot.querySelector('#input').shadowRoot.querySelector('input')";
+	public String productReasonToggle="return document.querySelector('pf-combobox[testselector=\"gentab.productCode\"]').shadowRoot.querySelector('vaadin-combo-box').shadowRoot.querySelector('#toggleButton')";
+	
+	//menu click in editor
+	public String editormenu="return document.querySelector('pf-tabs').shadowRoot.querySelectorAll('pf-menu-item')";
+	
+	
+	//table data
+	public String activityFieldValue ="return document.querySelector('pf-table').shadowRoot.querySelector('vaadin-grid')";
+	
+	public String firstfield="vaadin-grid-cell-content[slot=\"vaadin-grid-cell-content-1\"]";
+	public String secondfield="vaadin-grid-cell-content[slot=\"vaadin-grid-cell-content-2\"]";
+	public String thirdfield="vaadin-grid-cell-content[slot=\"vaadin-grid-cell-content-3\"]";
+	public String fourthfield="vaadin-grid-cell-content[slot=\"vaadin-grid-cell-content-4\"]";
+	public String fifthfield="vaadin-grid-cell-content[slot=\"vaadin-grid-cell-content-5\"]";
+	
+	//notes tab
+	public String notesadd="return document.querySelector('pf-menu-item[test-selector=\"note-detail-add\"]').shadowRoot.querySelector('pf-icon').shadowRoot.querySelector('#Layer_1')";
+	
+	public String textarea="return document.querySelectorAll('pf-text-area[test-selector=\"noteTextArea\"]')[1].shadowRoot.querySelector('vaadin-text-area').shadowRoot.querySelector('textarea')";
+	
+	@FindBy(xpath="//pf-button[@test-selector='notes-add-edit-save-button']")
+	public WebElement saveButton;
+	
+	//use activityFieldValue webelement and travel with below shadow root
+	public String editdeletebutton="vaadin-grid-cell-content";
+	
+	public String notesEdit="pf-icon-button[icon=\"sl:pencil\"]";
+	//public String notesDelete="document.querySelector('pf-table').shadowRoot.querySelector(\"#note-delete-3571\")";
+	public String notesDelete="pf-icon-button[icon=\"sl:delete\"]";
+	//user inbox 
+	@FindBy(xpath = "//pf-button[@testselector='editor-header-action--sourceGroupQueue']")
+	public WebElement sourceGroupQueue;
+	
+	@FindBy(xpath = "//pf-button[@testselector='editor-header-action--previousGroupQueue']")
+	public WebElement previousGroupQueue;
+	
+	@FindBy(xpath = "//pf-button[@testselector='editor-header-action--otherGroupQueue']")
+	public WebElement otherGroupQueue;
+	
+	public String userInboxNfField="return document.querySelector('pf-table').shadowRoot.querySelectorAll('vaadin-grid > vaadin-grid-cell-content')";
+	
+	public String landingPage_text="return document.querySelector('pf-editor-header').shadowRoot.querySelector('pf-text')";
+	
+	public String FirstNf_number="return document.querySelector(\"pf-table\").shadowRoot.querySelectorAll(\"vaadin-grid-cell-content\")[32]";
+	
+	public String all_NfNumber_search="return document.querySelector(\"#userProfileFrom > pf-table\").shadowRoot.querySelectorAll('pf-link')";
+	public String all_NfNumber_search_2="return document.querySelector(\"#userProfileFrom > pf-table\").shadowRoot.querySelectorAll(\"vaadin-checkbox\")[";
+	public String all_NfNumber_search_checkbox="].shadowRoot.querySelector(\"label\")";
+
+	@FindBy(xpath = "//pf-text-area[@test-selector=\"customerTextArea\"]")
+	public WebElement customer_description;
+	
+	@FindBy(xpath="//pf-menu-item[@test-selector='customer.mes.add']")
+	public WebElement CreateMess;
+	
+	@FindBy(xpath="//pf-menu-item[@test-selector='customer.detail-save']")
+	public WebElement save_mess;
+	
+	public String checkboxmess_click="return document.querySelector(\"pf-table\").shadowRoot.querySelector(\"vaadin-grid > vaadin-grid-cell-content:nth-child(25) > vaadin-checkbox\")";
+	public String To_Do_Mess="return document.querySelector('pf-table').shadowRoot.querySelectorAll('vaadin-grid-cell-content')[0]";
+	
+	public String todo_mess_saved="return document.querySelector('pf-table').shadowRoot.querySelectorAll('vaadin-grid-cell-content')[2].querySelector('pf-text')";
+	@FindBy(xpath = "//pf-editor-header[@testselector=\"userInboxHeader\"]/pf-button")
+	public List<WebElement> userInboxHeader;
+	
+	public String groupQueueList="return document.querySelector(\"pf-table\").shadowRoot.querySelectorAll(\"vaadin-grid-cell-content\")";
+	public String groupqueueselection="return document.querySelector(\"pf-table\").shadowRoot.querySelectorAll(\"vaadin-grid-cell-content\")[12]document.querySelector(\"pf-table\").shadowRoot.querySelectorAll(\"vaadin-grid-cell-content\")[";
+	public String groupque2="]";
+	
+	@FindBy(xpath = "//pf-button[@testselector=\"saveDialog\"]")
+	public WebElement saveGroup;
+	
+}

@@ -1,0 +1,26 @@
+package ch.post.pf.nf.ta.scenarios;
+import org.slf4j.Logger;
+import com.aventstack.extentreports.Status;
+import ch.post.pf.nf.ta.baseutils.CommonUtils;
+import ch.post.pf.nf.ta.baseutils.Log4jUtil;
+import ch.post.pf.nf.ta.baseutils.Setup;
+import ch.post.pf.nf.ta.dao.DAOTest;
+import ch.post.pf.nf.ta.pagefactory.NAPFLocators;
+
+public class EditerMemosScenario extends Setup {
+
+	Logger log = Log4jUtil.loadLogger(EditerMemosScenario.class);
+	CommonUtils commonUtils = new CommonUtils();
+	CreateNFScenarios CNFScenarios = new CreateNFScenarios();
+
+	/* This Scenario help on Editer memos Field validation */
+	
+	public void editerMemosFieldsCheck(String[] testinput) throws Exception {
+		DAOTest daoTest = new DAOTest();
+		NAPFLocators ls = new NAPFLocators();
+		log.info("Editer memos fields check");
+		logger.log(Status.INFO, "Editer memos fields check");
+		daoTest.editorMenuSelect(testinput[1]);
+		daoTest.editermemosfieldCheck(testinput[0]);
+	}
+}

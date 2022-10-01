@@ -1,0 +1,208 @@
+package ch.post.pf.nf.ta.baseutils;
+
+import java.awt.Robot;
+import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.lang.reflect.Method;
+import java.util.Properties;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.firefox.FirefoxProfile;
+import org.slf4j.Logger;
+import org.testng.ITestContext;
+import org.testng.ITestNGMethod;
+import org.testng.ITestResult;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterSuite;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeSuite;
+
+import com.aventstack.extentreports.ExtentReports;
+import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.Status;
+import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
+
+import io.github.bonigarcia.wdm.WebDriverManager;
+
+public class Setup {
+	
+	protected static Logger log = Log4jUtil.loadLogger(Setup.class);
+	protected static ExtentReports extentreport;
+	protected static ExtentHtmlReporter extenthtmlreport;
+	protected static ExtentTest logger;
+	protected static ExtentTest parent;
+	protected static ExtentTest suite;
+	protected static WebDriver driver;
+	protected static String methodName;
+	protected static FileInputStream fi ;
+	
+	private static final String ARGS_PROP_PATH ="C:/NAPF_Test/args.properties";
+	public static Properties prop = null;
+	
+	
+	static 
+	{
+		try
+		{
+			prop = readPropertiesFile(ARGS_PROP_PATH);
+		} 
+		catch (IOException e) 
+		{
+			logger.info("Cannot read from properties file");
+		}
+	}
+	/*
+	 * Creating a Extend report in html format..
+	 * launching the browser 
+	 */
+	@BeforeSuite
+	public void startReport() {
+		extenthtmlreport = new ExtentHtmlReporter("NAPFExtentReport.html");
+		extentreport = new ExtentReports();
+		extentreport.attachReporter(extenthtmlreport);
+		suite=extentreport.createTest("NAPF");
+	}
+	
+	@BeforeClass
+	public void classNodesReport() {
+		parent=	suite.createNode(this.getClass().getName());
+	}
+	
+	public void browserLaunch(String browser) throws Exception {
+		switch (browser) {
+		case "Chrome":
+			WebDriverManager.chromedriver().setup();
+			ChromeOptions Coptions = new ChromeOptions();
+			driver= new ChromeDriver(Coptions);
+			driver.manage().deleteAllCookies();
+			driver.manage().window().maximize();
+			log.info("Launched the Chrome Browser: "+driver.hashCode());
+			break;
+		case "Firefox":
+			FirefoxProfile firefoxProfile = new FirefoxProfile();
+			firefoxProfile.setPreference("browser.tabs.remote.autostart", false);
+			firefoxProfile.setPreference("browser.tabs.remote.autostart.1", false);
+			firefoxProfile.setPreference("browser.tabs.remote.autostart.2", false);
+			FirefoxOptions options = new FirefoxOptions();
+			options.setProfile(firefoxProfile);
+			WebDriverManager.firefoxdriver().setup();
+			driver = new FirefoxDriver(options);
+			driver.manage().window().maximize();
+			log.info("Launched the Firefox Browser: "+driver.hashCode());
+			break;
+		case "Edge":
+			WebDriverManager.edgedriver().setup();
+			driver = new EdgeDriver();
+			driver.manage().window().maximize();
+			log.info("Launched the Chrome Browser: "+driver.hashCode());
+			break;
+		default:
+			log.info("The given Browser is not found.");
+			break;
+		}
+	}
+	
+	@BeforeMethod(alwaysRun = true)
+	public void startOfTest(ITestContext context, Method method) throws Exception {
+		
+		log.info(context.getClass().getName());
+		methodName = method.getName();
+		log.info(methodName);
+	}
+	
+	@AfterMethod
+	public void endOfTest(ITestResult arg1) throws Exception {
+			
+	    if(arg1.getStatus() == ITestResult.FAILURE){
+			logger.log(Status.FAIL, "Test Case Failed is "+arg1.getName());
+			logger.log(Status.FAIL, "Test Case Failed is "+arg1.getThrowable());
+			//To capture screenshot path and store the path of the screenshot in the string "screenshotPath"
+            //We do pass the path captured by this mehtod in to the extent reports using "logger.addScreenCapture" method. 			
+             String screenshotPath = new CommonUtils().getScreenhot(driver, arg1.getName());
+			//To add it in the extent report 
+			logger.addScreenCaptureFromPath(screenshotPath);
+		}
+	    else if(arg1.getStatus()==3){
+			logger.log(Status.SKIP, "Test Case Skipped is "+arg1.getName());
+			System.out.println("Test Case Skipped is ");
+		}
+		else {
+			//To capture screenshot path and store the path of the screenshot in the string "screenshotPath"
+            //We do pass the path captured by this mehtod in to the extent reports using "logger.addScreenCapture" method. 			
+             String screenshotPath = new CommonUtils().getScreenhot(driver, arg1.getName());
+			//To add it in the extent report 
+             logger.log(Status.PASS,"Test case passed:"+arg1.getName());
+             logger.addScreenCaptureFromPath(screenshotPath);
+		}
+		// ending test
+		//endTest(logger) : It ends the current test and prepares to create HTML report
+		driver.quit();
+	}
+	
+	/*
+	 * method to return the Current running Test case name
+	 */
+	private String returnMethodName(ITestNGMethod method) {
+	    return method.getRealClass().getSimpleName() + "." + method.getMethodName();
+	}
+	
+	
+	
+	@AfterSuite
+	public void endReport() {
+		// writing everything to document
+		//flush() - to write or update test information to your report. 
+		
+		extentreport.flush();
+        log.info("The given test is completed in the given browser:"+ System.getProperty("browser"));
+	}
+	
+	
+	
+	public void ScreenMaxzoomout() throws Exception {
+		Robot r = new Robot();
+		for (int i = 0; i < 2; i++) {
+			r.keyPress(KeyEvent.VK_CONTROL);
+			r.keyPress(KeyEvent.VK_SUBTRACT);
+			r.keyRelease(KeyEvent.VK_SUBTRACT);
+			r.keyRelease(KeyEvent.VK_CONTROL);
+		}
+	}
+	public static Properties readPropertiesFile(String fileName) throws IOException 
+	{
+		FileInputStream fis = null;
+		Properties prop = null;
+		try {
+			fis = new FileInputStream(fileName);
+			prop = new Properties();
+			prop.load(fis);
+		}
+		catch (FileNotFoundException fnfe)
+		{
+			fnfe.printStackTrace();
+		} 
+		catch (IOException ioe)
+		{
+			ioe.printStackTrace();
+		}
+		finally
+		{
+			fis.close();
+		}
+		return prop;
+	}
+
+	
+}
+
+
+

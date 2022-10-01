@@ -1,0 +1,26 @@
+package ch.post.pf.nf.ta.execution;
+
+import java.util.Map;
+
+import org.testng.annotations.Test;
+
+import ch.post.pf.nf.ta.baseutils.ReadData;
+import ch.post.pf.nf.ta.baseutils.Setup;
+import ch.post.pf.nf.ta.scenarios.CreateNFScenarios;
+import ch.post.pf.nf.ta.scenarios.HomePageMenuValidationScenario;
+
+
+public class HomePageMenuListValidation extends Setup {
+
+	protected HomePageMenuValidationScenario scenario = new HomePageMenuValidationScenario();
+	protected CreateNFScenarios Scenario= new CreateNFScenarios();
+	
+	@Test(priority = 0, dataProvider = "getLaungageDataReader", dataProviderClass = ReadData.class,
+	description = "To check wheather the Home Page of NAPF application is getting open.")
+	public void HomepageMenuListValidation(Map<String, String> testdata) throws Exception {
+		logger = parent.createNode(methodName + " :" + testdata.get("Language"));
+		Scenario.profileMenuSelect(testdata.get("Language"));
+		scenario.appmenulistValidation();
+	}
+
+}

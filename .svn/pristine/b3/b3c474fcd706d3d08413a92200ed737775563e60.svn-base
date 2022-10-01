@@ -1,0 +1,36 @@
+package ch.post.pf.nf.ta.execution;
+
+import java.util.Map;
+
+import org.testng.annotations.Test;
+
+import ch.post.pf.nf.ta.baseutils.ReadData;
+import ch.post.pf.nf.ta.baseutils.Setup;
+import ch.post.pf.nf.ta.scenarios.ActivitiesScenario;
+import ch.post.pf.nf.ta.scenarios.CreateNFScenarios;
+
+
+public class ActivitiesTestCase extends Setup {
+
+	protected ActivitiesScenario scenario = new ActivitiesScenario();
+	protected CreateNFScenarios Scenarios= new CreateNFScenarios();
+	
+	@Test(priority = 2, dataProvider = "getActivitesDataReader", dataProviderClass = ReadData.class)
+	public void Activities(Map<String, String> testdata) throws Exception {
+		if(testdata.get("canexecuted").equalsIgnoreCase("y")) {
+		logger = parent.createNode(methodName + " for PA and TA :" + testdata.get("Process Name")
+				+ testdata.get("TA") + "DC:" + testdata.get("Mode"));
+		if (testdata.get("Mode").equalsIgnoreCase("Online")) {
+			Scenarios.profileMenuSelect(testdata.get("Language"));
+			Scenarios.createNFWithPaTa(testdata);
+			scenario.activitiesTab(testdata);
+		} else {
+			Scenarios.profileMenuSelect(testdata.get("Language"));
+			Scenarios.openNFInvestigation(testdata);
+			scenario.activitiesTab(testdata);
+		}
+		}
+	}
+
+
+}

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results skipped="0" failed="0" ignored="0" total="1" passed="1">
+  <reporter-output>
+  </reporter-output>
+  <suite name="Suite" duration-ms="25729" started-at="2022-02-02T10:29:48Z" finished-at="2022-02-02T10:30:14Z">
+    <groups>
+    </groups>
+    <test name="Test" duration-ms="25729" started-at="2022-02-02T10:29:48Z" finished-at="2022-02-02T10:30:14Z">
+      <class name="ch.post.pf.nf.ta.execution.HomePageMenuListValidation">
+        <test-method status="PASS" signature="startReport()[pri:0, instance:ch.post.pf.nf.ta.execution.HomePageMenuListValidation@1188e820]" name="startReport" is-config="true" duration-ms="108" started-at="2022-02-02T10:29:48Z" finished-at="2022-02-02T10:29:48Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- startReport -->
+        <test-method status="PASS" signature="classNodesReport()[pri:0, instance:ch.post.pf.nf.ta.execution.HomePageMenuListValidation@1188e820]" name="classNodesReport" is-config="true" duration-ms="1" started-at="2022-02-02T10:29:48Z" finished-at="2022-02-02T10:29:48Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- classNodesReport -->
+        <test-method status="PASS" signature="startOfTest(org.testng.ITestContext, java.lang.reflect.Method)[pri:0, instance:ch.post.pf.nf.ta.execution.HomePageMenuListValidation@1188e820]" name="startOfTest" is-config="true" duration-ms="9635" started-at="2022-02-02T10:29:49Z" finished-at="2022-02-02T10:29:59Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[org.testng.TestRunner@5d7ca698]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA[public void ch.post.pf.nf.ta.execution.HomePageMenuListValidation.HomepageMenuListValidation(java.util.Map) throws java.lang.Exception]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- startOfTest -->
+        <test-method status="PASS" signature="HomepageMenuListValidation(java.util.Map)[pri:0, instance:ch.post.pf.nf.ta.execution.HomePageMenuListValidation@1188e820]" name="HomepageMenuListValidation" duration-ms="15261" started-at="2022-02-02T10:29:59Z" description="To check wheather the Home Page of NAPF application is getting open." data-provider="getLaungageDataReader" finished-at="2022-02-02T10:30:14Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[{Language=Deutsch}]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- HomepageMenuListValidation -->
+        <test-method status="PASS" signature="endOfTest(org.testng.ITestResult)[pri:0, instance:ch.post.pf.nf.ta.execution.HomePageMenuListValidation@1188e820]" name="endOfTest" is-config="true" duration-ms="196" started-at="2022-02-02T10:30:14Z" finished-at="2022-02-02T10:30:14Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[[TestResult name=HomepageMenuListValidation status=SUCCESS method=HomePageMenuListValidation.HomepageMenuListValidation(java.util.Map)[pri:0, instance:ch.post.pf.nf.ta.execution.HomePageMenuListValidation@1188e820] output={null}]]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- endOfTest -->
+        <test-method status="PASS" signature="endReport()[pri:0, instance:ch.post.pf.nf.ta.execution.HomePageMenuListValidation@1188e820]" name="endReport" is-config="true" duration-ms="1047" started-at="2022-02-02T10:30:14Z" finished-at="2022-02-02T10:30:15Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- endReport -->
+      </class> <!-- ch.post.pf.nf.ta.execution.HomePageMenuListValidation -->
+    </test> <!-- Test -->
+  </suite> <!-- Suite -->
+</testng-results>

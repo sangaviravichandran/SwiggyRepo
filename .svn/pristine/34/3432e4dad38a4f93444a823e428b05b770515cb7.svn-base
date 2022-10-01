@@ -1,0 +1,7 @@
+package ch.post.pf.nf.ta.baseutils;
+
+public interface InterfaceConstants {
+	
+	public final String EXCEPTION_GETMESSAGE = "Can execute Field is missing it should be updated with yes/no";
+
+}

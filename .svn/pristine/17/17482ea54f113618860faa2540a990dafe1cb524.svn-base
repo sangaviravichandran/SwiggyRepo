@@ -1,0 +1,246 @@
+package ch.post.pf.nf.ta.execution;
+
+import static org.testng.Assert.assertTrue;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import org.openqa.selenium.WebElement;
+import org.testng.SkipException;
+import org.testng.annotations.Test;
+
+import com.aventstack.extentreports.Status;
+
+import ch.post.pf.nf.ta.baseutils.CommonUtils;
+import ch.post.pf.nf.ta.baseutils.ReadData;
+import ch.post.pf.nf.ta.baseutils.Setup;
+import ch.post.pf.nf.ta.dao.DAOTest;
+import ch.post.pf.nf.ta.pagefactory.NAPFLocators;
+import ch.post.pf.nf.ta.scenarios.CreateNFScenarios;
+
+public class CreateNFTestCase extends Setup {
+
+	protected CreateNFScenarios scenario = new CreateNFScenarios();
+	protected CommonUtils common = new CommonUtils();
+	List<String> NFId = new ArrayList<>();
+
+	/*This Testcase help on Create investigation and Enter the value in process name and TA name*/
+	
+	@Test(priority = 0, dataProvider = "getDataReader", dataProviderClass = ReadData.class)
+	public void createNFWithPaTa(Map<String, String> testdata) throws Exception {
+		DAOTest daoTest = new DAOTest();
+		try {
+			if (testdata.get("CanExecute").equalsIgnoreCase("yes")) {
+				CommonUtils.waitTime(2000);
+				log.info("***************** START TEST *****************");
+				common.NAPFBrowserLaunch();
+				logger = parent.createNode(methodName + " for PA and TA :" + testdata.get("Process Name")
+						+ testdata.get("TA") + "DC:" + testdata.get("Headers"));
+				if (testdata.get("Headers").equalsIgnoreCase("Online")) {
+					common.waitTime(5000);
+					scenario.profileMenuSelect(testdata.get("Language"));
+					common.waitTime(3000);
+					scenario.createNFWithPaTa(testdata);
+					common.waitTime(1000);
+					String NFid = daoTest.readNFNumber();
+					NFId.add(NFid);
+				} else {
+					log.info("Already the Pa Ta were created for : " + testdata.get("Headers"));
+				}
+			} else {
+				logger = parent.createNode(methodName + testdata.get("Menu 1"));
+				throw new SkipException(methodName);
+			}
+		} catch (NullPointerException e) {
+			// TODO: handle exception
+			logger = parent.createNode(methodName + "CanExecute check");
+			logger.log(Status.FAIL, "canexecute Field is manditory should be updated as yes /no");
+			assertTrue(false);
+		}
+	}
+
+	/*This Testcase help on after create investigation and general Tab all field validation */
+	
+	@Test(priority = 1, dataProvider = "getGenralTabData", dataProviderClass = ReadData.class)
+	public void CreateNFDcGenralTabFieldValidation(Map<String, String> testdata) throws Exception {
+		try {
+			if (testdata.get("CanExecute").equalsIgnoreCase("yes")) {
+				CommonUtils.waitTime(2000);
+				DAOTest daoTest = new DAOTest();
+				NAPFLocators ls = new NAPFLocators();
+				log.info("***************** START TEST *****************");
+				common.NAPFBrowserLaunch();
+				logger = parent.createNode(methodName + " for PA and TA :" + testdata.get("Process Name")
+						+ testdata.get("TA") + "DC field multiple language validation for :" + testdata.get("Headers"));
+				log.info(testdata.toString());
+				if (testdata.get("Language").equalsIgnoreCase("Multiple")) {
+					if (testdata.get("Headers").equalsIgnoreCase("Online")) {
+						String NFId = null;
+						for (int i = 1; i <= 4; i++) {
+							if (i == 1) {
+								scenario.profileMenuSelect(testdata.get("DataValidationLanguage"+ i));
+								scenario.createNFWithPaTa(testdata);
+								NFId = daoTest.readNFNumber();
+							} else {
+								common.waitTime(5000);
+								scenario.profileMenuSelect(testdata.get("DataValidationLanguage"+ i));
+							}
+							String[] testinput = { testdata.get("Process Name"), testdata.get("TA"),
+									testdata.get("EditorMenu" + i), testdata.get("Headers"),
+									testdata.get("FieldNames" + i) };
+							scenario.DcGenralTabFieldValidation(testinput);
+						}
+					} else {
+						for (int i = 1; i <= 4; i++) {
+							logger.log(Status.INFO, "Validating the Genral tab fields in "
+									+ testdata.get("DataValidationLanguage" + i));
+							if (i == 1) {
+								daoTest.searchAndMovetoUserinbox(testdata.get("DataValidationLanguage" + i),
+										testdata.get("Menu 1"), testdata.get("NFID"));
+							} else {
+								common.waitTime(2000);
+								common.loadURL();
+								common.waitTime(5000);
+								scenario.profileMenuSelect(testdata.get("DataValidationLanguage" + i));
+								scenario.openNFInvestigation(common.splitString(testdata.get("NFID")));
+							}
+							String[] testinput = { testdata.get("Process Name"), testdata.get("TA"),
+									testdata.get("EditorMenu" + i), testdata.get("Headers"),
+									testdata.get("FieldNames" + i) };
+							scenario.DcGenralTabFieldValidation(testinput);
+						}
+					}
+				}
+			} else {
+				logger = parent.createNode(methodName + testdata.get("Menu 1"));
+				throw new SkipException(methodName);
+			}
+		} catch (NullPointerException e) {
+			// TODO: handle exception
+			logger = parent.createNode(methodName + "CanExecute check");
+			logger.log(Status.FAIL, "canexecute Field is manditory should be updated as yes /no");
+			assertTrue(false);
+		}
+	}
+
+	/*This Testcase help on after create investigation Closure Field validation in general tab */
+	
+	@Test(priority = 2, dataProvider = "productclosure", dataProviderClass = ReadData.class)
+	public void CreateNFDcClosureFieldDataValidation(Map<String, String> testdata) throws Exception {
+		NAPFLocators ls = new NAPFLocators();
+		DAOTest daoTest = new DAOTest();
+		try {
+			//int count = 0;
+			if (testdata.get("CanExecute").equalsIgnoreCase("yes")) {
+				CommonUtils.waitTime(2000);
+				log.info("***************** START TEST *****************");
+				common.NAPFBrowserLaunch();
+				logger = parent.createNode(methodName + " for PA and TA :" + testdata.get("Process Name")
+						+ testdata.get("TA") + "DC:" + testdata.get("Headers"));
+				log.info(testdata.toString());
+				if (testdata.get("Headers").equalsIgnoreCase("Online")) {
+					common.waitTime(5000);
+					scenario.profileMenuSelect(testdata.get("Language"));
+					common.waitTime(2000);
+					scenario.createNFWithPaTa(testdata);
+					//scenario.openNFInvestigation(NFId.get(count).replace("NF | ", ""));
+					common.waitTime(3000);
+					scenario.DcClosureFieldDataValidation(testdata);
+					//count++;
+				} else {
+					daoTest.searchAndMovetoUserinbox(testdata.get("Language"), testdata.get("Menu 1"),
+							testdata.get("NFID"));
+					scenario.DcClosureFieldDataValidation(testdata);
+				}
+			} else {
+				logger = parent.createNode(methodName + testdata.get("Menu 1"));
+				throw new SkipException(methodName);
+			}
+		} catch (NullPointerException e) {
+			// TODO: handle exception
+			logger = parent.createNode(methodName + "CanExecute check");
+			logger.log(Status.FAIL, "canexecute Field is manditory should be updated as yes /no");
+			assertTrue(false);
+		}
+	}
+	
+	/*This Testcase help on after create investigation Product Code Data validation in general tab */
+
+	@Test(priority = 3, dataProvider = "productclosure", dataProviderClass = ReadData.class)
+	public void CreateNFDcProductCodeDataValidation(Map<String, String> testdata) throws Exception {
+		NAPFLocators ls = new NAPFLocators();
+		DAOTest daoTest = new DAOTest();
+		try {
+			if (testdata.get("CanExecute").equalsIgnoreCase("yes")) {
+				CommonUtils.waitTime(2000);
+				log.info("***************** START TEST *****************");
+				common.NAPFBrowserLaunch();
+				logger = parent.createNode(methodName + " for PA and TA :" + testdata.get("Process Name")
+						+ testdata.get("TA") + "DC:" + testdata.get("Headers"));
+				log.info(testdata.toString());
+				if (testdata.get("Headers").equalsIgnoreCase("Online")) {
+					common.waitTime(5000);
+					scenario.profileMenuSelect(testdata.get("Language"));
+					common.waitTime(2000);
+					scenario.createNFWithPaTa(testdata);
+					common.waitTime(3000);
+					scenario.DcProductCodeDataValidation(testdata);
+					common.waitTime(2000);
+				} else {
+					daoTest.searchAndMovetoUserinbox(testdata.get("Language"), testdata.get("Menu 1"),
+							testdata.get("NFID"));
+					scenario.DcProductCodeDataValidation(testdata);
+				}
+			} else {
+				logger = parent.createNode(methodName + testdata.get("Menu 1"));
+				throw new SkipException(methodName);
+			}
+		} catch (NullPointerException e) {
+			// TODO: handle exception
+			logger = parent.createNode(methodName + "CanExecute check");
+			logger.log(Status.FAIL, "canexecute Field is manditory should be updated as yes /no");
+			assertTrue(false);
+		}
+	}
+
+	/*This Testcase help on after create investigation Local code data validation in general Tab*/
+	
+	@Test(priority = 4, dataProvider = "getLocalcodevalue", dataProviderClass = ReadData.class)
+	public void LocalCodeValidationDcGenralTab(Map<String, String> testdata) throws Exception {
+		DAOTest daoTest = new DAOTest();
+		NAPFLocators ls = new NAPFLocators();
+		try {
+			if (testdata.get("CanExecute").equalsIgnoreCase("yes")) {
+				CommonUtils.waitTime(2000);
+				log.info("***************** START TEST *****************");
+				// this.browserLaunch(System.getProperty("browserName"));
+				common.NAPFBrowserLaunch();
+				logger = parent.createNode(methodName + " for PA and TA :" + testdata.get("Process Name")
+						+ testdata.get("TA") + "DC:" + testdata.get("Headers"));
+				if (testdata.get("Headers").equalsIgnoreCase("Online")) {
+					common.waitTime(3000);
+					scenario.profileMenuSelect(testdata.get("Language"));
+					common.waitTime(2000);
+					scenario.createNFWithPaTa(testdata);
+					common.waitTime(4000);
+					scenario.LocalCodeFieldValidatin(testdata);
+				} else {
+					common.waitTime(5000);
+					daoTest.searchAndMovetoUserinbox(testdata.get("Language"), testdata.get("Menu 1"),
+							testdata.get("NFID"));
+					scenario.LocalCodeFieldValidatin(testdata);
+				}
+			} else {
+				logger = parent.createNode(methodName + testdata.get("Menu 1"));
+				throw new SkipException(methodName);
+			}
+		} catch (NullPointerException e) {
+			// TODO: handle exception
+			logger = parent.createNode(methodName + "CanExecute check");
+			logger.log(Status.FAIL, "canexecute Field is manditory should be updated as yes /no");
+			assertTrue(false);
+		}
+	}
+
+}

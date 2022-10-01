@@ -1,0 +1,229 @@
+package ch.post.pf.nf.ta.scenarios;
+
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
+import java.awt.Robot;
+import java.awt.event.KeyEvent;
+import java.io.IOException;
+import java.util.Collections;
+import java.util.Currency;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.devtools.v85.page.Page.SetWebLifecycleStateState;
+import org.slf4j.Logger;
+import org.testng.Assert;
+
+import com.aventstack.extentreports.Status;
+import com.aventstack.extentreports.model.Log;
+
+import ch.post.pf.nf.ta.baseutils.CommonUtils;
+import ch.post.pf.nf.ta.baseutils.Log4jUtil;
+import ch.post.pf.nf.ta.baseutils.ReadData;
+import ch.post.pf.nf.ta.baseutils.Setup;
+import ch.post.pf.nf.ta.dao.DAOTest;
+import ch.post.pf.nf.ta.pagefactory.NAPFLocators;
+
+public class SearchInvestigationScenarios extends Setup {
+
+	Logger log = Log4jUtil.loadLogger(SearchInvestigationScenarios.class);
+	CommonUtils commonUtils = new CommonUtils();	
+	CreateNFScenarios CNFScenarios =new CreateNFScenarios();
+
+
+	/*
+	 * The below Scenario is used to validate the field and more,rest and search button
+	 * 
+	 */
+	public void searchInvestigationFields_buttons(Map<String, String> testdata) throws Exception {
+		DAOTest daoTest = new DAOTest();
+		daoTest.appMenuList(testdata.get("Menu 1"));
+		daoTest.searchpageoptionbutton();
+		Set<String> allSearchFieldValidation = daoTest.allSearchFieldValidation();
+		Set<String> Allsearchfields = daoTest.readFiledNameFromPATA(testdata.get("All search fields"),
+				"All search fields");
+		log.info(allSearchFieldValidation.toString());
+		log.info(Allsearchfields.toString());
+		assertEquals(allSearchFieldValidation, Allsearchfields, "All search fields are not found as execpted");
+		log.info("All search fields are found as execpted");
+		logger.log(Status.INFO, "All search fields are found as execpted");
+	}
+
+		/*
+		 * this method is used to search data using the field in search investigation page
+		 */
+	public void SearchDataInSearchInvestigation(Map<String, String> testdata) throws Exception {
+		DAOTest daoTest = new DAOTest();
+		NAPFLocators ls = new NAPFLocators();
+		log.info("Search Data In Search Investigation " + testdata.get("headername"));
+		logger.log(Status.INFO, "Search Data In Search Investigation " + testdata.get("headername"));
+		switch (testdata.get("headername")) {
+		case "Prozessname":
+			daoTest.appMenuList(testdata.get("Menu 1"));
+			daoTest.searchpageHeadingValidation(testdata.get("Menu 1"));
+			commonUtils.click(commonUtils.expandRootElement(ls.MoreOption));
+			log.info(testdata.get("DataOne"));
+			daoTest.SearchInvestigationsearch(ls.processNameInput, testdata.get("DataOne"),testdata.get("headername"));
+			commonUtils.scrolltoPageHeight();
+			daoTest.searchClick();
+			daoTest.SearchResult(testdata.get("DataOne"), testdata.get("DataTwo"), testdata.get("headername"));
+			break;
+		case "Status der NF":
+			daoTest.appMenuList(testdata.get("Menu 1"));
+			daoTest.searchpageHeadingValidation(testdata.get("Menu 1"));
+			commonUtils.click(commonUtils.expandRootElement(ls.MoreOption));
+			daoTest.SearchInvestigationsearch(ls.State, testdata.get("DataOne"), testdata.get("headername"));
+			commonUtils.scrolltoPageHeight();
+			daoTest.searchClick();
+			daoTest.SearchResult(testdata.get("DataOne"), testdata.get("DataTwo"), testdata.get("headername"));
+			break;
+		case "Währung":
+			daoTest.appMenuList(testdata.get("Menu 1"));
+			daoTest.searchpageHeadingValidation(testdata.get("Menu 1"));
+			commonUtils.click(commonUtils.expandRootElement(ls.MoreOption));
+			WebElement currency = ls.Currency;
+			currency.click();
+			commonUtils.downenter();
+			//commonUtils.type(ls.Currency,testdata.get("headername"),testdata.get("DataOne"));
+			commonUtils.scrolltoPageHeight();
+			daoTest.searchClick();
+			daoTest.SearchResult(testdata.get("DataOne"), testdata.get("DataTwo"), testdata.get("headername"));
+			break;
+		case "NF-Datum":
+			daoTest.appMenuList(testdata.get("Menu 1"));
+			daoTest.searchpageHeadingValidation(testdata.get("Menu 1"));
+			commonUtils.click(commonUtils.expandRootElement(ls.MoreOption));
+			commonUtils.click(ls.NFdateRangeFrom);
+			ls.NFdateRangeFrom.sendKeys(testdata.get("DataOne"));
+			commonUtils.scrolltoPageHeight();
+			daoTest.searchClick();
+			daoTest.SearchResult(testdata.get("DataOne"), testdata.get("DataTwo"), testdata.get("headername"));
+
+			break;
+		case "Betrag":
+			daoTest.appMenuList(testdata.get("Menu 1"));
+			daoTest.searchpageHeadingValidation(testdata.get("Menu 1"));
+			commonUtils.click(commonUtils.expandRootElement(ls.MoreOption));
+			WebElement AmountRangeFrom = ls.AmountRangeFrom;
+			AmountRangeFrom.click();
+			commonUtils.type(ls.AmountRangeFrom,testdata.get("headername"),testdata.get("DataOne"));
+			WebElement AmountRangeTo = ls.AmountRangeTo;
+			AmountRangeTo.click();
+			commonUtils.type(ls.AmountRangeTo,testdata.get("headername"),testdata.get("DataTwo"));
+			commonUtils.scrolltoPageHeight();
+			daoTest.searchClick();
+			daoTest.SearchResult(testdata.get("DataOne"), testdata.get("DataTwo"), testdata.get("headername"));
+			break;
+		case "NF-ID":
+			daoTest.appMenuList(testdata.get("Menu 1"));
+			daoTest.searchpageHeadingValidation(testdata.get("Menu 1"));
+			commonUtils.click(commonUtils.expandRootElement(ls.MoreOption));
+			commonUtils.scrollintoView();
+			//daoTest.SearchInvestigationsearch(ls.NFIdRangeFrom, testdata.get("DataOne"), testdata.get("headername"));
+			//daoTest.SearchInvestigationsearch(ls.NFIdRangeto, testdata.get("DataTwo"), testdata.get("headername"));
+			commonUtils.click(ls.NFIdRangeFrom);
+			commonUtils.type(ls.NFIdRangeFrom,testdata.get("headername"),commonUtils.splitString(testdata.get("DataOne")));
+			commonUtils.click(ls.NFIdRangeto);
+			commonUtils.type(ls.NFIdRangeto,testdata.get("headername"),commonUtils.splitString(testdata.get("DataTwo")));
+			commonUtils.scrolltoPageHeight();
+			daoTest.searchClick();
+			daoTest.SearchResult(commonUtils.splitString(testdata.get("DataOne")), commonUtils.splitString(testdata.get("DataTwo")), testdata.get("headername"));
+			break;
+		case "Postkonto-Nr. Auftraggeber":
+			daoTest.appMenuList(testdata.get("Menu 1"));
+			daoTest.searchpageHeadingValidation(testdata.get("Menu 1"));
+			ls.MoneyReceiver.isDisplayed();
+			commonUtils.click(ls.MoneyReceiver);
+			commonUtils.type(ls.MoneyReceiver, "enter iban number in money receiver", testdata.get("DataOne"));
+			commonUtils.click(ls.NFdateRangeFrom);
+			ls.NFdateRangeFrom.sendKeys(testdata.get("DataTwo"));
+			//commonUtils.type(ls.NFdateRangeFrom, "select a date", testdata.get("DataTwo"));
+			commonUtils.scrolltoPageHeight();
+			daoTest.searchClick();
+			daoTest.SearchResult(testdata.get("DataTwo"), null, testdata.get("headername"));
+			break;
+			
+		default:
+			log.info("the given key is not found in a case");
+			break;
+		}
+
+	}
+	/*
+	 * Verifying the reset button is working fine after clicking more and less option buttons
+	 */
+	
+	public void ResetClickFunction(Map<String, String> testdata) throws Exception {
+		DAOTest daoTest = new DAOTest();
+		NAPFLocators ls = new NAPFLocators();
+		daoTest.appMenuList(testdata.get("Menu 1"));
+		commonUtils.waitTime(3000);
+		logger.log(Status.INFO, "Reset button working or not working");
+		commonUtils.click(commonUtils.expandRootElement(ls.MoreOption));
+		commonUtils.scrolltoPageHeight();
+		if (commonUtils.expandRootElement(ls.LessOption).isDisplayed()) {
+			daoTest.ClickReset();
+			if (commonUtils.expandRootElement(ls.MoreOption).isDisplayed()){
+				log.info("moreoption and lessoption button is displayed");
+				logger.log(Status.INFO, "moreoption and lessoption button is displayed");
+				assertTrue(true);
+			}
+			else {
+				log.info("moreoption button is not displayed");
+				logger.log(Status.INFO, "moreoption button is not displayed");
+				assertTrue(false);
+			}
+
+		} else {
+			log.info("lessoption button is not displayed");
+			logger.log(Status.INFO, "lessoption button is not displayed");
+			assertTrue(false);
+		}
+	}
+	
+	/*
+	 * verifying the search data after downloading the data to excel are same
+	 */
+	
+	public void SearchInvestigationDownload(Map<String, String> testdata) throws Exception {
+		DAOTest daoTest = new DAOTest();
+		NAPFLocators ls = new NAPFLocators();
+		daoTest.appMenuList(testdata.get("Menu 1"));
+		commonUtils.waitTime(3000);
+		daoTest.searchpageHeadingValidation(testdata.get("Menu 1"));
+		WebElement AmountRangeFrom = ls.AmountRangeFrom;
+		AmountRangeFrom.click();
+		commonUtils.type(ls.AmountRangeFrom,testdata.get("headername"),testdata.get("DataOne"));
+		WebElement AmountRangeTo = ls.AmountRangeTo;
+		AmountRangeTo.click();
+		commonUtils.type(ls.AmountRangeTo,testdata.get("headername"),testdata.get("DataTwo"));
+		commonUtils.scrolltoPageHeight();
+		daoTest.searchClick();
+		int noOfSearchResult = daoTest.noOfSearchResult();
+		log.info(" Search Investigation download clicking " );
+		logger.log(Status.INFO, "Search Investigation download clicking ");
+		daoTest.downloadClick();
+		commonUtils.waitTime(10000);
+	}
+	
+	public void SearchInvestigationToUserInbox(Map<String, String> testdata) throws Exception {
+		DAOTest daoTest = new DAOTest();
+		NAPFLocators ls = new NAPFLocators();
+		commonUtils.waitTime(3000);
+		CNFScenarios.profileMenuSelect("Language");
+		CNFScenarios.createNFWithPaTa(testdata);
+		String NFNO= daoTest.readNFNumber();
+		commonUtils.waitTime(2000);
+		daoTest.headersearchButton();
+		commonUtils.waitTime(3000);
+		daoTest.ABPPopupTab();
+		commonUtils.waitTime(3000);
+		daoTest.attachTransactionSelecter(testdata.get("Process Name") );
+		daoTest.RequestStatus();
+		
+	}
+}

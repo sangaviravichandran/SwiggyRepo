@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="NapfSuite" thread-count="5">
+  <test  name="ActivitiesTestCase">
+    <classes>
+      <class name="ch.post.pf.nf.ta.execution.ActivitiesTestCase"/>
+    </classes>
+  </test> <!-- Test -->
+  <test  name="AssignInvestigationTestCase">
+		<classes>
+			<class
+				name="ch.post.pf.nf.ta.execution.AssignInvestigationTestCase" />
+		</classes>
+	</test> <!-- Test -->
+	
+	<test name="AttachMentTestCase">
+		<classes>
+			<class name="ch.post.pf.nf.ta.execution.AttachMentTestCase" />
+		</classes>
+	</test> <!-- Test -->
+	<test  name="CreateNFTestCase">
+		<classes>
+			<class name="ch.post.pf.nf.ta.execution.CreateNFTestCase" />
+		</classes>
+	</test> <!-- Test -->
+	<test  name="EditerMemosTestCase">
+		<classes>
+			<class name="ch.post.pf.nf.ta.execution.EditerMemosTestCase" />
+		</classes>
+	</test> <!-- Test -->
+	<test  name="HomePageMenuListValidation">
+		<classes>
+			<class
+				name="ch.post.pf.nf.ta.execution.HomePageMenuListValidation" />
+		</classes>
+	</test> <!-- Test -->
+	<test name="IDAResultTestCase">
+		<classes>
+			<class name="ch.post.pf.nf.ta.execution.IDAResultTestCase" />
+		</classes>
+	</test> <!-- Test -->
+	<test name="NotesTabTestCase">
+		<classes>
+			<class name="ch.post.pf.nf.ta.execution.NotesTabTestCase" />
+		</classes>
+	</test> <!-- Test -->
+	<test name="OnHoldReminderTestCase">
+		<classes>
+			<class name="ch.post.pf.nf.ta.execution.OnHoldReminderTestCase" />
+		</classes>
+	</test> <!-- Test -->
+	<test  name="PartnerAddressTestCase">
+		<classes>
+			<class name="ch.post.pf.nf.ta.execution.PartnerAddressTestCase" />
+		</classes>
+	</test> <!-- Test -->
+	<test  name="ProductTabValidationTestCase">
+		<classes>
+			<class
+				name="ch.post.pf.nf.ta.execution.ProductTabValidationTestCase" />
+		</classes>
+	</test> <!-- Test -->
+	<test name="SearchInvestigationTestCase">
+		<classes>
+			<class
+				name="ch.post.pf.nf.ta.execution.SearchInvestigationTestCase" />
+		</classes>
+	</test> <!-- Test -->
+	<test  name="SearchMemosTestCase">
+		<classes>
+			<class name="ch.post.pf.nf.ta.execution.SearchMemosTestCase" />
+		</classes>
+	</test> <!-- Test -->
+	<test name="UserInboxTestCase">
+		<classes>
+			<class name="ch.post.pf.nf.ta.execution.UserInboxTestCase" />
+		</classes>
+	</test> <!-- Test -->
+	<test  name="WorkFlowTestCase">
+		<classes>
+			<class name="ch.post.pf.nf.ta.execution.WorkFlowTestCase" />
+		</classes>
+	</test> <!-- Test -->
+	
+</suite> <!-- NapfSuite -->

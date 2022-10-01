@@ -1,0 +1,71 @@
+package ch.post.pf.nf.ta.scenarios;
+
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
+import java.awt.Robot;
+import java.awt.event.KeyEvent;
+import java.io.IOException;
+import java.util.Collections;
+import java.util.Currency;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.devtools.v85.page.Page.SetWebLifecycleStateState;
+import org.slf4j.Logger;
+import org.testng.Assert;
+
+import com.aventstack.extentreports.Status;
+import com.aventstack.extentreports.model.Log;
+
+import ch.post.pf.nf.ta.baseutils.CommonUtils;
+import ch.post.pf.nf.ta.baseutils.Log4jUtil;
+import ch.post.pf.nf.ta.baseutils.ReadData;
+import ch.post.pf.nf.ta.baseutils.Setup;
+import ch.post.pf.nf.ta.dao.DAOTest;
+import ch.post.pf.nf.ta.pagefactory.NAPFLocators;
+
+public class AssignInvestigationScenario extends Setup {
+
+	Logger log = Log4jUtil.loadLogger(AssignInvestigationScenario.class);
+	CommonUtils commonUtils = new CommonUtils();
+	CreateNFScenarios CNFScenarios =new CreateNFScenarios();
+
+	public void AssignInvestigation(Map<String, String> testdata) throws Exception {
+		DAOTest daoTest = new DAOTest();
+		daoTest.appMenuList(testdata.get("Menu 1"));
+		commonUtils.waitTime(3000);
+		daoTest.AssignInvestigationValidation(testdata.get("Select User"));
+		commonUtils.waitTime(3000);
+		boolean userInboxGroupElementCheck = daoTest.userInboxGroupElementCheck();
+		if (userInboxGroupElementCheck) {
+			assertTrue(userInboxGroupElementCheck,"The group element is in enabled stated");
+		}
+		else {
+			assertTrue(true);
+		}
+		String readNFIDClickCheckBox = daoTest.ReadNFIDClickCheckBox();
+		boolean userInboxGroupElementCheckafter = daoTest.userInboxGroupElementCheck();
+		commonUtils.waitTime(2000);
+		if (userInboxGroupElementCheckafter) {
+			assertTrue(userInboxGroupElementCheckafter);
+		}
+		else {
+			assertTrue(false,"the group elements is disabled status after clicking the checkbox");
+		}
+		daoTest.seelctGroupOption(testdata.get("Group"), "");
+		daoTest.appMenuList(testdata.get("appmenu"));
+		daoTest.groupQueueSummary(testdata.get("Groupsummary"));
+		WebElement nfsearchIngroupsummary = daoTest.NfsearchInUserInbox(readNFIDClickCheckBox, "");
+		if (nfsearchIngroupsummary!=null) {
+			assertTrue(true);
+		}
+		else {
+			assertTrue(false,"The Nf id moved torespective group is not found on search");
+		}
+	}
+
+}

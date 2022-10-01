@@ -1,0 +1,105 @@
+package ch.post.pf.nf.ta.execution;
+
+import java.util.Map;
+
+import org.testng.SkipException;
+import org.testng.annotations.Test;
+
+import ch.post.pf.nf.ta.baseutils.CommonUtils;
+import ch.post.pf.nf.ta.baseutils.ReadData;
+import ch.post.pf.nf.ta.baseutils.Setup;
+import ch.post.pf.nf.ta.scenarios.ActivitiesScenario;
+import ch.post.pf.nf.ta.scenarios.CreateNFScenarios;
+import ch.post.pf.nf.ta.scenarios.PartnerAddressScenario;
+
+public class PartnerAddressTestCase extends Setup {
+
+	protected PartnerAddressScenario scenario = new PartnerAddressScenario();
+	protected CreateNFScenarios Scenarios = new CreateNFScenarios();
+	protected CommonUtils common = new CommonUtils();
+
+	@Test(priority = 1, dataProvider = "getpartnerAddress", dataProviderClass = ReadData.class)
+	public void PartnerAddress(Map<String, String> testdata) throws Exception {
+		if (testdata.get("CanExecute").equalsIgnoreCase("yes")) {
+			CommonUtils.waitTime(2000);
+			log.info("***************** START TEST *****************");
+			// this.browserLaunch(System.getProperty("browserName"));
+			this.browserLaunch("Chrome");
+			common.loadURL();
+			logger = parent.createNode(methodName);
+			Scenarios.profileMenuSelect(testdata.get("Language"));
+			scenario.partnerTypeFieldValidation(testdata);
+		} else {
+			logger = parent.createNode(methodName + testdata.get("Menu 1"));
+			throw new SkipException(methodName);
+		}
+	}
+
+	@Test(priority = 2, dataProvider = "getpartnerAddress", dataProviderClass = ReadData.class)
+	public void CreatingPADetails(Map<String, String> testdata) throws Exception {
+		if (testdata.get("CanExecute").equalsIgnoreCase("yes")) {
+			CommonUtils.waitTime(2000);
+			log.info("***************** START TEST *****************");
+			// this.browserLaunch(System.getProperty("browserName"));
+			this.browserLaunch("Chrome");
+			common.loadURL();
+			logger = parent.createNode(methodName);
+			Scenarios.profileMenuSelect(testdata.get("Language"));
+			scenario.CreatingPADetails(testdata);
+		} else {
+			logger = parent.createNode(methodName + testdata.get("Menu 1"));
+			throw new SkipException(methodName);
+		}
+	}
+
+	@Test(priority = 3, dataProvider = "getpartnerAddress", dataProviderClass = ReadData.class)
+	public void CreatingISYPartnerSearch(Map<String, String> testdata) throws Exception {
+		if (testdata.get("CanExecute").equalsIgnoreCase("yes")) {
+			CommonUtils.waitTime(2000);
+			log.info("***************** START TEST *****************");
+			// this.browserLaunch(System.getProperty("browserName"));
+			this.browserLaunch("Chrome");
+			common.loadURL();
+			logger = parent.createNode(methodName);
+			Scenarios.profileMenuSelect(testdata.get("Language"));
+			scenario.CreatingISYPartnerSearch(testdata);
+		} else {
+			logger = parent.createNode(methodName + testdata.get("Menu 1"));
+			throw new SkipException(methodName);
+		}
+	}
+
+	@Test(priority = 4, dataProvider = "getpartnerAddress", dataProviderClass = ReadData.class)
+	public void CreatingPEDAPartnerSearch(Map<String, String> testdata) throws Exception {
+		if (testdata.get("CanExecute").equalsIgnoreCase("yes")) {
+			CommonUtils.waitTime(2000);
+			log.info("***************** START TEST *****************");
+			// this.browserLaunch(System.getProperty("browserName"));
+			this.browserLaunch("Chrome");
+			common.loadURL();
+			logger = parent.createNode(methodName);
+			Scenarios.profileMenuSelect(testdata.get("Language"));
+			scenario.CreatingPEDAPartnerSearch(testdata);
+		} else {
+			logger = parent.createNode(methodName + testdata.get("Menu 1"));
+			throw new SkipException(methodName);
+		}
+	}
+
+	@Test(priority = 5, dataProvider = "getpartnerAddress", dataProviderClass = ReadData.class)
+	public void EditAndDeletePartnerSearch(Map<String, String> testdata) throws Exception {
+		if (testdata.get("CanExecute").equalsIgnoreCase("yes")) {
+			CommonUtils.waitTime(2000);
+			log.info("***************** START TEST *****************");
+			// this.browserLaunch(System.getProperty("browserName"));
+			this.browserLaunch("Chrome");
+			common.loadURL();
+			logger = parent.createNode(methodName);
+			Scenarios.profileMenuSelect(testdata.get("Language"));
+			scenario.EditAndDeletePartnerSearch(testdata);
+		} else {
+			logger = parent.createNode(methodName + testdata.get("Menu 1"));
+			throw new SkipException(methodName);
+		}
+	}
+}

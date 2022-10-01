@@ -1,0 +1,121 @@
+package ch.post.pf.nf.ta.scenarios;
+
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
+import java.awt.Robot;
+import java.awt.event.KeyEvent;
+import java.io.IOException;
+import java.util.Collections;
+import java.util.Currency;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.devtools.v85.page.Page.SetWebLifecycleStateState;
+import org.slf4j.Logger;
+import org.testng.Assert;
+
+import com.aventstack.extentreports.Status;
+import com.aventstack.extentreports.model.Log;
+
+import ch.post.pf.nf.ta.baseutils.CommonUtils;
+import ch.post.pf.nf.ta.baseutils.Log4jUtil;
+import ch.post.pf.nf.ta.baseutils.ReadData;
+import ch.post.pf.nf.ta.baseutils.Setup;
+import ch.post.pf.nf.ta.dao.DAOTest;
+import ch.post.pf.nf.ta.pagefactory.NAPFLocators;
+
+public class UserInboxScenarios extends Setup {
+
+	Logger log = Log4jUtil.loadLogger(UserInboxScenarios.class);
+	CommonUtils commonUtils = new CommonUtils();
+
+	
+	/*
+	 * method to valdiate all field inside user inbox with column field sorting..
+	 */
+
+	public void userInboxFieldValidation() throws Exception {
+		DAOTest daoTest = new DAOTest();
+		logger.log(Status.INFO, "Validating theuser inbox fields");
+		daoTest.AppMenuSelection(ReadData.getTestProperty("userMenu"));
+		daoTest.column_field_sorting_validation();
+		boolean userInboxGroupElementCheck = daoTest.userInboxGroupElementCheck();
+		if (userInboxGroupElementCheck) {
+			assertEquals(userInboxGroupElementCheck, true, "The group element are in enabled status");
+		} else {
+			assertEquals(userInboxGroupElementCheck, false, "The group element are in disabled status");
+		}
+	}
+	
+	/*
+	 *  nf id search in userinbox and check the group elements status..
+	 */
+
+	public void userInboxNFsearchAndGroupcheck() throws Exception {
+		DAOTest daoTest = new DAOTest();
+		String readNFNumber2 = daoTest.readNFNumber();
+		logger.log(Status.INFO, "searching the NF-number created :" + readNFNumber2);
+		commonUtils.loadURL();
+		commonUtils.waitTime(3000);
+		WebElement nfsearchInUserInbox = daoTest.NfsearchInUserInbox(readNFNumber2.replaceAll("NF | ", ""), "search");
+		boolean userInboxGroupElementCheck = daoTest.userInboxGroupElementCheck();
+		if (!userInboxGroupElementCheck) {
+			assertTrue(true, "The group element are in disabled status");
+		} else {
+			assertTrue(userInboxGroupElementCheck, "The group element are in enabled status");
+		}
+	}
+	
+	/*
+	 * nf id search in userinbox and opening the nf id from userinbox and create a customer mess..
+	 */
+	public void userInboxNFsearchAndopenCreateMess(String NFId) throws Exception {
+		DAOTest daoTest = new DAOTest();
+		logger.log(Status.INFO, "Searching and opening the NF id: " + NFId);
+		boolean open_Searched_NF = daoTest.open_Searched_NF(NFId, "");
+		assertTrue(open_Searched_NF, "Unable to iopen the Searched NF");
+		boolean createMessTab = daoTest.CreateMessTab("Create a new mess");
+		assertTrue(createMessTab, "Create mess is not working as execpted");
+	}
+
+	/*
+	 * nf id search in userinbox and move the searched nf id to appropriate group and check 
+	 * the same is moved to appropriate group..
+	 */
+	
+	public void userGroupNavigate(Map<String, String> testdata) throws Exception {
+		DAOTest daoTest = new DAOTest();
+		String readNFNumber2 = daoTest.readNFNumber();
+		logger.log(Status.INFO, "searching the NF-number created :" + readNFNumber2);
+		commonUtils.loadURL();
+		commonUtils.waitTime(3000);
+		WebElement nfsearchInUserInbox = daoTest.NfsearchInUserInbox(readNFNumber2.replaceAll("NF | ", ""), "search");
+		boolean userInboxGroupElementCheck = daoTest.userInboxGroupElementCheck();
+		if (!userInboxGroupElementCheck) {
+			assertTrue(true, "The group element are in disabled status");
+		} else {
+			assertTrue(false, "The group element are in enabled status");
+		}
+		daoTest.seelctGroupOption(testdata.get("Group"));
+		daoTest.appMenuList(testdata.get("appmenu"));
+		log.info("Searching the NF moved to " + testdata.get("Group"));
+		logger.log(Status.INFO, "Searching the NF moved to " + testdata.get("Group"));
+		daoTest.groupQueueSummary(testdata.get("Groupsummary"));
+		// driver.get(ReadData.getTestProperty("groupsummaryUrl"));
+		commonUtils.waitTime(5000);
+		WebElement nfsearchIngroupsummary = daoTest.NfsearchInUserInbox(readNFNumber2.replaceAll("NF | ", ""), "");
+		String replaceAll = readNFNumber2.replaceAll("NF | ", "");
+		String NFIdserach = replaceAll.replace("|", "");
+		if (nfsearchIngroupsummary.isDisplayed()) {
+			assertEquals(NFIdserach, daoTest.searchedCreatedNF,
+					"The Nf id moved to " + testdata.get("Group") + "is not found.");
+		} else {
+			assertTrue(false, "The Nf id is not found in the Group queue summary");
+		}
+	}
+
+}

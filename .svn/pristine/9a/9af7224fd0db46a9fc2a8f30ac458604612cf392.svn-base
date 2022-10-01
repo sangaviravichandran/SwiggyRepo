@@ -1,0 +1,53 @@
+package ch.post.pf.nf.ta.execution;
+
+import java.util.Map;
+
+import org.testng.annotations.Test;
+
+import ch.post.pf.nf.ta.baseutils.ReadData;
+import ch.post.pf.nf.ta.baseutils.Setup;
+import ch.post.pf.nf.ta.scenarios.ActivitiesScenario;
+import ch.post.pf.nf.ta.scenarios.CreateNFScenarios;
+import ch.post.pf.nf.ta.scenarios.PartnerAddressScenario;
+
+
+public class PartnerAddressTestCase extends Setup {
+
+	protected PartnerAddressScenario scenario = new PartnerAddressScenario();
+	protected CreateNFScenarios Scenarios= new CreateNFScenarios();
+	
+	@Test(priority = 1, dataProvider = "getpartnerAddress", dataProviderClass = ReadData.class)
+	public void PartnerAddress(Map<String, String> testdata) throws Exception {
+		logger = parent.createNode(methodName);	
+		Scenarios.profileMenuSelect(testdata.get("Language"));
+			scenario.partnerTypeFieldValidation(testdata);
+		}
+	
+	@Test(priority = 2, dataProvider = "getpartnerAddress", dataProviderClass = ReadData.class)
+	public void CreatingPADetails(Map<String, String> testdata) throws Exception {
+		logger = parent.createNode(methodName);	
+		Scenarios.profileMenuSelect(testdata.get("Language"));
+			scenario.CreatingPADetails(testdata);
+		}
+	
+	@Test(priority = 3, dataProvider = "getpartnerAddress", dataProviderClass = ReadData.class)
+	public void CreatingISYPartnerSearch(Map<String, String> testdata) throws Exception {
+		logger = parent.createNode(methodName);	
+		Scenarios.profileMenuSelect(testdata.get("Language"));
+			scenario.CreatingISYPartnerSearch(testdata);
+		}
+
+	@Test(priority = 4, dataProvider = "getpartnerAddress", dataProviderClass = ReadData.class)
+	public void CreatingPEDAPartnerSearch(Map<String, String> testdata) throws Exception {
+		logger = parent.createNode(methodName);	
+		Scenarios.profileMenuSelect(testdata.get("Language"));
+			scenario.CreatingPEDAPartnerSearch(testdata);
+		}
+	
+	@Test(priority = 5, dataProvider = "getpartnerAddress", dataProviderClass = ReadData.class)
+	public void EditAndDeletePartnerSearch(Map<String, String> testdata) throws Exception {
+		logger = parent.createNode(methodName);	
+		Scenarios.profileMenuSelect(testdata.get("Language"));
+			scenario.EditAndDeletePartnerSearch(testdata);
+		}
+}

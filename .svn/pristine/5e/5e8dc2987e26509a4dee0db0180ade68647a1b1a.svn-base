@@ -1,0 +1,50 @@
+package ch.post.pf.nf.ta.scenarios;
+
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
+import java.awt.Robot;
+import java.awt.event.KeyEvent;
+import java.io.IOException;
+import java.util.Collections;
+import java.util.Currency;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.devtools.v85.page.Page.SetWebLifecycleStateState;
+import org.slf4j.Logger;
+import org.testng.Assert;
+
+import com.aventstack.extentreports.Status;
+import com.aventstack.extentreports.model.Log;
+
+import ch.post.pf.nf.ta.baseutils.CommonUtils;
+import ch.post.pf.nf.ta.baseutils.Log4jUtil;
+import ch.post.pf.nf.ta.baseutils.ReadData;
+import ch.post.pf.nf.ta.baseutils.Setup;
+import ch.post.pf.nf.ta.dao.DAOTest;
+import ch.post.pf.nf.ta.pagefactory.NAPFLocators;
+
+public class ActivitiesScenario extends Setup {
+
+	Logger log = Log4jUtil.loadLogger(ActivitiesScenario.class);
+	CommonUtils commonUtils = new CommonUtils();
+
+
+	/*
+	 * Verify the activities tab data is present .
+	 * 
+	 */
+
+	public void activitiesTab(Map<String, String> testdata) throws Exception {
+		DAOTest daoTest = new DAOTest();
+		commonUtils.waitTime(4000);
+		daoTest.editorMenuSelect(testdata.get("menutab"));
+		Map<String, String> activityTableData = daoTest.ActivityTableData();
+		log.info("Recent Activity table data" + activityTableData);
+	}
+
+}

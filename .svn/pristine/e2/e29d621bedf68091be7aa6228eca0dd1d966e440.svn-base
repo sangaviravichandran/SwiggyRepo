@@ -1,0 +1,37 @@
+package ch.post.pf.nf.ta.execution;
+
+import java.util.Map;
+
+import org.testng.SkipException;
+import org.testng.annotations.Test;
+
+import ch.post.pf.nf.ta.baseutils.CommonUtils;
+import ch.post.pf.nf.ta.baseutils.ReadData;
+import ch.post.pf.nf.ta.baseutils.Setup;
+import ch.post.pf.nf.ta.scenarios.AssignInvestigationScenario;
+import ch.post.pf.nf.ta.scenarios.CreateNFScenarios;
+
+public class AssignInvestigationTestCase extends Setup {
+
+	protected AssignInvestigationScenario scenario = new AssignInvestigationScenario();
+	protected CreateNFScenarios Scenarios = new CreateNFScenarios();
+	protected CommonUtils common = new CommonUtils();
+
+	@Test(priority = 1, dataProvider = "getAssignInvestigation", dataProviderClass = ReadData.class)
+	public void AssignInvestigationUserSeachValidation(Map<String, String> testdata) throws Exception {
+		if (testdata.get("CanExecute").equalsIgnoreCase("yes")) {
+			CommonUtils.waitTime(2000);
+			log.info("***************** START TEST *****************");
+			// this.browserLaunch(System.getProperty("browserName"));
+			this.browserLaunch("Chrome");
+			common.loadURL();
+			logger = parent.createNode(methodName + testdata.get("Menu 1"));
+			Scenarios.profileMenuSelect(testdata.get("Language"));
+			scenario.AssignInvestigation(testdata);
+		} else {
+			logger = parent.createNode(methodName + testdata.get("Menu 1"));
+			throw new SkipException(methodName);
+		}
+	}
+
+}
